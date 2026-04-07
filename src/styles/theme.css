@@ -44,10 +44,15 @@
 body {
   background-color: var(--color-bg);
   color: var(--color-text-main);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
   line-height: 1.6;
   margin: 0;
-  transition: background-color 0.4s ease, color 0.4s ease;
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
 }
 
 .text-gradient {

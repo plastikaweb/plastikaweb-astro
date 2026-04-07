@@ -1,6 +1,6 @@
 ---
-import '../styles/theme.css';
-import ThemeToggle from '../components/ui/ThemeToggle.astro';
+import "../styles/theme.css";
+import ThemeToggle from "../components/ui/ThemeToggle.astro";
 
 interface Translation {
   uri: string;
@@ -18,7 +18,8 @@ interface Props {
 
 const { title, description, lang, translations = [], ogImage } = Astro.props;
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang={lang}>
   <head>
     <meta charset="utf-8" />
@@ -26,22 +27,27 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title} | Carlos Matheu</title>
     <meta name="description" content={description} />
-    
+
     <script is:inline>
       const getTheme = () => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-          return localStorage.getItem('theme');
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
         }
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
       };
       const theme = getTheme();
-      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.setAttribute("data-theme", theme);
     </script>
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage || '/default-og.png'} />
+    <meta property="og:image" content={ogImage || "/default-og.png"} />
 
     <!-- Performance: Preconnect to WP media domains -->
     <link rel="preconnect" href="https://api.plastikaweb.com" />
@@ -52,29 +58,44 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
 
     <header role="banner" class="glass-nav">
       <nav aria-label="Main Navigation">
-         <div class="header-container">
-            <div class="logo">
-              <a href={`/${lang}/`}>PM.</a>
-            </div>
-            <div class="actions">
-                          <ul class="lang-list">
-                            {translations.map((t) => (
-                              <li>
-                                <a 
-                                  href={t.uri} 
-                                  hreflang={t.langCode.toLowerCase()}
-                                  class:list={['lang-link', { active: t.langCode.toLowerCase() === lang.toLowerCase() }]}
-                                  aria-current={t.langCode.toLowerCase() === lang.toLowerCase() ? 'page' : undefined}
-                                >
-                                  <span class="lang-name">{t.langName}</span>
-                                  <span class="lang-code-short" aria-hidden="true">{t.langCode}</span>
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                          <div class="divider-v" aria-hidden="true"></div>
-                          <ThemeToggle />
-                        </div>         </div>
+        <div class="header-container">
+          <div class="logo">
+            <a href={`/${lang}/`}>PM.</a>
+          </div>
+          <div class="actions">
+            <ul class="lang-list">
+              {
+                translations.map((t) => (
+                  <li>
+                    <a
+                      href={t.uri}
+                      hreflang={t.langCode.toLowerCase()}
+                      class:list={[
+                        "lang-link",
+                        {
+                          active:
+                            t.langCode.toLowerCase() === lang.toLowerCase(),
+                        },
+                      ]}
+                      aria-current={
+                        t.langCode.toLowerCase() === lang.toLowerCase()
+                          ? "page"
+                          : undefined
+                      }
+                    >
+                      <span class="lang-name">{t.langName}</span>
+                      <span class="lang-code-short" aria-hidden="true">
+                        {t.langCode}
+                      </span>
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+            <div class="divider-v" aria-hidden="true"></div>
+            <ThemeToggle />
+          </div>
+        </div>
       </nav>
     </header>
 
@@ -86,7 +107,9 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
 
     <footer role="contentinfo">
       <div class="container footer-content">
-        <p>© {new Date().getFullYear()} Carlos Matheu. Built with Astro & WPGraphQL.</p>
+        <p>
+          © {new Date().getFullYear()} Carlos Matheu. Built with Astro & WPGraphQL.
+        </p>
       </div>
     </footer>
 
@@ -100,8 +123,10 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
         padding: 1rem;
         z-index: 999;
       }
-      .skip-link:focus { top: 0; }
-      
+      .skip-link:focus {
+        top: 0;
+      }
+
       .glass-nav {
         position: sticky;
         top: 0;
@@ -169,7 +194,7 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
       }
 
       .lang-link::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: -4px;
         width: 0;
@@ -178,11 +203,13 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
         transition: var(--transition-smooth);
       }
 
-      .lang-link:hover, .lang-link.active {
+      .lang-link:hover,
+      .lang-link.active {
         color: var(--color-text-main);
       }
 
-      .lang-link.active::after, .lang-link:hover::after {
+      .lang-link.active::after,
+      .lang-link:hover::after {
         width: 100%;
       }
 
@@ -191,11 +218,17 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
         text-shadow: 0 0 10px var(--color-accent-soft);
       }
 
-      .lang-name { display: none; }
+      .lang-name {
+        display: none;
+      }
 
       @media (min-width: 768px) {
-        .lang-name { display: inline; }
-        .lang-code-short { display: none; }
+        .lang-name {
+          display: inline;
+        }
+        .lang-code-short {
+          display: none;
+        }
       }
 
       .footer-content {
