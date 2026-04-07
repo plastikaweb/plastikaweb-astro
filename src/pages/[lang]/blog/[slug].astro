@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { blogPosts } from '../../../data/siteData';
+
+export async function getStaticPaths() {
+  const langs = ['en', 'es', 'ca'];
+  
+  return langs.flatMap((lang) => 
+    blogPosts.map((post) => ({
+      params: { 
+        lang, 
+        slug: post.slug 
+      },
+      props: { post }
+    }))
+  );
+}
+
+const { lang, slug } = Astro.params;
+const { post } = Astro.props;
+
+const translations = [
+  { uri: `/en/blog/${slug}`, langCode: 'EN', langName: 'English' },
+  { uri: `/es/blog/${slug}`, langCode: 'ES', langName: 'Español' },
+  { uri: `/ca/blog/${slug}`, langCode: 'CA', langName: 'Català' }
+];
+---
+
+<BaseLayout 
+  title={post.title} 
+  description={post.excerpt} 
+  lang={lang as string}
+  translations={translations}
+>
+  <article class="post-detail content-reveal">
+    <header class="post-header">
+      <time datetime={post.date}>{new Date(post.date).toLocaleDateString(lang, { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+      <h1 class="text-gradient">{post.title}</h1>
+      <div class="post-meta">
+        <span class="author">By Carlos Matheu</span>
+        <span class="divider">•</span>
+        <span class="reading-time">5 min read</span>
+      </div>
+    </header>
+
+    <div class="featured-image">
+      <img src={post.image} alt="" aria-hidden="true" />
+    </div>
+
+    <div class="prose">
+      <p class="lead">{post.excerpt}</p>
+      <div class="main-content">
+        <p>This is where the full content of the post would go, retrieved from the WordPress database via WPGraphQL. For now, this is a 2026 UI prototype demonstrating the high-performance Astro architecture.</p>
+        
+        <p>A key focus for this rebuild is maintaining 100/100 performance while delivering a "Spectacular" visual identity. By using Astro's static generation and zero-JS default, we ensure that content is served instantly, regardless of the user's connection or device.</p>
+        
+        <h2>The Architecture</h2>
+        <p>Using a decoupled approach with a Headless CMS allows us to iterate on the design independently of the content. This means we can perfect the <strong>Accessibility (A11y)</strong> and <strong>User Experience (UX)</strong> before finalizing the data fetching layers.</p>
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <a href={`/${lang}/blog`} class="back-link">← Back to Blog</a>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-detail { max-width: 800px; margin: 0 auto; padding: var(--space-l) 0; }
+  .post-header { margin-bottom: 2.5rem; text-align: center; }
+  time { color: var(--color-accent); font-weight: 800; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; }
+  h1 { font-size: var(--step-5); margin: 1rem 0; line-height: 1.1; }
+  .post-meta { color: var(--color-text-muted); font-size: 0.9rem; }
+  .divider { margin: 0 0.75rem; color: rgba(255,255,255,0.1); }
+  
+  .featured-image { width: 100%; border-radius: 24px; overflow: hidden; border: var(--glass-border); margin: 3rem 0; aspect-ratio: 21/9; }
+  .featured-image img { width: 100%; height: 100%; object-fit: cover; }
+
+  .prose { font-size: 1.1rem; line-height: 1.8; color: var(--color-text-main); }
+  .lead { font-size: 1.35rem; color: var(--color-text-muted); font-weight: 500; margin-bottom: 2.5rem; line-height: 1.4; border-left: 4px solid var(--color-accent); padding-left: 1.5rem; }
+  .prose h2 { font-size: var(--step-2); margin-top: 3rem; margin-bottom: 1.5rem; color: var(--color-text-main); }
+  .prose p { margin-bottom: 1.5rem; }
+
+  .post-footer { margin-top: 5rem; padding-top: 2.5rem; border-top: var(--glass-border); }
+  .back-link { color: var(--color-accent); text-decoration: none; font-weight: 700; transition: var(--transition-smooth); }
+  .back-link:hover { padding-left: 0.5rem; }
+
+  .content-reveal { animation: reveal 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+  @keyframes reveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>

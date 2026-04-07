@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const langs = ['en', 'es', 'ca'];
+  const pages = ['blog', 'skills', 'contact', 'legal'];
+
+  return langs.flatMap((lang) => 
+    pages.map((page) => ({
+      params: { lang, uri: page },
+      props: { title: page.charAt(0).toUpperCase() + page.slice(1) }
+    }))
+  );
+}
+
+const { lang, uri } = Astro.params;
+const { title } = Astro.props;
+
+const translations = [
+  { uri: `/en/${uri}`, langCode: 'EN', langName: 'English' },
+  { uri: `/es/${uri}`, langCode: 'ES', langName: 'Español' },
+  { uri: `/ca/${uri}`, langCode: 'CA', langName: 'Català' }
+];
+---
+
+<BaseLayout 
+  title={`${title} | ${lang!.toUpperCase()}`} 
+  description={`Technical details for ${title}`} 
+  lang={lang as string} 
+  translations={translations}
+>
+  <div class="content-reveal">
+    <header class="page-header">
+      <h1 class="text-gradient">{title}</h1>
+      <p class="breadcrumbs">
+        <a href={`/${lang}/`}>Home</a> / {uri}
+      </p>
+    </header>
+
+    <div class="placeholder-card">
+      <p>Building the <strong>{uri}</strong> experience for the 2026 relaunch...</p>
+      <div class="meta-tag">{lang!.toUpperCase()} Version</div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header { margin-bottom: var(--space-l); border-bottom: var(--glass-border); padding-bottom: var(--space-s); }
+  .breadcrumbs { font-size: 0.8rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1rem; }
+  .breadcrumbs a { color: var(--color-accent); text-decoration: none; }
+  .placeholder-card { padding: var(--space-l); background: var(--color-surface); border: var(--glass-border); border-radius: 24px; text-align: center; margin-top: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+  .meta-tag { display: inline-block; margin-top: 1.5rem; color: var(--color-accent); font-weight: bold; background: var(--color-accent-soft); padding: 4px 12px; border-radius: 4px; font-size: 0.8rem; }
+  .content-reveal { animation: reveal 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+  @keyframes reveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>

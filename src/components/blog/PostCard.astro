@@ -1,0 +1,132 @@
+---
+interface Props {
+  lang: string;
+  post: {
+    title: string;
+    excerpt: string;
+    slug: string;
+    date: string;
+    image: string;
+  };
+}
+
+const { post, lang } = Astro.props;
+const formattedDate = new Date(post.date).toLocaleDateString(lang, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="post-card">
+  <div class="image-container">
+    <img 
+      src={post.image} 
+      alt="" 
+      aria-hidden="true"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  <div class="card-body">
+    <time datetime={post.date}>{formattedDate}</time>
+    <h3>
+      <a href={`/${lang}/blog/${post.slug}`} class="stretched-link">{post.title}</a>
+    </h3>
+    <p class="excerpt">{post.excerpt}</p>
+    <span class="read-more" aria-hidden="true">Read Article →</span>
+  </div>
+</article>
+
+<style>
+  .post-card {
+    position: relative;
+    background: var(--color-surface);
+    border: var(--glass-border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: var(--transition-smooth);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-4px);
+  }
+
+  .image-container {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    transition: var(--transition-smooth);
+  }
+
+  .post-card:hover img {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  .card-body {
+    padding: var(--space-s);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  time {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+  }
+
+  h3 {
+    font-size: var(--step-2);
+    margin: 0;
+    line-height: 1.2;
+    color: var(--color-text-main);
+  }
+
+  .stretched-link::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    z-index: 1;
+  }
+
+  .excerpt {
+    color: var(--color-text-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .read-more {
+    margin-top: auto;
+    color: var(--color-accent);
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Focus indicator for the whole card via the link */
+  .post-card:has(.stretched-link:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+  }
+</style>

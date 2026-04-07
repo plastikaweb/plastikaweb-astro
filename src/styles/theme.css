@@ -1,0 +1,69 @@
+:root {
+  /* 1. Base Variables (Shared) */
+  --step-0: clamp(1rem, 0.92rem + 0.39vw, 1.25rem);
+  --step-2: clamp(1.56rem, 1.35rem + 1.05vw, 2.23rem);
+  --step-5: clamp(3.05rem, 2.31rem + 3.7vw, 5.42rem);
+  --space-s: clamp(1rem, 0.8rem + 1vw, 2rem);
+  --space-l: clamp(3rem, 2rem + 5vw, 8rem);
+  --transition-smooth: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+
+  /* 2. Default Theme: Dark */
+  --color-bg: #0a0a0b;
+  --color-surface: #161618;
+  --color-text-main: #f4f4f5;
+  --color-text-muted: #a1a1aa;
+  --color-accent: #f59e0b;
+  --color-accent-soft: rgba(245, 158, 11, 0.1);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  --glass-bg: blur(12px) saturate(180%) rgba(24, 24, 27, 0.7);
+}
+
+/* 3. Light Theme Overrides */
+[data-theme="light"] {
+  --color-bg: #fafafa;
+  --color-surface: #ffffff;
+  --color-text-main: #18181b;
+  --color-text-muted: #52525b;
+  --color-accent: #d97706;
+  --color-accent-soft: rgba(217, 119, 6, 0.05);
+  --glass-border: 1px solid rgba(0, 0, 0, 0.08);
+  --glass-bg: blur(12px) saturate(180%) rgba(255, 255, 255, 0.8);
+}
+
+/* Accessibility: High contrast focus rings */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-main);
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.text-gradient {
+  background: linear-gradient(to right, var(--color-accent), #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
