@@ -1,66 +1,497 @@
+/* ==========================================================================
+   Plastikaweb v6.0 — Design Tokens & Theme
+   CSS Custom Properties System · light-dark() edition
+   ========================================================================== */
+
+/* ==========================================================================
+   1. COLOR SCALES — Full Palette (50–950)
+   Source: uicolors.app — Palette 7
+   Theme-agnostic raw values; semantic tokens below consume them.
+   ========================================================================== */
+
 :root {
-  /* 1. Base Variables (Shared) */
-  --step-0: clamp(1rem, 0.92rem + 0.39vw, 1.25rem);
-  --step-2: clamp(1.56rem, 1.35rem + 1.05vw, 2.23rem);
-  --step-5: clamp(3.05rem, 2.31rem + 3.7vw, 5.42rem);
-  --space-s: clamp(1rem, 0.8rem + 1vw, 2rem);
-  --space-l: clamp(3rem, 2rem + 5vw, 8rem);
-  --transition-smooth: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  /* --- Red (Primary) --- */
+  --red-50: #fff0f0;
+  --red-100: #ffddde;
+  --red-200: #ffc0c2;
+  --red-300: #ff9497;
+  --red-400: #ff575c;
+  --red-500: #ff232a;
+  --red-600: #ff0008;
+  --red-700: #d70007;
+  --red-800: #b10308;
+  --red-900: #920a0e;
+  --red-950: #500003;
 
-  /* 2. Default Theme: Dark */
-  --color-bg: #0a0a0b;
-  --color-surface: #161618;
-  --color-text-main: #f4f4f5;
-  --color-text-muted: #a1a1aa;
-  --color-accent: #f59e0b;
-  --color-accent-soft: rgba(245, 158, 11, 0.1);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-  --glass-bg: blur(12px) saturate(180%) rgba(24, 24, 27, 0.7);
+  /* --- Broom / Yellow (Secondary) --- */
+  --broom-50: #ffffe7;
+  --broom-100: #feffc2;
+  --broom-200: #ffff8a;
+  --broom-300: #fffa47;
+  --broom-400: #fff42d;
+  --broom-500: #ecda02;
+  --broom-600: #c9ad00;
+  --broom-700: #9e8002;
+  --broom-800: #816408;
+  --broom-900: #6d530f;
+  --broom-950: #402d03;
+
+  /* --- Electric Violet (Tertiary) --- */
+  --violet-50: #f2f2ff;
+  --violet-100: #e9e8ff;
+  --violet-200: #d6d4ff;
+  --violet-300: #b7b1ff;
+  --violet-400: #9284ff;
+  --violet-500: #7053ff;
+  --violet-600: #6032f8;
+  --violet-700: #4f1de4;
+  --violet-800: #4218bf;
+  --violet-900: #38169c;
+  --violet-950: #200b6a;
+
+  /* --- Raven / Neutral --- */
+  --raven-50: #f9fafb;
+  --raven-100: #f4f4f5;
+  --raven-200: #e6e7ea;
+  --raven-300: #d3d5d9;
+  --raven-400: #9fa3ac;
+  --raven-500: #787c87;
+  --raven-600: #4f555f;
+  --raven-700: #3b414d;
+  --raven-800: #232933;
+  --raven-900: #151823;
+  --raven-950: #06070f;
+
+  /* --- Green (Success) --- */
+  --green-50: #e6ffe7;
+  --green-100: #c9feca;
+  --green-200: #99fd9e;
+  --green-300: #5ef868;
+  --green-400: #14eb25;
+  --green-500: #0fd321;
+  --green-600: #07a919;
+  --green-700: #0b801a;
+  --green-800: #0f651b;
+  --green-900: #11561c;
+  --green-950: #03300c;
+
+  /* --- Corn / Yellow (Warning) --- */
+  --corn-50: #fdfde9;
+  --corn-100: #fdfcc4;
+  --corn-200: #fbf58d;
+  --corn-300: #f9e94b;
+  --corn-400: #f5d81a;
+  --corn-500: #f1c90e;
+  --corn-600: #c59509;
+  --corn-700: #9d6b0b;
+  --corn-800: #825511;
+  --corn-900: #6f4514;
+  --corn-950: #412407;
+
+  /* --- Flush Mahogany (Error) --- */
+  --mahogany-50: #fef3f2;
+  --mahogany-100: #fce9e7;
+  --mahogany-200: #f9d3d2;
+  --mahogany-300: #f4aead;
+  --mahogany-400: #ed7f7f;
+  --mahogany-500: #e25155;
+  --mahogany-600: #ce313d;
+  --mahogany-700: #ad2331;
+  --mahogany-800: #91202f;
+  --mahogany-900: #7c1f2f;
+  --mahogany-950: #450c14;
 }
 
-/* 3. Light Theme Overrides */
+/* ==========================================================================
+   2. COLOR SCHEME
+   - Default: respects OS preference via `light dark`
+   - Explicit toggle: data-theme forces one scheme
+   ========================================================================== */
+
+:root {
+  color-scheme: light dark;
+}
+
 [data-theme="light"] {
-  --color-bg: #fafafa;
-  --color-surface: #ffffff;
-  --color-text-main: #18181b;
-  --color-text-muted: #52525b;
-  --color-accent: #d97706;
-  --color-accent-soft: rgba(217, 119, 6, 0.05);
-  --glass-border: 1px solid rgba(0, 0, 0, 0.08);
-  --glass-bg: blur(12px) saturate(180%) rgba(255, 255, 255, 0.8);
+  color-scheme: light;
 }
 
-/* Accessibility: High contrast focus rings */
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* ==========================================================================
+   3. SEMANTIC TOKENS — light-dark() pairs
+   Declared once; the browser resolves based on active color-scheme.
+   ========================================================================== */
+
+:root {
+  /* --- Brand: Primary --- */
+  --color-primary: light-dark(var(--red-600), var(--red-600));
+  --color-primary-hover: light-dark(var(--red-700), var(--red-500));
+  --color-primary-active: light-dark(var(--red-800), var(--red-400));
+  --color-primary-subtle: light-dark(var(--red-50), var(--red-950));
+  --color-primary-muted: light-dark(var(--red-200), var(--red-900));
+
+  /* --- Brand: Secondary --- */
+  --color-secondary: light-dark(var(--broom-400), var(--broom-400));
+  --color-secondary-hover: light-dark(var(--broom-500), var(--broom-300));
+  --color-secondary-active: light-dark(var(--broom-600), var(--broom-200));
+  --color-secondary-subtle: light-dark(var(--broom-50), var(--broom-950));
+  --color-secondary-muted: light-dark(var(--broom-200), var(--broom-900));
+
+  /* --- Brand: Tertiary --- */
+  --color-tertiary: light-dark(var(--violet-600), var(--violet-500));
+  --color-tertiary-hover: light-dark(var(--violet-700), var(--violet-400));
+  --color-tertiary-active: light-dark(var(--violet-800), var(--violet-300));
+  --color-tertiary-subtle: light-dark(var(--violet-50), var(--violet-950));
+  --color-tertiary-muted: light-dark(var(--violet-200), var(--violet-900));
+
+  /* --- Surfaces --- */
+  --color-bg: light-dark(var(--raven-50), var(--raven-950));
+  --color-bg-secondary: light-dark(var(--raven-100), var(--raven-900));
+  --color-bg-tertiary: light-dark(var(--raven-200), var(--raven-800));
+  --color-surface: light-dark(#ffffff, var(--raven-800));
+  --color-surface-raised: light-dark(#ffffff, var(--raven-700));
+  --color-surface-overlay: light-dark(
+    rgba(6, 7, 15, 0.5),
+    rgba(6, 7, 15, 0.75)
+  );
+
+  /* --- Borders --- */
+  --color-border: light-dark(var(--raven-200), var(--raven-700));
+  --color-border-subtle: light-dark(var(--raven-100), var(--raven-800));
+  --color-border-strong: light-dark(var(--raven-300), var(--raven-600));
+  --color-border-interactive: light-dark(var(--raven-400), var(--raven-500));
+  --color-border-focus: light-dark(var(--violet-600), var(--violet-500));
+
+  /* --- Text --- */
+  --color-text-primary: light-dark(var(--raven-950), var(--raven-50));
+  --color-text-secondary: light-dark(var(--raven-600), var(--raven-400));
+  --color-text-muted: light-dark(var(--raven-500), var(--raven-500));
+  --color-text-disabled: light-dark(var(--raven-400), var(--raven-600));
+  --color-text-inverse: light-dark(var(--raven-50), var(--raven-950));
+  --color-text-on-primary: #ffffff;
+  --color-text-on-secondary: var(--raven-950);
+  --color-text-link: light-dark(var(--red-600), var(--red-500));
+  --color-text-link-hover: light-dark(var(--red-700), var(--red-400));
+
+  /* --- Status: Success --- */
+  --color-success: var(--green-400);
+  --color-success-subtle: light-dark(var(--green-50), var(--green-950));
+  --color-success-text: light-dark(var(--green-700), var(--green-300));
+
+  /* --- Status: Warning --- */
+  --color-warning: light-dark(var(--corn-500), var(--corn-400));
+  --color-warning-subtle: light-dark(var(--corn-50), var(--corn-950));
+  --color-warning-text: light-dark(var(--corn-700), var(--corn-300));
+
+  /* --- Status: Error --- */
+  --color-error: light-dark(var(--mahogany-600), var(--mahogany-500));
+  --color-error-subtle: light-dark(var(--mahogany-50), var(--mahogany-950));
+  --color-error-text: light-dark(var(--mahogany-700), var(--mahogany-300));
+
+  /* --- Interactive --- */
+  --color-focus-ring: light-dark(var(--violet-600), var(--violet-500));
+  --color-focus-ring-offset: var(--color-surface);
+  --color-highlight: light-dark(var(--broom-400), var(--broom-500));
+  --color-selection: light-dark(var(--broom-200), rgba(255, 244, 45, 0.2));
+  --color-backdrop: light-dark(rgba(6, 7, 15, 0.6), rgba(6, 7, 15, 0.8));
+
+  /* --- Glassmorphism --- */
+  --glass-bg: light-dark(rgba(255, 255, 255, 0.7), rgba(21, 24, 35, 0.7));
+  --glass-bg-strong: light-dark(
+    rgba(255, 255, 255, 0.85),
+    rgba(21, 24, 35, 0.85)
+  );
+  --glass-border: light-dark(rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.1));
+  --glass-blur: 12px;
+  --glass-saturate: 180%;
+}
+
+/* ==========================================================================
+   4. SHADOWS — light-dark() pairs
+   ========================================================================== */
+
+:root {
+  --shadow-xs: light-dark(
+    0 1px 2px rgba(6, 7, 15, 0.05),
+    0 1px 2px rgba(0, 0, 0, 0.3)
+  );
+  --shadow-sm: light-dark(
+    0 1px 3px rgba(6, 7, 15, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.4)
+  );
+  --shadow-md: light-dark(
+    0 4px 6px rgba(6, 7, 15, 0.07),
+    0 4px 6px rgba(0, 0, 0, 0.35)
+  );
+  --shadow-lg: light-dark(
+    0 10px 15px rgba(6, 7, 15, 0.08),
+    0 10px 15px rgba(0, 0, 0, 0.35)
+  );
+  --shadow-xl: light-dark(
+    0 20px 25px rgba(6, 7, 15, 0.1),
+    0 20px 25px rgba(0, 0, 0, 0.4)
+  );
+  --shadow-inner: light-dark(
+    inset 0 2px 4px rgba(6, 7, 15, 0.06),
+    inset 0 2px 4px rgba(0, 0, 0, 0.3)
+  );
+}
+
+/* ==========================================================================
+   5. TYPOGRAPHY
+   ========================================================================== */
+
+:root {
+  /* --- Font Families --- */
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-sans: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-mono: "Commit Mono", ui-monospace, monospace;
+
+  /* --- Fluid Type Scale (Utopia-style clamp steps)
+     Base: 16px @ 320vw → 20px @ 1440vw
+     Ratio: ~1.25 (Major Third)
+     These are the "go-to" sizes for responsive typography.
+     The fixed --text-* tokens below remain for precise control. --- */
+  --step--2: clamp(
+    0.64rem,
+    0.58rem + 0.3vw,
+    0.8rem
+  ); /* ~10–13px  small print */
+  --step--1: clamp(0.8rem, 0.73rem + 0.36vw, 1rem); /* ~13–16px  captions    */
+  --step-0: clamp(1rem, 0.93rem + 0.36vw, 1.25rem); /* ~16–20px  body        */
+  --step-1: clamp(
+    1.25rem,
+    1.14rem + 0.54vw,
+    1.56rem
+  ); /* ~20–25px  H4 / lead   */
+  --step-2: clamp(
+    1.56rem,
+    1.35rem + 1.05vw,
+    2.23rem
+  ); /* ~25–36px  H3          */
+  --step-3: clamp(
+    1.95rem,
+    1.63rem + 1.63vw,
+    2.79rem
+  ); /* ~31–45px  H2          */
+  --step-4: clamp(
+    2.44rem,
+    1.95rem + 2.45vw,
+    3.49rem
+  ); /* ~39–56px  H1          */
+  --step-5: clamp(
+    3.05rem,
+    2.31rem + 3.7vw,
+    5.42rem
+  ); /* ~49–87px  Hero        */
+  --step-6: clamp(
+    3.81rem,
+    2.71rem + 5.52vw,
+    6.77rem
+  ); /* ~61–108px Giant nums  */
+
+  /* --- Fixed Sizes (for non-fluid contexts) --- */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.8125rem; /* 13px — tags, dates */
+  --text-base: 1rem; /* 16px — body */
+  --text-md: 1.125rem; /* 18px */
+  --text-lg: 1.25rem; /* 20px */
+  --text-xl: 1.5rem; /* 24px */
+  --text-2xl: 2.25rem; /* 36px */
+  --text-3xl: 3rem; /* 48px */
+  --text-4xl: 4rem; /* 64px */
+  --text-5xl: 5rem; /* 80px */
+  --text-giant: 6rem; /* 96px */
+  --text-giant-lg: 7.5rem; /* 120px */
+
+  /* --- Font Weights --- */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* --- Line Heights --- */
+  --leading-none: 1;
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
+
+  /* --- Letter Spacing --- */
+  --tracking-tighter: -0.02em;
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+  --tracking-wider: 0.04em;
+  --tracking-widest: 0.08em;
+}
+
+/* ==========================================================================
+   6. SPACING & LAYOUT
+   ========================================================================== */
+
+:root {
+  /* --- Fluid Spacing (viewport-adaptive)
+     Use these for section-level spacing and large gaps. --- */
+  --space-fluid-s: clamp(1rem, 0.8rem + 1vw, 2rem);
+  --space-fluid-m: clamp(1.5rem, 1.1rem + 2vw, 3.5rem);
+  --space-fluid-l: clamp(3rem, 2rem + 5vw, 8rem);
+  --space-fluid-xl: clamp(4rem, 2.5rem + 7.5vw, 12rem);
+
+  /* --- Fixed Spacing Scale (4px base) --- */
+  --space-0: 0;
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+  --space-16: 4rem; /* 64px */
+  --space-20: 5rem; /* 80px */
+  --space-24: 6rem; /* 96px */
+  --space-32: 8rem; /* 128px */
+
+  /* --- Layout --- */
+  --max-width-content: 72rem;
+  --max-width-prose: 65ch;
+  --max-width-narrow: 40rem;
+  --max-width-wide: 90rem;
+
+  /* --- Border Radius --- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* --- Section Padding (responsive) --- */
+  --section-py: clamp(var(--space-16), 8vw, var(--space-32));
+  --section-px: clamp(var(--space-4), 5vw, var(--space-12));
+}
+
+/* ==========================================================================
+   7. TRANSITIONS & MOTION
+   ========================================================================== */
+
+:root {
+  --duration-fast: 100ms;
+  --duration-normal: 200ms;
+  --duration-slow: 350ms;
+  --duration-slower: 500ms;
+
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-expo: cubic-bezier(
+    0.19,
+    1,
+    0.22,
+    1
+  ); /* ← from proto: silky decel */
+  --ease-smooth: cubic-bezier(
+    0.23,
+    1,
+    0.32,
+    1
+  ); /* ← from proto: buttery feel */
+
+  --transition-colors:
+    color var(--duration-normal) var(--ease-default),
+    background-color var(--duration-normal) var(--ease-default),
+    border-color var(--duration-normal) var(--ease-default);
+  --transition-transform: transform var(--duration-normal) var(--ease-default);
+  --transition-shadow: box-shadow var(--duration-normal) var(--ease-default);
+  --transition-opacity: opacity var(--duration-normal) var(--ease-default);
+  --transition-all: all var(--duration-normal) var(--ease-default);
+  --transition-smooth: all var(--duration-slow) var(--ease-smooth); /* ← premium feel */
+
+  /* Theme toggle fade — used on body for the crossfade effect */
+  --transition-theme:
+    background-color var(--duration-slower) var(--ease-smooth),
+    color var(--duration-slower) var(--ease-smooth);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+    --duration-slow: 0ms;
+    --duration-slower: 0ms;
+  }
+}
+
+/* ==========================================================================
+   8. Z-INDEX SCALE
+   ========================================================================== */
+
+:root {
+  --z-base: 0;
+  --z-raised: 1;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-overlay: 30;
+  --z-modal: 40;
+  --z-toast: 50;
+  --z-tooltip: 60;
+}
+
+/* ==========================================================================
+   9. FOCUS & ACCESSIBILITY
+   ========================================================================== */
+
+:root {
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --focus-ring-style: var(--focus-ring-width) solid var(--color-focus-ring);
+}
+
 :focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 4px;
+  outline: var(--focus-ring-style);
+  outline-offset: var(--focus-ring-offset);
 }
 
-* {
+/* ==========================================================================
+   10. BASE RESET & GLOBAL STYLES
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+  margin: 0;
 }
 
 body {
   background-color: var(--color-bg);
-  color: var(--color-text-main);
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
-  line-height: 1.6;
-  margin: 0;
-  transition:
-    background-color 0.4s ease,
-    color 0.4s ease;
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--step-0);
+  line-height: var(--leading-relaxed);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Smooth theme-toggle fade */
+  transition: var(--transition-theme);
 }
 
-.text-gradient {
-  background: linear-gradient(to right, var(--color-accent), #ffffff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+::selection {
+  background-color: var(--color-selection);
+  color: var(--color-text-primary);
 }
 
+/* ==========================================================================
+   11. UTILITY CLASSES
+   ========================================================================== */
+
+/* Screen-reader only */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -72,3 +503,44 @@ body {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* Glassmorphism surface — apply to nav, cards, modals */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur))
+    saturate(var(--glass-saturate));
+}
+
+.glass--strong {
+  background: var(--glass-bg-strong);
+}
+
+/* Accent gradient text */
+.text-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-tertiary)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ==========================================================================
+   12. DARK MODE — FOUC PREVENTION
+   Inline this script in <head> BEFORE any stylesheet:
+
+   <script>
+     (function() {
+       var t = localStorage.getItem('theme');
+       if (t) {
+         document.documentElement.setAttribute('data-theme', t);
+       }
+       // Without an explicit data-theme, `color-scheme: light dark`
+       // on :root lets prefers-color-scheme drive light-dark().
+     })();
+   </script>
+   ========================================================================== */
