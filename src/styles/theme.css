@@ -153,9 +153,10 @@
   --color-bg-tertiary: light-dark(var(--raven-200), var(--raven-800));
   --color-surface: light-dark(#ffffff, var(--raven-800));
   --color-surface-raised: light-dark(#ffffff, var(--raven-700));
+  --color-surface-brand: light-dark(var(--red-600), var(--red-700));
   --color-surface-overlay: light-dark(
-    rgba(6, 7, 15, 0.5),
-    rgba(6, 7, 15, 0.75)
+    rgba(6, 7, 15, 0.4),
+    rgba(6, 7, 15, 0.8)
   );
 
   /* --- Borders --- */
@@ -175,6 +176,7 @@
   --color-text-on-secondary: var(--raven-950);
   --color-text-link: light-dark(var(--red-600), var(--red-500));
   --color-text-link-hover: light-dark(var(--red-700), var(--red-400));
+  --color-text-code: light-dark(var(--raven-700), var(--raven-300));
 
   /* --- Status: Success --- */
   --color-success: var(--green-400);
@@ -307,6 +309,10 @@
   --text-giant: 6rem; /* 96px */
   --text-giant-lg: 7.5rem; /* 120px */
 
+  /* --- Semantic Font Assignments --- */
+  --text-mono-sm: 0.8125rem; /* 13px - Req v6: Tags, Dates */
+  --text-mono-base: 0.875rem; /* 14px - Req v6: Placeholders, Pre/Code */
+
   /* --- Font Weights --- */
   --weight-regular: 400;
   --weight-medium: 500;
@@ -373,6 +379,11 @@
   /* --- Section Padding (responsive) --- */
   --section-py: clamp(var(--space-16), 8vw, var(--space-32));
   --section-px: clamp(var(--space-4), 5vw, var(--space-12));
+
+  /* --- Timeline / Gantt Tracks (2014-2026) --- */
+  --timeline-cols: 13; /* One per year */
+  --timeline-row-height: 4rem;
+  --timeline-gap: var(--space-2);
 }
 
 /* ==========================================================================
@@ -426,6 +437,10 @@
     --duration-slow: 0ms;
     --duration-slower: 0ms;
   }
+
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* ==========================================================================
@@ -469,7 +484,13 @@
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--space-16); /* update once nav height is finalized */
+}
+
 body {
+  min-height: 100dvh;
   background-color: var(--color-bg);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
@@ -485,6 +506,13 @@ body {
 ::selection {
   background-color: var(--color-selection);
   color: var(--color-text-primary);
+}
+
+img,
+video,
+svg {
+  max-width: 100%;
+  display: block;
 }
 
 /* ==========================================================================
@@ -529,8 +557,90 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
+h1 {
+  font-family: var(--font-display);
+  color: var(--color-text-primary);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+  font-size: var(--step-4);
+}
+
+h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
+  font-weight: var(--weight-semibold); /* SemiBold as per requirements */
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+}
+
+h2 { font-size: var(--step-3); }
+h3 { font-size: var(--step-2); }
+h4 { font-size: var(--step-1); }
+
+a {
+  color: var(--color-text-link);
+  text-decoration-thickness: max(1px, 0.08em);
+  text-underline-offset: 0.15em;
+  transition: var(--transition-colors);
+}
+
+a:hover {
+  color: var(--color-text-link-hover);
+}
+
+p, ul, ol, figure {
+  margin-block-end: var(--space-4);
+  text-wrap: pretty; /* Evita viudas en párrafos */
+}
+
 /* ==========================================================================
-   12. DARK MODE — FOUC PREVENTION
+   12. PRINT STYLES
+   ========================================================================== */
+
+@media print {
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 12pt;
+    min-height: unset;
+  }
+
+  header,
+  footer,
+  nav,
+  .theme-toggle,
+  .skip-link {
+    display: none !important;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #555;
+  }
+
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+  }
+
+  img {
+    max-width: 100%;
+    page-break-inside: avoid;
+  }
+}
+
+/* ==========================================================================
+   13. DARK MODE — FOUC PREVENTION
    Inline this script in <head> BEFORE any stylesheet:
 
    <script>
