@@ -49,8 +49,16 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage || "/default-og.png"} />
 
-    <!-- Performance: Preconnect to WP media domains -->
+    <!-- Performance: Preconnect to Google Fonts & WP media domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://api.plastikaweb.com" />
+
+    <!-- Typography: Google Fonts (Space Grotesk & Bricolage Grotesque) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <!-- A11y: Skip Link -->
