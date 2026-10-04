@@ -12,7 +12,7 @@ Housekeeping that runs alongside the design phase; nothing below depends on it e
 | --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
 | B-1 | Review `docs/requirements.md` and this file; commit both.                                                                                                                   | done   |
 | B-2 | Update `CLAUDE.md` and `CLAUDE.local.md` to point at the requirements (Stitch → Claude Design, timeline on About, personal section, blog categories, task source of truth). | done   |
-| B-3 | Sync ClickUp from this file: replace the old backlog, keep IDs in task names, recurring tasks for M-1 – M-7.                                                                | todo   |
+| B-3 | Sync ClickUp from this file: replace the old backlog, keep IDs in task names, recurring tasks for M-1 – M-7.                                                                | doing  |
 
 ## Phase 2 — Design
 
@@ -263,7 +263,7 @@ Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate
 - **Status:** todo
 - **Source:** §2, §4.5, §5, §6
 - **Depends on:** T-02, T-30, T-31
-- **Done when:** a new base layout replaces `BaseLayout.astro` and `ThemeToggle.astro`: `lang` per locale, skip link, landmarks, theme script before first paint, theme toggle `<button>` with persistence and crossfade, main menu (Work, Blog, Personal, About) with a small-screen pattern that doesn't truncate ca/es labels, language selector linking to the same page, footer. End-to-end tests cover theme persistence without a flash and language switching.
+- **Done when:** a new base layout replaces `BaseLayout.astro` and `ThemeToggle.astro`: `lang` per locale, skip link, landmarks, theme script before first paint, theme toggle `<button>` with persistence and crossfade, main menu (Work, Blog, Personal, About) that moves to a second header row on small screens, with no hamburger and no truncation of ca/es labels, language selector linking to the same page, footer. End-to-end tests cover theme persistence without a flash and language switching.
 
 ### T-34 · Shared components
 

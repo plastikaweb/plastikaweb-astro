@@ -63,7 +63,7 @@ Themes: design every screen in BOTH light and dark. Both are first-class.
 ## Inspiration — take the structure, not the look
 
 - ramx.in: home as a summary, each section with a few items and a "see all" link; personal topics as compact cards. Leave its monochrome look and narrow column.
-- psudokit.in: a relaxed first-person voice, short "what I'm doing now" lines, keyboard shortcut hints in the nav ([w] work, [b] blog…), a GitHub activity graph, a subtle line-texture background. Leave the all-lowercase copy.
+- psudokit.in: a relaxed first-person voice, short "what I'm doing now" lines, a subtle line-texture background. Leave the all-lowercase copy, the keyboard shortcut hints and the GitHub activity graph (out of v1).
 - brittanychiang.com: on desktop, a sticky identity column (name, role, one line, section nav with an active indicator, socials) next to a scrolling content column; list rows with hover states and tech chips. Leave its navy palette and cursor spotlight.
 Do not reproduce any of these sites' visual identity. The result must look like Plastikaweb: bold display type, the red/yellow/violet accents, sharp geometry.
 

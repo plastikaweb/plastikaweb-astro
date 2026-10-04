@@ -64,11 +64,11 @@ Values live in `theme.css`; component rules in `.claude/rules/css.md`.
 
 Reference sites for structure and interaction, not for look. The palette, type and shape decisions below stay; copying a reference's visual identity is out of scope.
 
-| Site                                              | Take                                                                                                                                                                                                              | Leave                                                                                              |
-| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| [ramx.in](https://ramx.in/)                       | Home as a summary: each section shows a few items and a "see all" link to its page. Personal topics (books, films) as compact cards.                                                                              | Monochrome, single narrow column; job-seeker framing; live "last played" widget.                   |
-| [psudokit.in](https://www.psudokit.in/)           | First-person, relaxed voice; short lines of what I'm doing now; keyboard shortcut hints in the nav (`[h] home`, `[p] projects`); GitHub activity graph; subtle line-texture background.                           | Lowercase-only copy; live client-side GitHub fetch (if used, render the graph at build time).      |
-| [brittanychiang.com](https://brittanychiang.com/) | Desktop layout with a sticky identity column (name, role, one line, section nav with active indicator, socials) and a scrolling content column; list rows with hover states and tech chips; accessibility polish. | Navy palette; cursor spotlight effect (decorative JS, and must respect reduced motion if adopted). |
+| Site                                              | Take                                                                                                                                                                                                              | Leave                                                                                                                                                                                           |
+| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [ramx.in](https://ramx.in/)                       | Home as a summary: each section shows a few items and a "see all" link to its page. Personal topics (books, films) as compact cards.                                                                              | Monochrome, single narrow column; job-seeker framing; live "last played" widget.                                                                                                                |
+| [psudokit.in](https://www.psudokit.in/)           | First-person, relaxed voice; short lines of what I'm doing now; subtle line-texture background.                                                                                                                   | Lowercase-only copy. Keyboard shortcut hints in the nav and the GitHub activity graph: dropped for v1 (shortcuts need a way to turn them off, WCAG 2.1.4; the graph needs a build-time render). |
+| [brittanychiang.com](https://brittanychiang.com/) | Desktop layout with a sticky identity column (name, role, one line, section nav with active indicator, socials) and a scrolling content column; list rows with hover states and tech chips; accessibility polish. | Navy palette; cursor spotlight effect (decorative JS, and must respect reduced motion if adopted).                                                                                              |
 
 ### 4.1 Color
 
@@ -113,7 +113,7 @@ Reference sites for structure and interaction, not for look. The palette, type a
 
 ## 6. Pages
 
-Navigation is present on every page. Main menu items: Work, Blog, Personal, About (labels per locale; the personal one is part of D-09). Plus the language selector and the theme toggle. With ca/es labels up to 30% longer, the menu needs a small-screen pattern that doesn't truncate.
+Navigation is present on every page. Main menu items: Work, Blog, Personal, About (labels per locale; the personal one is part of D-09). Plus the language selector and the theme toggle. With ca/es labels up to 30% longer, the menu needs a small-screen pattern that doesn't truncate. Decided: below the wide breakpoint the four links move to a second header row, spread across the width; no hamburger menu and no truncation.
 
 ### 6.1 Site map
 
@@ -142,7 +142,7 @@ Sections, in this order:
 2. **Services:** three columns — Front-End Development, Angular Architecture, Performance. No "see all" (there's no services page).
 3. **Selected work:** 2–3 featured case studies, "see all" → Work.
 4. **Latest posts:** the three most recent _technical_ posts, "see all" → Blog. _Thoughts_ posts never appear on the home page.
-5. **Personal:** 3–4 topic cards, each linking to its anchor on the personal page (e.g. `/personal#books`).
+5. **Personal:** 3–4 topic cards, text only (no cover images), each linking to its anchor on the personal page (e.g. `/personal#books`).
 6. **Contact CTA:** closing block on a brand surface.
 
 The tech timeline is not on the home page; it lives on About (§6.6).
@@ -266,7 +266,7 @@ Content needed before or during phase 4: hero copy in three locales, an updated 
 | D-06 | Deploy target: Vercel, Netlify or Cloudflare Pages.                                                                                                                                                                                                                                         | Deploy, form                    |
 | D-07 | Font hosting: Google Fonts CDN or self-hosting Space Grotesk and Bricolage like Commit Mono.                                                                                                                                                                                                | Layout, privacy                 |
 | D-08 | Muted text color that passes AA (see `docs/design-state.md`).                                                                                                                                                                                                                               | Tokens, form placeholders       |
-| D-09 | Personal section: page name and slug per locale, entry shape, topic order. (Decided: one URL, own menu item, open-ended topics, no politics.)                                                                                                                                               | Personal section, content model |
+| D-09 | Personal section: page name and slug per locale, entry shape, topic order. (Decided: one URL, own menu item, open-ended topics, no politics; home topic cards are text only.)                                                                                                               | Personal section, content model |
 | D-10 | Blog: label of the technical category, and ca/es labels for both. (Decided: one required category — technical or Thoughts — plus open-ended tags; home shows technical only; listing shows all with a category filter; tag pages indexed from 3 posts; general feed plus one per category.) | Blog, home, content model       |
 | D-11 | Content missing in one locale: hide it there, show a fallback-language version, or require all three.                                                                                                                                                                                       | i18n, content model             |
 | D-12 | Boundary between personal entries and non-technical blog posts on shared topics (philosophy, psychology, …).                                                                                                                                                                                | Personal section, blog          |
@@ -362,6 +362,7 @@ Recurring work, tracked as recurring tasks:
 - FID replaced by INP; WCAG 2.2 AA instead of unspecified WCAG 2.
 - Cookie policy only if non-essential cookies are introduced (v6 tied it to GA4, which is not used).
 - Home page becomes a summary with "see all" links (§6.2); the tech timeline moves to About and runs to the current year instead of a fixed 2026.
+- From the Claude Design review (October 2026): small-screen navigation as a second header row, no hamburger (§6); personal topic cards on the home page are text only (§6.2); keyboard shortcuts and the GitHub activity graph are out of v1 (§4.0).
 - Stack precision: Astro 6 static, `graphql-request`, standalone repository.
 - Existing code declared a skeleton to replace (§0).
 - Open decisions collected with IDs (§12); new ones: D-08 to D-14.
