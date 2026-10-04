@@ -24,3 +24,7 @@ pnpm-debug.log*
 .idea/
 
 wip/
+
+# Claude Code: local-only files
+CLAUDE.local.md
+.claude/settings.local.json

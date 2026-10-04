@@ -116,7 +116,7 @@ const translations = [
     text-align: center;
   }
   .section-padding {
-    padding: var(--space-l) 0;
+    padding: var(--space-fluid-l) 0;
   }
   .skills-grid {
     display: grid;
@@ -127,7 +127,7 @@ const translations = [
     background: var(--color-surface);
     padding: 2rem;
     border-radius: 20px;
-    border: var(--glass-border);
+    border: 1px solid var(--glass-border);
     display: flex;
     gap: 1rem;
     align-items: center;
@@ -144,19 +144,19 @@ const translations = [
   }
   .progress-bar {
     height: 100%;
-    background: var(--color-accent);
+    background: var(--color-primary);
   }
   .badge {
     display: inline-block;
     padding: 0.5rem 1rem;
-    background: var(--color-accent-soft);
-    color: var(--color-accent);
+    background: var(--color-primary-subtle);
+    color: var(--color-text-link);
     border-radius: 100px;
     font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
     margin-bottom: 1.5rem;
-    border: 1px solid var(--color-accent);
+    border: 1px solid var(--color-primary);
   }
   .hero-bio {
     font-size: var(--step-0);
@@ -178,12 +178,15 @@ const translations = [
     transition: var(--transition-smooth);
   }
   .btn-primary {
-    background: var(--color-accent);
-    color: var(--color-bg);
+    background: var(--color-surface-brand);
+    color: var(--color-text-on-primary);
+  }
+  .btn-primary:hover {
+    background: var(--color-surface-brand-hover);
   }
   .btn-secondary {
-    border: var(--glass-border);
-    color: var(--color-text-main);
+    border: 1px solid var(--glass-border);
+    color: var(--color-text-primary);
   }
 
   /* Blog Preview Styles */
@@ -201,7 +204,7 @@ const translations = [
     gap: 2rem;
   }
   .link-more {
-    color: var(--color-accent);
+    color: var(--color-text-link);
     text-decoration: none;
     font-weight: 700;
     font-size: 0.9rem;

@@ -9,8 +9,8 @@
 
 /* --- Commit Mono: 400 Regular --- */
 @font-face {
-  font-family: 'Commit Mono';
-  src: url('/fonts/subset-CommitMono-Regular.woff2') format('woff2');
+  font-family: "Commit Mono";
+  src: url("/fonts/subset-CommitMono-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -18,8 +18,8 @@
 
 /* --- Commit Mono: 400 Italic --- */
 @font-face {
-  font-family: 'Commit Mono';
-  src: url('/fonts/subset-CommitMono-Italic.woff2') format('woff2');
+  font-family: "Commit Mono";
+  src: url("/fonts/subset-CommitMono-Italic.woff2") format("woff2");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -27,8 +27,8 @@
 
 /* --- Commit Mono: 700 Bold --- */
 @font-face {
-  font-family: 'Commit Mono';
-  src: url('/fonts/subset-CommitMono-Bold.woff2') format('woff2');
+  font-family: "Commit Mono";
+  src: url("/fonts/subset-CommitMono-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -36,8 +36,8 @@
 
 /* --- Commit Mono: 700 Bold Italic --- */
 @font-face {
-  font-family: 'Commit Mono';
-  src: url('/fonts/subset-CommitMono-BoldItalic.woff2') format('woff2');
+  font-family: "Commit Mono";
+  src: url("/fonts/subset-CommitMono-BoldItalic.woff2") format("woff2");
   font-weight: 700;
   font-style: italic;
   font-display: swap;
@@ -72,7 +72,7 @@
   --broom-500: #ecda02;
   --broom-600: #c9ad00;
   --broom-700: #9e8002;
-  --broom-800: #816408;
+  --broom-800: #81640a;
   --broom-900: #6d530f;
   --broom-950: #402d03;
 
@@ -193,11 +193,9 @@
   --color-bg-tertiary: light-dark(var(--raven-200), var(--raven-800));
   --color-surface: light-dark(#ffffff, var(--raven-800));
   --color-surface-raised: light-dark(#ffffff, var(--raven-700));
-  --color-surface-brand: light-dark(var(--red-600), var(--red-700));
-  --color-surface-overlay: light-dark(
-    rgba(6, 7, 15, 0.4),
-    rgba(6, 7, 15, 0.8)
-  );
+  --color-surface-brand: var(--red-700);
+  --color-surface-brand-hover: var(--red-800);
+  --color-surface-overlay: light-dark(rgba(6, 7, 15, 0.4), rgba(6, 7, 15, 0.8));
 
   /* --- Borders --- */
   --color-border: light-dark(var(--raven-200), var(--raven-700));
@@ -214,8 +212,8 @@
   --color-text-inverse: light-dark(var(--raven-50), var(--raven-950));
   --color-text-on-primary: #ffffff;
   --color-text-on-secondary: var(--raven-950);
-  --color-text-link: light-dark(var(--red-600), var(--red-500));
-  --color-text-link-hover: light-dark(var(--red-700), var(--red-400));
+  --color-text-link: light-dark(var(--red-700), var(--red-400));
+  --color-text-link-hover: light-dark(var(--red-800), var(--red-300));
   --color-text-code: light-dark(var(--raven-700), var(--raven-300));
 
   /* --- Status: Success --- */
@@ -226,7 +224,7 @@
   /* --- Status: Warning --- */
   --color-warning: light-dark(var(--corn-500), var(--corn-400));
   --color-warning-subtle: light-dark(var(--corn-50), var(--corn-950));
-  --color-warning-text: light-dark(var(--corn-700), var(--corn-300));
+  --color-warning-text: light-dark(var(--corn-800), var(--corn-300));
 
   /* --- Status: Error --- */
   --color-error: light-dark(var(--mahogany-600), var(--mahogany-500));
@@ -252,34 +250,25 @@
 }
 
 /* ==========================================================================
-   4. SHADOWS — light-dark() pairs
+   4. SHADOWS
+   light-dark() only accepts colors: each level's shadow color is
+   theme-aware; offsets and blur are shared by both themes.
    ========================================================================== */
 
 :root {
-  --shadow-xs: light-dark(
-    0 1px 2px rgba(6, 7, 15, 0.05),
-    0 1px 2px rgba(0, 0, 0, 0.3)
-  );
-  --shadow-sm: light-dark(
-    0 1px 3px rgba(6, 7, 15, 0.08),
-    0 1px 3px rgba(0, 0, 0, 0.4)
-  );
-  --shadow-md: light-dark(
-    0 4px 6px rgba(6, 7, 15, 0.07),
-    0 4px 6px rgba(0, 0, 0, 0.35)
-  );
-  --shadow-lg: light-dark(
-    0 10px 15px rgba(6, 7, 15, 0.08),
-    0 10px 15px rgba(0, 0, 0, 0.35)
-  );
-  --shadow-xl: light-dark(
-    0 20px 25px rgba(6, 7, 15, 0.1),
-    0 20px 25px rgba(0, 0, 0, 0.4)
-  );
-  --shadow-inner: light-dark(
-    inset 0 2px 4px rgba(6, 7, 15, 0.06),
-    inset 0 2px 4px rgba(0, 0, 0, 0.3)
-  );
+  --shadow-color-xs: light-dark(rgba(6, 7, 15, 0.05), rgba(0, 0, 0, 0.3));
+  --shadow-color-sm: light-dark(rgba(6, 7, 15, 0.08), rgba(0, 0, 0, 0.4));
+  --shadow-color-md: light-dark(rgba(6, 7, 15, 0.07), rgba(0, 0, 0, 0.35));
+  --shadow-color-lg: light-dark(rgba(6, 7, 15, 0.08), rgba(0, 0, 0, 0.35));
+  --shadow-color-xl: light-dark(rgba(6, 7, 15, 0.1), rgba(0, 0, 0, 0.4));
+  --shadow-color-inner: light-dark(rgba(6, 7, 15, 0.06), rgba(0, 0, 0, 0.3));
+
+  --shadow-xs: 0 1px 2px var(--shadow-color-xs);
+  --shadow-sm: 0 1px 3px var(--shadow-color-sm);
+  --shadow-md: 0 4px 6px var(--shadow-color-md);
+  --shadow-lg: 0 10px 15px var(--shadow-color-lg);
+  --shadow-xl: 0 20px 25px var(--shadow-color-xl);
+  --shadow-inner: inset 0 2px 4px var(--shadow-color-inner);
 }
 
 /* ==========================================================================
@@ -606,7 +595,11 @@ h1 {
   font-size: var(--step-4);
 }
 
-h2, h3, h4, h5, h6 {
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-sans);
   color: var(--color-text-primary);
   font-weight: var(--weight-semibold); /* SemiBold as per requirements */
@@ -614,9 +607,15 @@ h2, h3, h4, h5, h6 {
   text-wrap: balance;
 }
 
-h2 { font-size: var(--step-3); }
-h3 { font-size: var(--step-2); }
-h4 { font-size: var(--step-1); }
+h2 {
+  font-size: var(--step-3);
+}
+h3 {
+  font-size: var(--step-2);
+}
+h4 {
+  font-size: var(--step-1);
+}
 
 a {
   color: var(--color-text-link);
@@ -629,7 +628,10 @@ a:hover {
   color: var(--color-text-link-hover);
 }
 
-p, ul, ol, figure {
+p,
+ul,
+ol,
+figure {
   margin-block-end: var(--space-4);
   text-wrap: pretty; /* Evita viudas en párrafos */
 }
@@ -669,7 +671,10 @@ p, ul, ol, figure {
     color: #555;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     page-break-after: avoid;
   }
 

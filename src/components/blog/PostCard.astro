@@ -44,7 +44,7 @@ const formattedDate = new Date(post.date).toLocaleDateString(lang, {
   .post-card {
     position: relative;
     background: var(--color-surface);
-    border: var(--glass-border);
+    border: 1px solid var(--glass-border);
     border-radius: 16px;
     overflow: hidden;
     transition: var(--transition-smooth);
@@ -53,7 +53,7 @@ const formattedDate = new Date(post.date).toLocaleDateString(lang, {
   }
 
   .post-card:hover {
-    border-color: var(--color-accent);
+    border-color: var(--color-primary);
     transform: translateY(-4px);
   }
 
@@ -77,7 +77,7 @@ const formattedDate = new Date(post.date).toLocaleDateString(lang, {
   }
 
   .card-body {
-    padding: var(--space-s);
+    padding: var(--space-fluid-s);
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -96,7 +96,7 @@ const formattedDate = new Date(post.date).toLocaleDateString(lang, {
     font-size: var(--step-2);
     margin: 0;
     line-height: 1.2;
-    color: var(--color-text-main);
+    color: var(--color-text-primary);
   }
 
   .stretched-link::after {
@@ -122,7 +122,7 @@ const formattedDate = new Date(post.date).toLocaleDateString(lang, {
 
   .read-more {
     margin-top: auto;
-    color: var(--color-accent);
+    color: var(--color-text-link);
     font-weight: 700;
     font-size: 0.85rem;
     text-transform: uppercase;
@@ -131,7 +131,7 @@ const formattedDate = new Date(post.date).toLocaleDateString(lang, {
 
   /* Focus indicator for the whole card via the link */
   .post-card:has(.stretched-link:focus-visible) {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--color-primary);
     outline-offset: 4px;
   }
 </style>
