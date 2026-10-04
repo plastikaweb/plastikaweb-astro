@@ -245,12 +245,12 @@ Plausible: cookieless, GDPR-compliant, no consent banner.
 ## 11. Phases
 
 1. **Requirements and backlog:** this document, `TASKS.md`, ClickUp updated from `TASKS.md`.
-2. **Design in Claude Design:** pages and components in both themes and at mobile and desktop widths, using the tokens in `theme.css`. Replaces the Stitch → Figma phase; the Stitch exports remain historical references.
+2. **Design in Claude Design:** a product brief (`PRODUCT.md`) first, then pages and components in both themes and at mobile and desktop widths, using the tokens in `theme.css`. Replaces the Stitch → Figma phase; the Stitch exports remain historical references.
 3. **Foundation** (can run in parallel with phase 2): pinned versions, linting, formatting, type checking, test setup, git hooks, CI quality gate, preview and production deploys (§13). The quality gate exists before the first page is built, so every page is born passing it.
 4. **Front end with mock data:** Astro setup, i18n, layout and navigation, every page, theme toggle, timeline, filters.
 5. **Headless WordPress:** WPGraphQL, i18n plugin, content types (case studies, posts with categories and tags, personal entries), swap of the data source, content rebuild hook.
 6. **Polish and launch:** contact form delivery, analytics, SEO, legal texts, manual accessibility pass, Lighthouse audit, production launch.
-7. **Maintenance** (ongoing after launch): §13.6.
+7. **Maintenance** (ongoing after launch): §13.9.
 
 Content needed before or during phase 4: hero copy in three locales, an updated professional photo, mock data (§7), CV.
 
@@ -271,50 +271,78 @@ Content needed before or during phase 4: hero copy in three locales, an updated 
 | D-11 | Content missing in one locale: hide it there, show a fallback-language version, or require all three.                                                                                                                                                                                       | i18n, content model             |
 | D-12 | Boundary between personal entries and non-technical blog posts on shared topics (philosophy, psychology, …).                                                                                                                                                                                | Personal section, blog          |
 | D-13 | Home page: hero CTA set (the three-anchor rule no longer applies); whether a work-experience section is added (recommendation: no, case studies cover it). (Decided: summary layout, section order in §6.2, "see all" as links, timeline on About.)                                         | Home                            |
-| D-14 | Tooling: test runners (proposed Vitest + Playwright), git hooks (lefthook or husky + lint-staged), dependency bot (Renovate or Dependabot), uptime monitor.                                                                                                                                 | §13                             |
+| D-14 | Tooling still open: end-to-end runner (proposed Playwright), dependency bot (Renovate or Dependabot), uptime monitor. (Decided: Vitest, husky + lint-staged + commitlint.)                                                                                                                  | §13                             |
 
 ## 13. Engineering and quality
 
-Tooling marked _proposed_ is a recommendation pending D-14; the rest is required.
+Tooling marked _proposed_ is a recommendation pending D-14; the rest is decided. Several practices come from the NewWebSite project (Angular), adapted: its gates are kept, its debt-management machinery (legacy allowlists, branch-scoped warning ratchets, a `release` branch) is not, because this repository starts clean and has one maintainer.
 
 ### 13.1 Versions and runtime
 
 - Node: current LTS supported by Astro 6, pinned in `.nvmrc` and `package.json` `engines`; CI uses the same version.
-- Astro: 6.x; dependencies installed from `package-lock.json` (`npm ci` in CI). Majors are upgraded deliberately, one at a time, with the full quality gate (§13.4) passing.
+- Astro: 6.x; dependencies installed from `package-lock.json` (`npm ci` in CI). Majors are upgraded deliberately, one at a time, with the full quality gate (§13.5) passing.
 - WordPress: a currently supported major on a supported PHP version. Required plugins and their versions are listed in the repo (WPGraphQL, ACF, WPGraphQL for ACF, the i18n plugin from D-04) so the backend can be rebuilt.
 
 ### 13.2 Code quality
 
+- Editor: EditorConfig; `.gitattributes` pins LF line endings and marks fonts, images and PDFs as binary; shared VS Code settings and recommended extensions.
 - Formatting: Prettier with `prettier-plugin-astro` (in place); CI checks it.
-- Linting: ESLint with `typescript-eslint` and `eslint-plugin-astro`, including its accessibility rules.
-- CSS linting: Stylelint, configured to enforce the token rules in `.claude/rules/css.md` (no color literals or ad-hoc px outside `theme.css`, logical properties, no `[data-theme]` overrides).
-- Types: TypeScript strict (in place) and `astro check` in CI.
-- EditorConfig for basic editor settings.
-- Git hooks: format and lint staged files before commit; commit messages follow Conventional Commits (the history already does). _Proposed:_ lefthook or husky + lint-staged, commitlint.
+- Linting: ESLint with `typescript-eslint` and `eslint-plugin-astro`, including its accessibility rules, plus general rules: `curly`, `eqeqeq` (allowing `== null`), `no-console`, complexity ≤ 20, nesting depth ≤ 4, file length ≤ 450 lines, ≤ 4 parameters, `no-else-return`, sorted imports, unused names allowed only with a `_` prefix, `import type` for type-only imports. **Zero warnings** (`--max-warnings 0`) from the start.
+- Comments: a local ESLint rule limits a comment block to 5 lines of prose; longer rationale goes to `docs/` with a one-line pointer.
+- CSS: Stylelint enforces the token rules in `.claude/rules/css.md` (no color literals or ad-hoc px outside `theme.css`, logical properties, no `[data-theme]` overrides); a token check fails on any `var(--…)` that `theme.css` doesn't declare (an undefined custom property fails silently in the browser).
+- Markdown: markdownlint on every `.md` file, vendored skills and session notes excluded.
+- Types: TypeScript strict (in place) and `astro check`.
+- i18n: UI dictionaries share one key type, so a missing translation fails the type check; a small check rejects empty strings.
+- Git hooks (husky): pre-commit runs lint-staged on staged files and stays fast; commit-msg runs commitlint (Conventional Commits; types `feat fix docs refactor perf test build ci chore`; header ≤ 100 characters; lowercase subject); pre-push runs lint, type check, build and unit tests.
+- Branches: `main` plus short-lived branches named `<type>/t-<id>-<slug>`; no `release` branch, since every pull request gets a preview deploy.
 
 ### 13.3 Tests
 
-- Unit (_proposed:_ Vitest): data layer and mappers, i18n helpers (route and `hreflang` resolution), reading time, reserved-slug check (§6.4), feed generation.
+- Unit (Vitest): data layer and mappers, i18n helpers (route and `hreflang` resolution), reading time, reserved-slug check (§6.4), feed generation. Shared helpers in `src/testing/`.
 - End to end (_proposed:_ Playwright): navigation, language switch to the same page, theme toggle without a flash and with persistence, work and blog filters with and without JS, contact form states.
 - Accessibility: automated axe checks on every page template, both themes, mobile and desktop widths. Automated checks don't replace a manual keyboard and screen-reader pass before launch.
 - Lighthouse CI with budgets equal to §1.3, on every page template.
 - Build output: HTML validation and internal link check.
 
-### 13.4 CI/CD
+### 13.4 Versioning and changelog
 
-- GitHub Actions (repository on GitHub).
-- Quality gate on every pull request: format check, lint (TS and CSS), type check, unit tests, build, end-to-end and accessibility tests, Lighthouse CI, link check. Merging requires it to pass.
+- Semver: `0.x` until launch, `1.0.0` at launch.
+- `CHANGELOG.md` in Keep a Changelog format, with short entries per release.
+- The README version badge matches `package.json`; CI checks it.
+
+### 13.5 CI/CD
+
+- GitHub Actions (repository on GitHub), **one** workflow for every pull request rather than near-duplicate per-environment files.
+- Quality gate on every pull request: format check, ESLint, Stylelint and token check, markdownlint, local rule fixtures, type check, unit tests, build, end-to-end and accessibility tests, Lighthouse CI, link check, dependency audit, version badge. Merging requires it to pass; local hooks are a convenience, CI is the authority.
 - Preview deploy per pull request; production deploy from `main` (host: D-06).
 - Content rebuilds: WordPress triggers a deploy hook when content is published or updated; a scheduled rebuild as a safety net.
 - Secrets live in the CI and host settings, never in the repository.
 
-### 13.5 Security
+### 13.6 Documentation
+
+- `README.md`: badges, table of contents, requirements, commands, quality checks, an index of `docs/`, deploy and content rebuild, working conventions.
+- `docs/code-quality.md`, `docs/testing.md`, `docs/commits.md`, `docs/i18n.md` and `docs/manual-checks.md` (what automation can't reach: theme flash, screen readers, zoom). Each is written when its tool lands.
+- Code documentation in English; comments explain why, not what.
+
+### 13.7 Agent tooling
+
+- `PRODUCT.md`: product brief (register, users, purpose, brand personality, anti-references, design principles), read by design and review agents.
+- `.claude/settings.json`: hooks that block edits to `.env*` and `package-lock.json` and run the type check after code edits; an allowlist for read-only and gate commands.
+- Project skills: `commit-actions` (gated, convention-compliant commits) and `task-audit` (mechanical gates first, then one read-only reviewer agent per lens — code, styles, a11y, docs, i18n, UX, tests, security, SEO, performance — one report), adapted from NewWebSite.
+- Third-party skills and MCP servers are read before installing and installed at project scope so a clone gets them. Candidates to evaluate (T-04):
+  - Astro: the official Astro Docs MCP server (`https://mcp.docs.astro.build/mcp`), current docs on demand.
+  - WordPress (phase 5): the official `WordPress/agent-skills` — `wp-project-triage`, `wp-plugin-development` (custom post types and fields), `wp-wpcli-and-ops` (maintenance), `wp-performance`, `wp-playground` (a disposable local WordPress for developing and testing the GraphQL layer), `wp-phpstan` if custom PHP appears. Block and Interactivity API skills don't apply to a headless site.
+  - Design and UX: `impeccable` (design vocabulary, used by NewWebSite), `transitions-dev` / `transitions-polish` (motion with reduced-motion fallbacks), and the installed `frontend-design`, `typeset`, `design:accessibility-review`, `design:design-critique`, `design:ux-copy` (the copy in three locales).
+  - Process: the installed `grilling` (stress-test open decisions), `superpowers` (TDD, debugging, verification), `code-review`, `security-review`, `browser-automation` (check rendered pages).
+  - Community registries (e.g. `astro-*` skills) only after reading the source: they are unvetted.
+
+### 13.8 Security
 
 - Security headers set on the host: CSP, HSTS, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`.
 - Dependency audit in CI; automated dependency update pull requests (_proposed:_ Renovate or Dependabot).
 - WordPress: public front end disabled or redirected (headless), admin behind strong auth with 2FA, only the needed GraphQL fields exposed, automatic minor updates, regular backups.
 
-### 13.6 Maintenance
+### 13.9 Maintenance
 
 Recurring work, tracked as recurring tasks:
 
@@ -337,4 +365,4 @@ Recurring work, tracked as recurring tasks:
 - Stack precision: Astro 6 static, `graphql-request`, standalone repository.
 - Existing code declared a skeleton to replace (§0).
 - Open decisions collected with IDs (§12); new ones: D-08 to D-14.
-- New §13: engineering and quality — versions, linting, tests, CI/CD, security, maintenance.
+- New §13: engineering and quality — versions, linting, tests, versioning, CI/CD, documentation, agent tooling, security, maintenance; adapted from the NewWebSite project.

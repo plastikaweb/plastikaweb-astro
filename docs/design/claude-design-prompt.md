@@ -1,10 +1,10 @@
 # Claude Design prompt
 
-Brief for designing the Plastikaweb interface in Claude Design before any page is coded (TASKS.md T-01). Source: `docs/requirements.md`; if they disagree, the requirements win and this file gets updated.
+Brief for designing the Plastikaweb interface in Claude Design before any page is coded (TASKS.md T-02). Source: `docs/requirements.md`; if they disagree, the requirements win and this file gets updated.
 
 How to use it:
 
-1. Start a Claude Design project and attach `src/styles/theme.css` and `docs/requirements.md`.
+1. Start a Claude Design project and attach `PRODUCT.md`, `src/styles/theme.css` and `docs/requirements.md`.
 2. Paste **Prompt 1**. It asks for the home page in two layout directions.
 3. Pick a direction (or a mix), then paste **Prompt 2** with the choice filled in.
 4. Record the decisions that come out of it in `docs/requirements.md` (§4, §6, §12).
@@ -16,7 +16,7 @@ How to use it:
 ```text
 You're designing the personal site of Carlos Matheu (brand: Plastikaweb), a senior freelance Angular/TypeScript developer based in Barcelona. The site wins freelance clients and positions him as a technical reference. Audience: CTOs, technical recruiters and high-end freelance clients; secondary, developers arriving through the blog. The site itself must prove front-end craft, so the design has to be buildable with semantic HTML and plain modern CSS, accessible (WCAG 2.2 AA) and fast (Lighthouse 100).
 
-Attached: theme.css (the design tokens — use them, don't invent values) and requirements.md (the full spec).
+Attached: PRODUCT.md (the product brief), theme.css (the design tokens — use them, don't invent values) and requirements.md (the full spec).
 
 ## Brand system (fixed — don't change)
 
@@ -72,7 +72,7 @@ Do not reproduce any of these sites' visual identity. The result must look like 
 Design the home page in two directions, both in light and dark, at 375 and 1440 px:
 
 - Direction A — "Summary": single main column, bold Space Grotesk hero, sections stacked with generous fluid spacing, each ending in a "see all" link.
-- Direction B — "Sticky identity": from desktop width up, the intro and nav live in a sticky left column with an active-section indicator; services, work, posts and personal scroll in the right column. On mobile it collapses to a single column.
+- Direction B — "Sticky identity": from desktop width up, the intro and nav live in a sticky left column with an active-section indicator; services, work, posts and personal scroll in the right column. On mobile it collapses to a single column. Warning: a sticky identity column next to a scrolling list is exactly what makes brittanychiang.com and its many clones recognisable, and PRODUCT.md lists that template as an anti-reference. Take only the mechanism. The column must read as Plastikaweb: Space Grotesk at display size, the red and yellow accents, sharp geometry, generous negative space; no dark navy, no mint or teal accent, no thin small-caps section nav, no cursor spotlight. If the result could pass for that site with the colors changed, push it further or say so.
 
 For the hero CTAs, show two options within each direction: (1) a single primary "Contact" CTA, (2) primary "Contact" + secondary "See work". Label which is which.
 
