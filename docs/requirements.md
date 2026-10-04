@@ -105,15 +105,15 @@ Reference sites for structure and interaction, not for look. The palette, type a
 
 ## 5. Internationalization
 
-- Locales: Catalan (`ca`), Spanish (`es`), English (`en`). Every page exists in all three.
+- Locales: Catalan (`ca`), Spanish (`es`), English (`en`). Pages, case studies and UI copy exist in all three; blog posts and personal entries may exist in only some (D-11, below).
 - Localized routes. Slug scheme: D-01. Default locale and what `/` serves: D-02.
 - Language selector in the navigation (CA · ES · EN), linking to the same page in the other locale; the choice is persisted.
 - Browser language is only a fallback for the first visit (D-02).
-- Content managed per locale in WordPress (D-04). A post or case study missing in one locale: D-11.
+- Content managed per locale in WordPress (D-04). Missing translations (D-11, decided): pages, case studies, site settings and UI strings are required in all three locales, and the build fails if one is missing. Blog posts and personal entries are published only in the locales where they exist: they don't appear in the other locales' listings, feeds or sitemaps, `hreflang` links only real translations, and on such a post the language selector links to the blog listing of the other locale. No fallback-language content.
 
 ## 6. Pages
 
-Navigation is present on every page. Main menu items: Work, Blog, Personal, About (labels per locale; the personal one is part of D-09). Plus the language selector and the theme toggle. With ca/es labels up to 30% longer, the menu needs a small-screen pattern that doesn't truncate. Decided: below the wide breakpoint the four links move to a second header row, spread across the width; no hamburger menu and no truncation.
+Navigation is present on every page. Main menu items: Work, Blog, Personal, About (labels per locale; the personal item is "Personal" in all three). Plus the language selector and the theme toggle. With ca/es labels up to 30% longer, the menu needs a small-screen pattern that doesn't truncate. Decided: below the wide breakpoint the four links move to a second header row, spread across the width; no hamburger menu and no truncation.
 
 ### 6.1 Site map
 
@@ -126,7 +126,7 @@ Navigation is present on every page. Main menu items: Work, Blog, Personal, Abou
 | Blog category page | `/[lang]/blog/category/[category]` |
 | Blog tag page      | `/[lang]/blog/tag/[tag]`           |
 | Post               | `/[lang]/blog/[slug]`              |
-| Personal           | `/[lang]/personal` (name: D-09)    |
+| Personal           | `/[lang]/personal`                 |
 | About + contact    | `/[lang]/about`                    |
 | Privacy policy     | `/[lang]/privacy`                  |
 | Cookie policy      | only if ever needed (§10)          |
@@ -156,7 +156,7 @@ The tech timeline is not on the home page; it lives on About (§6.6).
 
 Posts are classified on two axes:
 
-- **Category (new):** exactly one per post, required, from a fixed set of two — _technical_ and _Thoughts_ (random thoughts, philosophy, …). "Thoughts" is the English label; the technical label and the ca/es labels are pending (D-10). WordPress native categories. The category decides where a post is shown; it is not a topic.
+- **Category (new):** exactly one per post, required, from a fixed set of two — _technical_ and _Thoughts_ (random thoughts, philosophy, …). Labels and slugs (D-10, decided): technical is _Enginyeria_ / _Ingeniería_ / _Engineering_ (`enginyeria`, `ingenieria`, `engineering`); Thoughts is _Pensaments_ / _Pensamientos_ / _Thoughts_ (`pensaments`, `pensamientos`, `thoughts`). WordPress native categories. The category decides where a post is shown; it is not a topic.
 - **Tags (new):** one or more per post (e.g. `javascript` + `frontend` + `security`). The tag set is open-ended and grows over time: tags are data (WordPress tags), never hard-coded. Each tag has a name and slug per locale. Tags describe the topic.
 
 Pages:
@@ -174,9 +174,9 @@ Pages:
 - **One URL:** a single page, no detail pages. Entries are grouped or filterable by topic on that page; each topic is reachable by an in-page anchor so it can be linked directly. Filtering, if any, works without JS as the full grouped list.
 - **Main menu item** of its own (§6).
 - Content comes from WordPress like the rest, in the three locales.
-- Still open (D-09): the page name and slug per locale, the shape of an entry (§7), and the order of topics.
+- Decided (D-09): the page is "Personal" in all three locales, at `/[lang]/personal`; the page heading can carry more voice than the menu label. Topics are ordered by a manual order field. Entries have no cover images in v1 (rights on covers and posters, image weight); entry shape in §7.
 - Political topics are out of scope.
-- Boundary with the blog: philosophy and similar topics also appear as blog tags (§6.4). Rule to settle in D-12 — e.g. personal entries are short (a recommendation or a note, no own URL) and anything that deserves its own URL is a blog post that the personal entry can link to.
+- Boundary with the blog (D-12, decided): a personal entry is a short note about a work or an idea (about three lines, no URL of its own). Anything that argues a point or runs longer is a _Thoughts_ blog post, which the entry can link to. Personal topics and blog tags are separate taxonomies, even when they share a name (philosophy, psychology…).
 
 ### 6.6 About and contact
 
@@ -198,11 +198,11 @@ Pages:
 Mock data first, shaped like the future WPGraphQL responses.
 
 - **Case study:** title, slug, locale, summary, featured flag, technologies (from the chip set), challenge, solution, stack, results, diagrams, dates, SEO fields.
-- **Category:** fixed set of two (technical, Thoughts); name and slug per locale.
+- **Category:** fixed set of two (Engineering, Thoughts); name and slug per locale (§6.4).
 - **Tag:** name and slug per locale.
 - **Post:** title, slug, locale, date, one category, one or more tags, excerpt, body, reading time, SEO fields.
-- **Personal topic:** name and slug per locale, order.
-- **Personal entry:** topic, title, locale, short text; optional creator (author, director, artist), year, external link, cover image, link to a related blog post. Final shape: D-09.
+- **Personal topic:** name and slug per locale, manual order, optional one-line note per locale (shown on the home card).
+- **Personal entry:** topic, title, locale, short text (about three lines), date added (orders entries within a topic, newest first); optional creator (author, director, artist), year, external link, link to a related blog post. No cover image in v1 (D-09).
 - **Site settings:** bio, CV file per locale, social links, hero and services copy.
 - Translations of the same item are linked so the language selector and `hreflang` can find them.
 - Mock data minimum: 3 complete case studies, 3–5 posts covering both categories, with several tags each, and personal entries across at least four topics, enough to lay out the page.
@@ -256,22 +256,22 @@ Content needed before or during phase 4: hero copy in three locales, an updated 
 
 ## 12. Open decisions
 
-| ID   | Decision                                                                                                                                                                                                                                                                                    | Blocks                          |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| D-01 | Route slugs: localized (`/ca/projectes`, `/es/proyectos`, `/en/projects`) or shared (`/[lang]/work`).                                                                                                                                                                                       | Routing, sitemap, hreflang      |
-| D-02 | Default locale, and what `/` serves: default-locale home or a redirect by saved or browser language.                                                                                                                                                                                        | Routing, SEO                    |
-| D-03 | ~~Tech timeline on the home page or on About.~~ Decided: About (§6.6).                                                                                                                                                                                                                      | —                               |
-| D-04 | WordPress i18n: WPML, Polylang or ACF custom; WordPress hosting.                                                                                                                                                                                                                            | Phase 4                         |
-| D-05 | Contact form delivery: Resend, EmailJS or Netlify Forms (depends partly on D-06).                                                                                                                                                                                                           | Contact form                    |
-| D-06 | Deploy target: Vercel, Netlify or Cloudflare Pages.                                                                                                                                                                                                                                         | Deploy, form                    |
-| D-07 | Font hosting: Google Fonts CDN or self-hosting Space Grotesk and Bricolage like Commit Mono.                                                                                                                                                                                                | Layout, privacy                 |
-| D-08 | Muted text color that passes AA (see `docs/design-state.md`).                                                                                                                                                                                                                               | Tokens, form placeholders       |
-| D-09 | Personal section: page name and slug per locale, entry shape, topic order. (Decided: one URL, own menu item, open-ended topics, no politics; home topic cards are text only.)                                                                                                               | Personal section, content model |
-| D-10 | Blog: label of the technical category, and ca/es labels for both. (Decided: one required category — technical or Thoughts — plus open-ended tags; home shows technical only; listing shows all with a category filter; tag pages indexed from 3 posts; general feed plus one per category.) | Blog, home, content model       |
-| D-11 | Content missing in one locale: hide it there, show a fallback-language version, or require all three.                                                                                                                                                                                       | i18n, content model             |
-| D-12 | Boundary between personal entries and non-technical blog posts on shared topics (philosophy, psychology, …).                                                                                                                                                                                | Personal section, blog          |
-| D-13 | Home page: hero CTA set (the three-anchor rule no longer applies); whether a work-experience section is added (recommendation: no, case studies cover it). (Decided: summary layout, section order in §6.2, "see all" as links, timeline on About.)                                         | Home                            |
-| D-14 | Tooling still open: end-to-end runner (proposed Playwright), dependency bot (Renovate or Dependabot), uptime monitor. (Decided: Vitest, husky + lint-staged + commitlint.)                                                                                                                  | §13                             |
+| ID   | Decision                                                                                                                                                                                                                                            | Blocks                     |
+| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| D-01 | Route slugs: localized (`/ca/projectes`, `/es/proyectos`, `/en/projects`) or shared (`/[lang]/work`).                                                                                                                                               | Routing, sitemap, hreflang |
+| D-02 | Default locale, and what `/` serves: default-locale home or a redirect by saved or browser language.                                                                                                                                                | Routing, SEO               |
+| D-03 | ~~Tech timeline on the home page or on About.~~ Decided: About (§6.6).                                                                                                                                                                              | —                          |
+| D-04 | WordPress i18n: WPML, Polylang or ACF custom; WordPress hosting.                                                                                                                                                                                    | Phase 4                    |
+| D-05 | Contact form delivery: Resend, EmailJS or Netlify Forms (depends partly on D-06).                                                                                                                                                                   | Contact form               |
+| D-06 | Deploy target: Vercel, Netlify or Cloudflare Pages.                                                                                                                                                                                                 | Deploy, form               |
+| D-07 | Font hosting: Google Fonts CDN or self-hosting Space Grotesk and Bricolage like Commit Mono.                                                                                                                                                        | Layout, privacy            |
+| D-08 | Muted text color that passes AA (see `docs/design-state.md`).                                                                                                                                                                                       | Tokens, form placeholders  |
+| D-09 | ~~Personal section: page name and slug per locale, entry shape, topic order.~~ Decided: "Personal" at `/[lang]/personal`, manual topic order, no covers in v1, entry shape in §7 (§6.5).                                                            | —                          |
+| D-10 | ~~Blog: label of the technical category, and ca/es labels for both.~~ Decided: Enginyeria / Ingeniería / Engineering and Pensaments / Pensamientos / Thoughts, with localized slugs (§6.4).                                                         | —                          |
+| D-11 | ~~Content missing in one locale.~~ Decided: required in all three for pages, case studies and UI; posts and personal entries only where they exist, no fallback (§5).                                                                               | —                          |
+| D-12 | ~~Boundary between personal entries and non-technical blog posts.~~ Decided: short note without URL vs. Thoughts post; separate taxonomies (§6.5).                                                                                                  | —                          |
+| D-13 | Home page: hero CTA set (the three-anchor rule no longer applies); whether a work-experience section is added (recommendation: no, case studies cover it). (Decided: summary layout, section order in §6.2, "see all" as links, timeline on About.) | Home                       |
+| D-14 | Tooling still open: end-to-end runner (proposed Playwright), dependency bot (Renovate or Dependabot), uptime monitor. (Decided: Vitest, husky + lint-staged + commitlint.)                                                                          | §13                        |
 
 ## 13. Engineering and quality
 
@@ -363,6 +363,7 @@ Recurring work, tracked as recurring tasks:
 - Cookie policy only if non-essential cookies are introduced (v6 tied it to GA4, which is not used).
 - Home page becomes a summary with "see all" links (§6.2); the tech timeline moves to About and runs to the current year instead of a fixed 2026.
 - From the Claude Design review (October 2026): small-screen navigation as a second header row, no hamburger (§6); personal topic cards on the home page are text only (§6.2); keyboard shortcuts and the GitHub activity graph are out of v1 (§4.0).
+- Content decisions (T-26): personal page name and entry shape (D-09), category labels (D-10), missing-translation rule (D-11, which replaces "every page exists in all three") and the personal-vs-blog boundary (D-12).
 - Stack precision: Astro 6 static, `graphql-request`, standalone repository.
 - Existing code declared a skeleton to replace (§0).
 - Open decisions collected with IDs (§12); new ones: D-08 to D-14.

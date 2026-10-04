@@ -211,7 +211,7 @@ Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate
 
 ### T-26 · Decide the open content questions (D-09, D-10, D-11, D-12)
 
-- **Status:** todo
+- **Status:** done
 - **Source:** §6.4, §6.5, §7, D-09 – D-12
 - **Depends on:** —
 - **Done when:** personal page name and entry shape, category labels in three locales, the missing-translation rule and the personal-vs-blog boundary are recorded in the requirements.
@@ -263,7 +263,7 @@ Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate
 - **Status:** todo
 - **Source:** §2, §4.5, §5, §6
 - **Depends on:** T-02, T-30, T-31
-- **Done when:** a new base layout replaces `BaseLayout.astro` and `ThemeToggle.astro`: `lang` per locale, skip link, landmarks, theme script before first paint, theme toggle `<button>` with persistence and crossfade, main menu (Work, Blog, Personal, About) that moves to a second header row on small screens, with no hamburger and no truncation of ca/es labels, language selector linking to the same page, footer. End-to-end tests cover theme persistence without a flash and language switching.
+- **Done when:** a new base layout replaces `BaseLayout.astro` and `ThemeToggle.astro`: `lang` per locale, skip link, landmarks, theme script before first paint, theme toggle `<button>` with persistence and crossfade, main menu (Work, Blog, Personal, About) that moves to a second header row on small screens, with no hamburger and no truncation of ca/es labels, language selector linking to the same page (or to the blog listing in that locale when a post has no translation, D-11), footer. End-to-end tests cover theme persistence without a flash and language switching.
 
 ### T-34 · Shared components
 
