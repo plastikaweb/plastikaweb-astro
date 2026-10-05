@@ -1,0 +1,6 @@
+{
+  "recurse": true,
+  "serverRoot": "dist",
+  "skip": ["^https?://(?!127\\.0\\.0\\.1[:/])"],
+  "verbosity": "error"
+}

@@ -4,7 +4,7 @@ Reference: requirements §9 (target keywords, implementation) and §5 (locales, 
 
 ## Already mechanical (input, not work)
 
-Lighthouse SEO and the build-output checks once T-20 lands; the axe check covers `lang` and the document title's presence.
+`npm run lighthouse` (SEO must be 100 on every template, both themes), `npm run validate:html` and `npm run links:check` (internal links) on `dist/`; the axe check covers `lang` and the document title's presence. They don't judge whether titles, descriptions, `hreflang` or JSON-LD are right — you do.
 
 ## Judgement checks
 

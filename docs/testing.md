@@ -1,6 +1,6 @@
 # Testing
 
-What is tested and how (requirements §13.3). Unit tests, end-to-end tests and accessibility checks; Lighthouse and build-output checks join with T-20.
+What is tested and how (requirements §13.3). Unit tests, end-to-end tests with accessibility checks, Lighthouse and checks on the built HTML.
 
 ## Unit tests (Vitest)
 
@@ -56,3 +56,26 @@ Axe automates only part of WCAG: contrast, names, roles, landmarks and similar c
 ### Adding a page
 
 Add a spec per page or feature in `e2e/`, using the same pattern: loop over both themes, a smoke assertion that proves the page is the right one, and the axe check. Pages with interaction (filters, the contact form, the theme toggle) test the interaction with the keyboard as well as the pointer.
+
+## Build output: HTML validation and internal links
+
+Both run on `dist/`, so `npm run build` first. CI runs them right after the build; `pre-push` too.
+
+| Command                 | Does                                                                                                                       |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `npm run validate:html` | `html-validate` with its recommended rules (`.htmlvalidate.json`) on every built page.                                     |
+| `npm run links:check`   | `linkinator` crawls from the three locale homes and fails on any broken internal link or asset (`linkinator.config.json`). |
+
+- Inline `style` is rejected except custom properties: pass data as `style="--level: 98%"` and let the component CSS use `var(--level)`.
+- External links are skipped: other sites' uptime would make the gate flaky. Linkinator serves `dist/` on `127.0.0.1`, which is why the skip pattern names that host.
+- `dist/index.html` is a meta refresh, which linkinator doesn't follow, so the crawl starts at `ca/`, `es/` and `en/`.
+
+## Lighthouse
+
+`npm run lighthouse` (`scripts/lighthouse.js`, Lighthouse 13) serves the build with `astro preview` on port 4324 and audits **one page per template in both themes**, with Lighthouse's default mobile profile (simulated slow 4G, 4× CPU slowdown). It writes an HTML report per run to `lighthouse-reports/` (git-ignored; a CI artifact) and a table to the console and the CI job summary.
+
+- **Templates:** pages are grouped by path without the locale; a page whose parent is also a page counts as an instance (`/blog/<slug>/` → `blog/*`). One page per template, rotating ca, es, en so every locale gets audited. A new route is picked up automatically.
+- **Themes:** the theme is written to `localStorage` before the audit, and `disableStorageReset` keeps it. That flag also keeps the HTTP cache, so the script clears it: every run is a cold first visit. (Without that, a warm cache reported 100 and LCP 0.8 s where the real figure was 95 and 2.8 s.)
+- **Budgets (requirements §1.3):** Accessibility, Best Practices and SEO must be 100 on every run, or the step fails and names the failing audits. Performance (100), LCP (< 2.5 s) and CLS (< 0.1) are reported with ⚠ but don't fail until T-33 replaces the skeleton layout; then `BUDGETS` in the script moves them to `blocking`. INP needs real interaction, so the lab can't measure it; Total Blocking Time is its proxy inside the performance score.
+- It isn't in `pre-push`: twelve audits take about four minutes. Run it before opening a pull request that touches layout, CSS, images, fonts or scripts.
+- Chrome is Playwright's Chromium (`npx playwright install chromium`).
