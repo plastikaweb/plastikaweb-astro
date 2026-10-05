@@ -47,6 +47,6 @@ Semver: `0.x` until launch, `1.0.0` at launch (requirements §13.4). `CHANGELOG.
 - While working: add a line under `## [Unreleased]` when a change is worth noting (a new check, a page, a fix a visitor would notice). Refactors and docs-only commits usually aren't.
 - To release: rename `## [Unreleased]` to `## [x.y.z] - YYYY-MM-DD`, open a new empty `[Unreleased]` above it, update the link references at the bottom, commit, then run `npm version x.y.z` (or `minor` / `patch`).
 
-`npm version` bumps `package.json` and the lock file, runs the `version` script (which rewrites the README badge and stages it), commits and tags `vx.y.z`. Push with `git push --follow-tags`.
+`npm version` bumps `package.json` and the lock file, runs the `version` script (which rewrites the README badge and stages it), commits as `chore: release vx.y.z` (set in `.npmrc`) and tags `vx.y.z`. Push with `git push --follow-tags`.
 
 `npm run version:check` fails when the README badge and `package.json` disagree. `pre-push` runs it, and CI will (T-19).
