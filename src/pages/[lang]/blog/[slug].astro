@@ -49,9 +49,11 @@ const translations = [
       </div>
     </header>
 
-    <div class="featured-image">
-      <img src={post.image} alt="" aria-hidden="true" />
-    </div>
+    {post.image && (
+      <div class="featured-image">
+        <img src={post.image} alt="" aria-hidden="true" />
+      </div>
+    )}
 
     <div class="prose">
       <p class="lead">{post.excerpt}</p>
