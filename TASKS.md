@@ -42,7 +42,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-03 · Decide the remaining tooling (D-14)
 
-- **Status:** todo
+- **Status:** done (Playwright with axe, Renovate, Better Stack)
 - **Source:** §13, D-14
 - **Depends on:** —
 - **Done when:** end-to-end runner, dependency bot and uptime monitor are chosen and recorded in §13 (replacing "proposed").
@@ -177,25 +177,11 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 - **Depends on:** T-03, T-19
 - **Done when:** the chosen bot opens grouped update pull requests on a schedule, and they go through the gate.
 
-### T-22 · Decide the deploy target (D-06)
-
-- **Status:** todo
-- **Source:** §3, D-06
-- **Depends on:** —
-- **Done when:** host chosen and recorded; D-05 (form delivery) re-checked against it.
-
-### T-23 · Preview and production deploys
-
-- **Status:** todo
-- **Source:** §13.5, §13.8
-- **Depends on:** T-19, T-22
-- **Done when:** every pull request gets a preview URL; merging to `main` deploys to production; security headers (CSP, HSTS, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`) are set and verified on the preview; secrets live only in the host and CI settings.
-
 ### T-24 · README and working conventions
 
 - **Status:** todo
 - **Source:** §13.6
-- **Depends on:** T-13, T-19, T-23
+- **Depends on:** T-13, T-19 (the deploy section is added by T-23)
 - **Done when:** the README has badges, a table of contents, requirements, install and run commands, quality checks, an index of `docs/`, deploy and content rebuild, and working conventions; `CLAUDE.md` states the code documentation conventions (English only, comments explain why, branch naming `<type>/t-<id>-<slug>`).
 
 ## Phase 4 — Front end with mock data
@@ -392,6 +378,20 @@ Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate
 - **Source:** §3, §7
 - **Depends on:** T-50
 - **Done when:** the data-access module reads WordPress at build time behind the same interface; mappers are unit-tested against recorded responses; the build fails with a clear message if the API is unreachable or returns invalid data; mock data stays available for tests.
+
+### T-22 · Decide the deploy target (D-06)
+
+- **Status:** todo (deferred: decided once WordPress and Astro run together locally)
+- **Source:** §3, D-06
+- **Depends on:** T-51
+- **Done when:** host chosen and recorded; D-05 (form delivery) re-checked against it.
+
+### T-23 · Preview and production deploys
+
+- **Status:** todo
+- **Source:** §13.5, §13.8
+- **Depends on:** T-19, T-22
+- **Done when:** every pull request gets a preview URL; merging to `main` deploys to production; security headers (CSP, HSTS, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`) are set and verified on the preview; secrets live only in the host and CI settings.
 
 ### T-52 · Load real content
 
