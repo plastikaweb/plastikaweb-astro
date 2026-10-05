@@ -144,7 +144,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-17 · Versioning and changelog
 
-- **Status:** todo
+- **Status:** done
 - **Source:** §13.4
 - **Depends on:** —
 - **Done when:** `package.json` follows semver from `1.0.0` at launch (`0.x` until then); `CHANGELOG.md` in Keep a Changelog format with short entries; the README version badge matches `package.json` and a script checks it.

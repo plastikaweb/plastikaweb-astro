@@ -1,4 +1,4 @@
-# Commits, hooks and branches
+# Commits, hooks, branches and releases
 
 How changes reach `main` (requirements §13.2). The hooks are a fast local filter; the CI quality gate (T-19) is the authority.
 
@@ -39,3 +39,14 @@ The whole-project gates run on push rather than on commit: a branch with ten com
 ## Skipping hooks
 
 `--no-verify` skips the local hooks. It is acceptable only when the hook itself is broken (a tool crash, not a failing check) or for a throwaway local commit that will be amended or squashed before pushing. Never use it to push a change that fails a check: CI runs the same gates and will reject it, and fixing the code is cheaper than arguing with the gate.
+
+## Versions and releases
+
+Semver: `0.x` until launch, `1.0.0` at launch (requirements §13.4). `CHANGELOG.md` follows Keep a Changelog: one short line per notable change, written for someone reading the site's history, not a copy of the commit log.
+
+- While working: add a line under `## [Unreleased]` when a change is worth noting (a new check, a page, a fix a visitor would notice). Refactors and docs-only commits usually aren't.
+- To release: rename `## [Unreleased]` to `## [x.y.z] - YYYY-MM-DD`, open a new empty `[Unreleased]` above it, update the link references at the bottom, commit, then run `npm version x.y.z` (or `minor` / `patch`).
+
+`npm version` bumps `package.json` and the lock file, runs the `version` script (which rewrites the README badge and stages it), commits and tags `vx.y.z`. Push with `git push --follow-tags`.
+
+`npm run version:check` fails when the README badge and `package.json` disagree. `pre-push` runs it, and CI will (T-19).

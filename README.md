@@ -1,5 +1,7 @@
 # Plastikaweb
 
+![Version 0.0.1](https://img.shields.io/badge/version-0.0.1-informational)
+
 Portfolio of Carlos Matheu, senior freelance Angular/TypeScript developer. Static site built with Astro 7, content from headless WordPress (planned), in Catalan, Spanish and English.
 
 The full README (badges, quality checks, deploy and content rebuild) arrives with T-24 in [`TASKS.md`](TASKS.md). Requirements: [`docs/requirements.md`](docs/requirements.md).
@@ -11,10 +13,11 @@ The full README (badges, quality checks, deploy and content rebuild) arrives wit
 
 ## Commands
 
-| Command           | Action                                       |
-| ----------------- | -------------------------------------------- |
-| `npm ci`          | Install the exact dependencies from the lock |
-| `npm run dev`     | Dev server at `http://localhost:4321`        |
-| `npm run build`   | Production build to `./dist/`                |
-| `npm run preview` | Serve the build locally                      |
-| `npm run format`  | Format with Prettier                         |
+| Command                 | Action                                        |
+| ----------------------- | --------------------------------------------- |
+| `npm ci`                | Install the exact dependencies from the lock  |
+| `npm run dev`           | Dev server at `http://localhost:4321`         |
+| `npm run build`         | Production build to `./dist/`                 |
+| `npm run preview`       | Serve the build locally                       |
+| `npm run format`        | Format with Prettier                          |
+| `npm run version:check` | Check the README badge matches `package.json` |

@@ -20,7 +20,9 @@
     "test": "vitest run --coverage",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "test:e2e:report": "playwright show-report"
+    "test:e2e:report": "playwright show-report",
+    "version:check": "node scripts/version-badge.js",
+    "version": "node scripts/version-badge.js --write && git add README.md"
   },
   "dependencies": {
     "astro": "^7.3.5"
