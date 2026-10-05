@@ -80,6 +80,17 @@ Vetted in T-04 (requirements §13.7). Only the MCP server is installed in the pr
 
 Not installed, on purpose: `impeccable` (downloads and runs a native binary, installs hooks that run without approval, writes its own `PRODUCT.md`); `transitions-dev` / `transitions-polish` (reference only: competing token names, and their licence forbids redistributing them, so never commit a copy). WordPress skills (`WordPress/agent-skills`: `wp-plugin-development`, `wp-wpcli-and-ops`, pinned to a commit) belong to the WordPress project in phase 5 (T-48).
 
+## Agent guardrails
+
+`.claude/settings.json` (T-16) applies to every Claude Code session in this repo:
+
+- `.claude/hooks/protect-files.mjs` (PreToolUse): blocks Edit/Write on `.env*` (except `.env.example`) and `package-lock.json`. The lock file changes only through `npm install` or `npm ci`.
+- `.claude/hooks/typecheck.mjs` (PostToolUse): runs `astro check` after an edit to a `.ts` or `.astro` file (~6 s) and reports the errors back to the agent.
+- An allow list for the gate commands and read-only git and npm commands. Anything that writes, installs, commits or pushes still asks.
+- `Read` is denied on `.env` and `.env.*`.
+
+The hooks guard the Edit and Write tools only: a shell command can still write those files, so the rule in Stack (never print, copy or commit `.env`) still applies. Changes to `.claude/settings.json` or `.claude/hooks/` are made by a person, not by the agent.
+
 ## How we work
 
 - `TASKS.md` is the source of truth for the backlog; ClickUp mirrors it and is updated from it (task B-3). When a task is done, update its status in `TASKS.md`.
