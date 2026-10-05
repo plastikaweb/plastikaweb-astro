@@ -116,7 +116,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-13 · Git hooks and commit convention
 
-- **Status:** todo
+- **Status:** done
 - **Source:** §13.2
 - **Depends on:** T-07, T-08, T-10, T-11, T-12
 - **Done when:** husky installs on `npm install`; pre-commit runs lint-staged (ESLint + Prettier on TS/Astro, Stylelint + Prettier on CSS, markdownlint on Markdown) and stays fast; commit-msg runs commitlint (Conventional Commits, types `feat fix docs refactor perf test build ci chore`, header ≤ 100, lowercase subject, blank lines before body and footer); pre-push runs lint, type check, build and unit tests; `docs/commits.md` documents format, hooks, branch naming and when `--no-verify` is acceptable.

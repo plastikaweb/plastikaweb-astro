@@ -1,0 +1,2 @@
+# Formats and lints only the staged files, so a commit stays fast.
+npx --no -- lint-staged

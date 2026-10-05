@@ -1,0 +1,8 @@
+# Whole-project gates once per push instead of per commit; CI (T-19) is the real gate.
+# Cheapest first, so a failure costs seconds. Unit tests join once T-14 adds them.
+npm run lint
+npm run lint:css
+npm run css:check
+npm run check
+npm run build
+npm run test --if-present
