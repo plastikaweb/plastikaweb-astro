@@ -56,6 +56,10 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
+      - name: HTML validation
+        run: npm run validate:html
+      - name: Internal links
+        run: npm run links:check
 
       # Runtime dependencies fail on high; dev tools only on critical, since some
       # high advisories in lint tooling have no fix yet (docs/commits.md → "CI").
@@ -68,6 +72,18 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: End-to-end and accessibility tests
         run: npm run test:e2e
+      # Accessibility, Best Practices and SEO must score 100; performance and the Core Web
+      # Vitals are reported in the job summary until T-33 (docs/testing.md).
+      - name: Lighthouse
+        run: npm run lighthouse
+
+      - name: Upload Lighthouse reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: lighthouse-reports
+          path: lighthouse-reports/
+          retention-days: 7
 
       - name: Upload Playwright report
         if: ${{ failure() }}

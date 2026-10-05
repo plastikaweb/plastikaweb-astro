@@ -165,7 +165,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-20 · Lighthouse CI and build-output checks
 
-- **Status:** todo
+- **Status:** done
 - **Source:** §1.3, §13.3
 - **Depends on:** T-19
 - **Done when:** Lighthouse CI asserts the §1.3 budgets on every built page; HTML validation and an internal link check run on `dist/`; all three are part of the gate.
@@ -249,7 +249,7 @@ Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate
 - **Status:** todo
 - **Source:** §2, §4.5, §5, §6
 - **Depends on:** T-02, T-30, T-31
-- **Done when:** a new base layout replaces `BaseLayout.astro` and `ThemeToggle.astro`: `lang` per locale, skip link, landmarks, theme script before first paint, theme toggle `<button>` with persistence and crossfade, main menu (Work, Blog, Personal, About) that moves to a second header row on small screens, with no hamburger and no truncation of ca/es labels, language selector linking to the same page (or to the blog listing in that locale when a post has no translation, D-11), footer. End-to-end tests cover theme persistence without a flash and language switching.
+- **Done when:** a new base layout replaces `BaseLayout.astro` and `ThemeToggle.astro`: `lang` per locale, skip link, landmarks, theme script before first paint, theme toggle `<button>` with persistence and crossfade, main menu (Work, Blog, Personal, About) that moves to a second header row on small screens, with no hamburger and no truncation of ca/es labels, language selector linking to the same page (or to the blog listing in that locale when a post has no translation, D-11), footer. End-to-end tests cover theme persistence without a flash and language switching. Lighthouse performance, LCP and CLS move to `blocking` in `scripts/lighthouse.js` (T-20) and pass at 100 on every template.
 
 ### T-34 · Shared components
 

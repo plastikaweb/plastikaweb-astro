@@ -24,11 +24,11 @@ How changes reach `main` (requirements §13.2). The hooks are a fast local filte
 
 husky installs them on `npm install` (the `prepare` script). They live in `.husky/`.
 
-| Hook         | Runs                                                                                                                          | Cost                      |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| `pre-commit` | lint-staged on the staged files only: ESLint, Stylelint, markdownlint fixes, then Prettier                                    | Seconds                   |
-| `commit-msg` | commitlint on the message                                                                                                     | Instant                   |
-| `pre-push`   | The whole-project gates: `version:check`, `lint`, `lint:css`, `css:check`, `check`, `build`, unit tests, ESLint rule fixtures | Tens of seconds, per push |
+| Hook         | Runs                                                                                                                                                           | Cost                      |
+| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| `pre-commit` | lint-staged on the staged files only: ESLint, Stylelint, markdownlint fixes, then Prettier                                                                     | Seconds                   |
+| `commit-msg` | commitlint on the message                                                                                                                                      | Instant                   |
+| `pre-push`   | The whole-project gates: `version:check`, `lint`, `lint:css`, `css:check`, `check`, `build`, HTML validation, internal links, unit tests, ESLint rule fixtures | Tens of seconds, per push |
 
 The whole-project gates run on push rather than on commit: a branch with ten commits pays for them once. lint-staged only sees staged files, so `pre-push` also catches what a change breaks elsewhere (an import left orphaned in an untouched file).
 
@@ -39,7 +39,7 @@ The whole-project gates run on push rather than on commit: a branch with ten com
 
 ## Pull requests and CI
 
-`.github/workflows/ci.yml` runs one job, **Quality gate**, on every pull request and on every push to `main`. It installs with `npm ci` on the Node version in `.nvmrc`, then runs, cheapest first: `version:check`, `format:check`, `lint`, `test:eslint-rules`, `lint:css`, `css:check`, `lint:md`, `check`, `npm test`, `build`, the dependency audit and `test:e2e` (Playwright's Chromium, installed in the job). On a failure it uploads the Playwright report and traces as an artifact.
+`.github/workflows/ci.yml` runs one job, **Quality gate**, on every pull request and on every push to `main`. It installs with `npm ci` on the Node version in `.nvmrc`, then runs, cheapest first: `version:check`, `format:check`, `lint`, `test:eslint-rules`, `lint:css`, `css:check`, `lint:md`, `check`, `npm test`, `build`, `validate:html`, `links:check`, the dependency audit, `test:e2e` (Playwright's Chromium, installed in the job) and `lighthouse`. The Lighthouse reports are always uploaded as an artifact, with a summary table in the job summary; the Playwright report and traces only on a failure.
 
 `main` is protected:
 

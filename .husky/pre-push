@@ -6,5 +6,7 @@ npm run lint:css
 npm run css:check
 npm run check
 npm run build
+npm run validate:html
+npm run links:check
 npm test
 npm run test:eslint-rules

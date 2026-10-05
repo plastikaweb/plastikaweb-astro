@@ -50,9 +50,11 @@ npm test
 npm run test:eslint-rules
 npm run version:check
 npm run build
+npm run validate:html
+npm run links:check
 ```
 
-When `astro`, `css` or `e2e/**` changed, also run `npm run test:e2e` (build, preview and Playwright with axe, both themes, 375 and 1440 px). It opens a local port: inside a sandbox that blocks it, say so and ask instead of skipping it silently.
+When `astro`, `css`, `assets` or `e2e/**` changed, also run `npm run test:e2e` (Playwright with axe, both themes, 375 and 1440 px) and `npm run lighthouse` (one page per template, both themes; its table goes to the SEO and performance lenses). Both open a local port: inside a sandbox that blocks it, say so and ask instead of skipping them silently.
 
 What these tools report is settled. Agents don't re-verify it or re-derive rules the tools enforce (`docs/code-quality.md`, `docs/testing.md` list them). A failure in a file the branch touched is already a finding; carry it into the report as P0.
 

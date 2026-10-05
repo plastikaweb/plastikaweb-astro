@@ -309,6 +309,7 @@ All tooling in this section is decided (D-14 closed in October 2026). Several pr
 - Accessibility: automated axe checks on every page template, both themes, mobile and desktop widths. Automated checks don't replace a manual keyboard and screen-reader pass before launch.
 - Lighthouse CI with budgets equal to §1.3, on every page template.
 - Build output: HTML validation and internal link check.
+- Decided in T-20: a project script on Lighthouse 13 (`@lhci/cli` pins Lighthouse 12.6 and had no release since June 2025) audits one page per template in both themes, cold cache, mobile profile. Accessibility, Best Practices and SEO block below 100; performance, LCP and CLS are reported but block only from T-33, when the skeleton layout is replaced. HTML validation with `html-validate` (recommended rules; inline styles only for custom properties) and internal links with `linkinator`; external links are not checked in the gate.
 
 ### 13.4 Versioning and changelog
 
@@ -377,3 +378,4 @@ Recurring work, tracked as recurring tasks:
 - Open decisions collected with IDs (§12); new ones: D-08 to D-14.
 - New §13: engineering and quality — versions, linting, tests, versioning, CI/CD, documentation, agent tooling, security, maintenance; adapted from the NewWebSite project.
 - CI and branch policy (T-19): one Quality gate job, `main` protected for admins too, rebase merges, audit thresholds (§13.5).
+- Lighthouse and build-output checks (T-20): own Lighthouse 13 script, performance non-blocking until T-33 (§13.3).

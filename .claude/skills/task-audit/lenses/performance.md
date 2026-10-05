@@ -4,7 +4,7 @@ Budget: Lighthouse 100 in all four categories; LCP < 2.5 s, CLS < 0.1, INP < 200
 
 ## Already mechanical (input, not work)
 
-Lighthouse CI and the build-output checks once T-20 lands. Until then you estimate from the code and `dist/`.
+`npm run lighthouse`: one page per template, both themes, cold cache, mobile profile; its table is in your mechanical facts. Until T-33, performance, LCP and CLS are only reported (⚠), so a ⚠ on a template the branch touched is yours to explain: name the cause in the code (render-blocking resource, unsized image, late LCP element), not just the score.
 
 ## Judgement checks
 

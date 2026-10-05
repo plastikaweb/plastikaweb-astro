@@ -17,10 +17,11 @@ Notable changes to the site, newest first. Format: [Keep a Changelog](https://ke
 - Project skills for commits (`commit-actions`) and branch audits (`task-audit`, ten read-only review lenses).
 - Changelog and a README version badge checked against `package.json`.
 - CI quality gate on every pull request; `main` is protected and requires it.
+- Lighthouse on every page template in both themes, HTML validation and an internal link check, all in the quality gate.
 
 ### Changed
 
-- The starter skeleton passes the CSS and accessibility checks: tokens, logical properties, sharp corners, AA text contrast and named language links.
+- The starter skeleton passes the CSS, accessibility, HTML and Lighthouse checks: tokens, logical properties, sharp corners, AA text contrast, named language links, underlined breadcrumb links, no external placeholder images.
 
 ### Removed
 

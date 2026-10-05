@@ -22,7 +22,10 @@
     "test:e2e": "playwright test",
     "test:e2e:report": "playwright show-report",
     "version:check": "node scripts/version-badge.js",
-    "version": "node scripts/version-badge.js --write && git add README.md"
+    "version": "node scripts/version-badge.js --write && git add README.md",
+    "validate:html": "html-validate \"dist/**/*.html\"",
+    "links:check": "linkinator ca/index.html es/index.html en/index.html --config linkinator.config.json",
+    "lighthouse": "node scripts/lighthouse.js"
   },
   "dependencies": {
     "astro": "^7.3.5"
@@ -40,7 +43,10 @@
     "eslint-plugin-jsx-a11y-x": "0.2.0",
     "eslint-plugin-simple-import-sort": "14.0.0",
     "globals": "17.13.0",
+    "html-validate": "11.16.2",
     "husky": "9.1.7",
+    "lighthouse": "13.5.0",
+    "linkinator": "8.1.0",
     "lint-staged": "17.6.0",
     "markdownlint-cli2": "0.23.3",
     "postcss-html": "2.0.0",

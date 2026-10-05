@@ -13,6 +13,7 @@ export default defineConfig([
     "coverage/",
     "test-results/",
     "playwright-report/",
+    "lighthouse-reports/",
     ".astro/",
     "wip/",
     "public/",

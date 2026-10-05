@@ -37,6 +37,8 @@ Portfolio and lead generator for Carlos Matheu (Plastikaweb), senior freelance A
 - `npm test`: unit tests (Vitest) with coverage; see `docs/testing.md`.
 - `npm run test:e2e`: builds, serves the build and runs the Playwright and axe tests in `e2e/`. It opens a local port, so inside a Claude Code sandbox it needs `sandbox.network.allowLocalBinding`.
 - `npm run lint`, `npm run lint:css`, `npm run css:check`, `npm run lint:md`, `npm run format:check`: the quality checks (see `docs/code-quality.md`).
+- `npm run validate:html`, `npm run links:check`: HTML validation and internal links on `dist/` (build first).
+- `npm run lighthouse`: Lighthouse on one page per template in both themes, against the build (about four minutes; needs a local port).
 - `npm run version:check`: the README version badge matches `package.json`; releases and the changelog are in `docs/commits.md`.
 
 CI: `.github/workflows/ci.yml` runs every gate on each pull request, and `main` only accepts pull requests that pass it (`docs/commits.md` → "Pull requests and CI").
