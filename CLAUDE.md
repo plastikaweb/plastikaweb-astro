@@ -64,6 +64,19 @@ Details in requirements §4 and theme.css.
 - Themes: `light-dark()` resolved through `color-scheme`; an inline `<head>` script sets `data-theme` before first paint; the body crossfades on toggle.
 - Sharp corners throughout: no pill or capsule shapes.
 
+## Recommended skills and MCP servers
+
+Vetted in T-04 (requirements §13.7). Only the MCP server is installed in the project; the skills are user-level and optional: a clone works without them.
+
+- `astro-docs` MCP server (`.mcp.json`, official, read-only search): use it before writing Astro config, routing, i18n, content or image code, instead of relying on memory of older Astro versions.
+- `superpowers`: brainstorming before a feature, TDD for the data layer and helpers, systematic debugging, verification before calling a task done.
+- `code-review` and the built-in `/security-review`: before opening a pull request.
+- `frontend-design` and `typeset`: when building a page or component from the Claude Design handoff; tokens from `theme.css` still win over their suggestions.
+- `design` plugin (`design:accessibility-review`, `design:design-critique`, `design:ux-copy`): accessibility pass on a finished page, critique against the approved design, UI copy in ca, es and en.
+- `grilling`: stress-test an open `D-xx` decision before recording it.
+
+Not installed, on purpose: `impeccable` (downloads and runs a native binary, installs hooks that run without approval, writes its own `PRODUCT.md`); `transitions-dev` / `transitions-polish` (reference only: competing token names, and their licence forbids redistributing them, so never commit a copy). WordPress skills (`WordPress/agent-skills`: `wp-plugin-development`, `wp-wpcli-and-ops`, pinned to a commit) belong to the WordPress project in phase 5 (T-48).
+
 ## How we work
 
 - `TASKS.md` is the source of truth for the backlog; ClickUp mirrors it and is updated from it (task B-3). When a task is done, update its status in `TASKS.md`.

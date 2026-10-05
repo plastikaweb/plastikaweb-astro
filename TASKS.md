@@ -49,7 +49,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-04 · Agent skills and MCP servers
 
-- **Status:** todo
+- **Status:** done (Astro Docs MCP in `.mcp.json`; WordPress skills deferred to T-48; outcome in §13.7)
 - **Source:** §13.7
 - **Depends on:** —
 - **Steps:**
@@ -354,9 +354,9 @@ Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate
 ### T-48 · WordPress install and hardening
 
 - **Status:** todo
-- **Source:** §13.1, §13.8
+- **Source:** §13.1, §13.7, §13.8
 - **Depends on:** T-47
-- **Done when:** supported WordPress and PHP versions run at api.plastikaweb.com; `docs/wordpress.md` lists versions and required plugins; public front end disabled or redirected; admin with 2FA; automatic minor updates; scheduled backups.
+- **Done when:** supported WordPress and PHP versions run at api.plastikaweb.com; `docs/wordpress.md` lists versions and required plugins; public front end disabled or redirected; admin with 2FA; automatic minor updates; scheduled backups; the WordPress project has `wp-plugin-development` and `wp-wpcli-and-ops` from `WordPress/agent-skills`, read and pinned to a commit.
 
 ### T-49 · WordPress content model
 
