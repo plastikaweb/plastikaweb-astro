@@ -1,8 +1,27 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 
 // The skeleton serves the home page at /en/ until routing is decided (T-25).
 const HOME = "/en/";
+
+// Axe must judge the settled page: text caught halfway through a fade-in reads as low
+// contrast. Infinite and scroll-driven animations never finish, so they are skipped.
+async function waitForEntranceAnimations(page: Page) {
+  await page.evaluate(() =>
+    Promise.all(
+      document
+        .getAnimations()
+        .filter(
+          (animation) =>
+            animation.timeline === document.timeline &&
+            Number.isFinite(
+              Number(animation.effect?.getComputedTiming().endTime),
+            ),
+        )
+        .map((animation) => animation.finished),
+    ),
+  );
+}
 
 for (const colorScheme of ["light", "dark"] as const) {
   test.describe(`home page, ${colorScheme} theme`, () => {
@@ -19,6 +38,7 @@ for (const colorScheme of ["light", "dark"] as const) {
 
     test("has no WCAG 2.2 AA violations", async ({ page }) => {
       await page.goto(HOME);
+      await waitForEntranceAnimations(page);
       const results = await new AxeBuilder({ page })
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
         .analyze();
