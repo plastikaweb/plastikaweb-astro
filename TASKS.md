@@ -88,7 +88,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-09 · Local rule: short comments
 
-- **Status:** todo
+- **Status:** done
 - **Source:** §13.2
 - **Depends on:** T-08
 - **Done when:** `eslint-rules/max-comment-lines.js` (ported from NewWebSite: at most 5 lines of prose per comment block, tags and directives excluded) is registered as `local/max-comment-lines` with its `RuleTester` fixtures run by `npm run test:eslint-rules`; documented in `docs/code-quality.md`.

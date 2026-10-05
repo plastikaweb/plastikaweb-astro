@@ -38,6 +38,14 @@ Project rules on top:
 
 Why `eslint-plugin-jsx-a11y-x`: the original `eslint-plugin-jsx-a11y` hasn't been released since 2024 and doesn't support ESLint 10; `eslint-plugin-astro` loads either, and the `-x` fork (es-tooling) supports ESLint 10. TypeScript stays on 6.x because `typescript-eslint` doesn't support TypeScript 7 yet.
 
+## Local rule: short comments
+
+`local/max-comment-lines` (`eslint-rules/max-comment-lines.js`, ported from NewWebSite) allows at most 5 lines of prose per comment block. A block is one block comment or a run of line comments on consecutive lines. Delimiters, bare `*` gutters, blank lines and JSDoc tag lines (`@param`, `@returns`) don't count; directive comments (`eslint-*`, `@ts-*`, `prettier-ignore`, coverage pragmas) are skipped.
+
+A comment says why, briefly. When the why needs more than five lines, write it in `docs/` and leave a one-line pointer in the code.
+
+The rule's fixtures use ESLint's `RuleTester` under `node:test`: `npm run test:eslint-rules`.
+
 ## Disabling a rule
 
 Disable a rule for one line, never for a whole file, and always give the reason after `--`:

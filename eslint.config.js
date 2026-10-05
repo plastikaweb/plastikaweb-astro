@@ -5,6 +5,8 @@ import simpleImportSort from "eslint-plugin-simple-import-sort";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
+import maxCommentLines from "./eslint-rules/max-comment-lines.js";
+
 export default defineConfig([
   globalIgnores([
     "dist/",
@@ -26,7 +28,10 @@ export default defineConfig([
     languageOptions: {
       globals: { ...globals.browser, ...globals.node },
     },
-    plugins: { "simple-import-sort": simpleImportSort },
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+      local: { rules: { "max-comment-lines": maxCommentLines } },
+    },
     rules: {
       "@typescript-eslint/consistent-type-imports": [
         "error",
@@ -44,6 +49,7 @@ export default defineConfig([
       complexity: ["error", 20],
       curly: "error",
       eqeqeq: ["error", "always", { null: "ignore" }],
+      "local/max-comment-lines": ["error", { max: 5 }],
       "max-depth": ["error", 4],
       "max-lines": ["error", 450],
       "max-params": ["error", 4],
