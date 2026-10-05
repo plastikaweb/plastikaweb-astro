@@ -1,7 +1,7 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
 import PostCard from "../../components/blog/PostCard.astro";
-import { skills, blogPosts } from "../../data/siteData";
+import { blogPosts, skills } from "../../data/siteData";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   return [
@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 const { lang } = Astro.params;
 
 // Simple translation logic for the prototype
-const content: Record<string, any> = {
+const content: Record<string, Record<string, string>> = {
   en: {
     title: "Crafting Digital Excellence.",
     bio: "Senior Developer building high-performance web applications.",

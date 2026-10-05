@@ -286,6 +286,7 @@ All tooling in this section is decided (D-14 closed in October 2026). Several pr
 
 - Node: 24 LTS (supported until April 2028), pinned in `.nvmrc` and `package.json` `engines`; CI uses the same version. Move to Node 26 once it is LTS and Astro supports it, as a deliberate upgrade.
 - Astro: 7.x (moved from 6 in T-05: the 6.x line stopped publishing in June 2026, before any page was built); dependencies installed from `package-lock.json` (`npm ci` in CI). Majors are upgraded deliberately, one at a time, with the full quality gate (§13.5) passing.
+- TypeScript: 6.x until `typescript-eslint` supports TypeScript 7; ESLint 10 (T-08).
 - WordPress: a currently supported major on a supported PHP version. Required plugins and their versions are listed in the repo (WPGraphQL, ACF, WPGraphQL for ACF, the i18n plugin from D-04) so the backend can be rebuilt.
 
 ### 13.2 Code quality

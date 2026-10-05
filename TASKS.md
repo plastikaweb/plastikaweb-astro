@@ -81,7 +81,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-08 · ESLint
 
-- **Status:** todo
+- **Status:** done
 - **Source:** §13.2
 - **Depends on:** T-05
 - **Done when:** `npm run lint` runs `typescript-eslint` and `eslint-plugin-astro` (with its accessibility rules) plus the general rules in §13.2 (`curly`, `eqeqeq` with `null: ignore`, `no-console`, complexity and size limits, `simple-import-sort`, `_`-prefixed unused names, `import type` for type-only imports) with `--max-warnings 0` and zero errors; `docs/code-quality.md` describes the rules and how to disable one with a reason.
