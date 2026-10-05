@@ -14,12 +14,14 @@
     "css:check": "node scripts/check-css-tokens.js",
     "lint:css": "stylelint \"src/**/*.{css,astro}\" --max-warnings 0",
     "lint:md": "markdownlint-cli2 \"**/*.md\"",
-    "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\""
+    "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\"",
+    "check": "astro check"
   },
   "dependencies": {
     "astro": "^7.3.5"
   },
   "devDependencies": {
+    "@astrojs/check": "0.9.10",
     "@eslint/js": "10.0.1",
     "eslint": "10.12.0",
     "eslint-plugin-astro": "3.2.1",

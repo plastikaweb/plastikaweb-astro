@@ -33,9 +33,10 @@ Portfolio and lead generator for Carlos Matheu (Plastikaweb), senior freelance A
 - `npm run build`: production build to `./dist/`.
 - `npm run preview`: serve the build locally before deploying.
 - `npm run format`: Prettier with `prettier-plugin-astro`; run it on the files you touch.
-- `npm run astro -- check`: Astro and TypeScript diagnostics (the first run offers to install `@astrojs/check`).
+- `npm run check`: Astro and TypeScript diagnostics (`astro check`).
+- `npm run lint`, `npm run lint:css`, `npm run css:check`, `npm run lint:md`, `npm run format:check`: the quality checks (see `docs/code-quality.md`).
 
-Lint, test and CI commands arrive with the foundation tasks (T-03 – T-24).
+Test and CI commands arrive with the remaining foundation tasks (T-13 – T-24).
 
 ## Current state of the code
 

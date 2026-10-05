@@ -70,6 +70,10 @@ Astro's `:global()` is allowed. In `theme.css` the color, unit, radius and `[dat
 
 `npm run lint:md` runs markdownlint (`markdownlint-cli2`) on every Markdown file; `npm run lint:md:fix` fixes what it can. Rules are in `.markdownlint.jsonc` (also read by the VS Code extension): the defaults, minus line length (Prettier owns layout), inline HTML and a required first-line H1; repeated headings are allowed in different sections; code blocks are fenced. `.markdownlint-cli2.jsonc` skips everything git ignores plus vendored skills and session notes (`.claude/skills/`, `.remember/`, `.agents/`), even when lint-staged passes those paths explicitly.
 
+## Types
+
+`npm run check` runs `astro check` (`@astrojs/check`): TypeScript diagnostics for `.astro` and `.ts` files with the `astro/tsconfigs/strict` preset. Any error fails the run. TypeScript is pinned to 6.x (see ESLint above).
+
 ## Disabling a rule
 
 Disable a rule for one line, never for a whole file, and always give the reason after `--` (in CSS: `/* stylelint-disable-next-line rule -- reason */`):

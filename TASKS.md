@@ -109,7 +109,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-12 · Type checking
 
-- **Status:** todo
+- **Status:** done
 - **Source:** §13.2
 - **Depends on:** T-05
 - **Done when:** `@astrojs/check` installed; `npm run check` passes with TypeScript strict.
