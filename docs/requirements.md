@@ -94,7 +94,9 @@ Reference sites for structure and interaction, not for look. The palette, type a
 
 - **Sharp corners throughout:** no pill or capsule shapes. (`theme.css` still defines `--radius-*` tokens up to `9999px`; they must be removed or justified.)
 - Theme-aware glass surfaces (`.glass`, `.glass--strong`) and a red → violet text gradient.
-- Motion uses duration and easing tokens, which collapse to 0 under `prefers-reduced-motion`.
+- Motion uses duration and easing tokens, which collapse to 0 under `prefers-reduced-motion`. Every animation sits inside `@media (prefers-reduced-motion: no-preference)`; scroll-driven ones also inside `@supports (animation-timeline: view())`. No decorative JS.
+- Content is complete without animation: nothing starts hidden outside an animation, and the H1 and the portrait (LCP candidates) render from the first frame.
+- Data in view is real: a chart value is never shown at a value other than its real one while it's visible. Bars, columns and squares finish growing by `entry 100%`; values inside bars are not animated.
 - Shadows, borders and highlights stay visible in both themes.
 
 ### 4.5 Light and dark themes
@@ -138,7 +140,7 @@ A summary of the site: each section shows a few items and a "see all" **link** t
 
 Sections, in this order:
 
-1. **Intro (hero):** name, role, one-line positioning, availability, social links and a contact CTA. "ANGULAR" highlight in the secondary yellow. The CTA set is pending (D-13): the three-CTA rule from `docs/design-state.md` assumed anchors to home sections, which no longer applies.
+1. **Intro (hero):** name, role, one-line positioning, availability, social links and two CTAs (D-13): primary "Let's talk about your project" (filled, brand surface) and secondary "See the work" (outlined, links to the Work listing). "ANGULAR" highlight in the secondary yellow. No work-experience section: the case studies and the About timeline cover it.
 2. **Services:** three columns — Front-End Development, Angular Architecture, Performance. No "see all" (there's no services page).
 3. **Selected work:** 2–3 featured case studies, "see all" → Work.
 4. **Latest posts:** the three most recent _technical_ posts, "see all" → Blog. _Thoughts_ posts never appear on the home page.
@@ -149,7 +151,7 @@ The tech timeline is not on the home page; it lives on About (§6.6).
 
 ### 6.3 Work
 
-- **Listing:** two-column grid filterable by technology chips: Angular, TypeScript, RxJS, NgRx, Performance. Filtering works without JS as a full list; JS adds the filter. Layout: variant 1 structure with variant 3's larger expanded-row image.
+- **Listing:** two-column grid filterable by technology chips: Angular, TypeScript, RxJS, NgRx, Performance. Filtering works without JS as a full list; JS adds the filter. The filter block ships `hidden` and the script reveals it before first paint, so there are never controls that do nothing. Layout: variant 1 structure with variant 3's larger expanded-row image.
 - **Case study:** sections 01 Challenge, 02 Solution, 03 Stack, 04 Results, with giant Space Grotesk numbers. Visuals are diagrams, not real screenshots.
 
 ### 6.4 Blog
@@ -164,7 +166,7 @@ Pages:
 - **Listing:** shows all posts by default, sorted by date; each item shows its category, tags, date, reading time and excerpt. A prominent category filter plus tag filtering; without JS, every category and tag links to its own page.
 - **Category page:** lists the posts in that category. Category and tag pages live under `/blog/category/` and `/blog/tag/`, so `category` and `tag` are reserved and can't be post slugs (the build must fail if one is).
 - **Tag page:** lists the posts with that tag. Indexed only when the tag has at least 3 posts; below that the page is `noindex` (and left out of the sitemap) to avoid thin, near-duplicate pages. The threshold of 3 is a starting value, adjustable.
-- **Post:** 65ch measure, Commit Mono syntax highlighting for code, share links (no third-party share scripts), category, tags and reading time.
+- **Post:** 65ch measure, Commit Mono syntax highlighting for code (colours from tokens), share links (no third-party share scripts), category, tags and reading time. Code blocks scroll horizontally and are keyboard-reachable (`<pre tabindex="0" role="region">` with an accessible name); the copy button is the only JS and reports through a live region.
 - **Feeds:** one general feed plus one per category, so readers who follow the technical writing don't get Thoughts posts.
 - Positioning risk: Thoughts posts sit on a site aimed at CTOs and recruiters, and dilute the technical keywords (§9.1). The category keeps them in check: off the home page, filterable in the listing, separate feed.
 
@@ -182,14 +184,17 @@ Pages:
 
 - Professional bio, photo, CV download, GitHub and LinkedIn links.
 - **Tech timeline:** interactive CSS Grid Gantt from 2014 to the current year, three category rows. Keyboard and screen-reader accessible; the data is also readable as a plain list.
-- **Contact form:** Name\*, Company, Email\*, Message\*, GDPR consent checkbox\* linking to the privacy policy; hidden honeypot field; labels in plain language.
-- Validation with inline, accessible error messages; success shown inline without redirect; works with keyboard and screen readers.
+- **Contact form:** Name\*, Company, Email\*, Message\*, GDPR consent checkbox\* linking to the privacy policy; hidden honeypot field; labels in plain language. Field borders reach 3:1.
+- **Honeypot:** wrapper with `aria-hidden="true"`, input with `tabindex="-1"` and `autocomplete="off"`, moved off-screen (never `display: none`). The server drops a filled submission but answers as if it succeeded.
+- Validation with inline, accessible error messages (`aria-invalid`, `aria-describedby`) and a focusable error summary; works with keyboard and screen readers.
+- **Success:** with JS, shown inline without redirect, focus on its heading. Without JS (proposal, settled with D-05): the form posts natively and the service answers `303 See Other` to `/[lang]/about?enviat=1#contacte`, which renders the same success block with generic copy; its canonical drops the query. The "service down" state is still to design (T-55).
+- Under the form, the first layer of data-protection information: controller, purpose, legal basis, rights, link to the full policy; recipients once D-05 is decided.
 - Delivery service: D-05.
 
 ### 6.7 Required pages
 
-- **404:** branded, with navigation and links to the main sections, in the three locales.
-- **Privacy policy:** mandatory (the form collects personal data).
+- **404:** branded, with navigation and links to the main sections, in the three locales. Plain H1 that says what happened (no humour hiding it); the big "404" is decorative and hidden from screen readers; a line invites reporting a broken internal link. `noindex`, HTTP 404; per-locale 404s depend on the host (D-06).
+- **Privacy policy:** mandatory (the form collects personal data). 65ch measure, numbered index in a `<nav>` (sticky column from 64rem), last-updated date, and sections: controller, data and purposes (including which form fields are required), legal basis, recipients, retention, rights, complaint to the AEPD, cookies and local storage, changes. Text reviewed before launch (T-56).
 - **Cookie policy:** only if non-essential cookies are ever introduced; with Plausible and no third-party embeds there are none.
 - **Multilingual XML sitemap and robots.txt**, generated at build.
 
@@ -256,22 +261,22 @@ Content needed before or during phase 4: hero copy in three locales, an updated 
 
 ## 12. Open decisions
 
-| ID   | Decision                                                                                                                                                                                                                                            | Blocks                     |
-| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| D-01 | Route slugs: localized (`/ca/projectes`, `/es/proyectos`, `/en/projects`) or shared (`/[lang]/work`).                                                                                                                                               | Routing, sitemap, hreflang |
-| D-02 | Default locale, and what `/` serves: default-locale home or a redirect by saved or browser language.                                                                                                                                                | Routing, SEO               |
-| D-03 | ~~Tech timeline on the home page or on About.~~ Decided: About (§6.6).                                                                                                                                                                              | —                          |
-| D-04 | WordPress i18n: WPML, Polylang or ACF custom; WordPress hosting.                                                                                                                                                                                    | Phase 4                    |
-| D-05 | Contact form delivery: Resend, EmailJS or Netlify Forms (depends partly on D-06).                                                                                                                                                                   | Contact form               |
-| D-06 | Deploy target: Vercel, Netlify or Cloudflare Pages.                                                                                                                                                                                                 | Deploy, form               |
-| D-07 | Font hosting: Google Fonts CDN or self-hosting Space Grotesk and Bricolage like Commit Mono.                                                                                                                                                        | Layout, privacy            |
-| D-08 | Muted text color that passes AA (see `docs/design-state.md`).                                                                                                                                                                                       | Tokens, form placeholders  |
-| D-09 | ~~Personal section: page name and slug per locale, entry shape, topic order.~~ Decided: "Personal" at `/[lang]/personal`, manual topic order, no covers in v1, entry shape in §7 (§6.5).                                                            | —                          |
-| D-10 | ~~Blog: label of the technical category, and ca/es labels for both.~~ Decided: Enginyeria / Ingeniería / Engineering and Pensaments / Pensamientos / Thoughts, with localized slugs (§6.4).                                                         | —                          |
-| D-11 | ~~Content missing in one locale.~~ Decided: required in all three for pages, case studies and UI; posts and personal entries only where they exist, no fallback (§5).                                                                               | —                          |
-| D-12 | ~~Boundary between personal entries and non-technical blog posts.~~ Decided: short note without URL vs. Thoughts post; separate taxonomies (§6.5).                                                                                                  | —                          |
-| D-13 | Home page: hero CTA set (the three-anchor rule no longer applies); whether a work-experience section is added (recommendation: no, case studies cover it). (Decided: summary layout, section order in §6.2, "see all" as links, timeline on About.) | Home                       |
-| D-14 | Tooling still open: end-to-end runner (proposed Playwright), dependency bot (Renovate or Dependabot), uptime monitor. (Decided: Vitest, husky + lint-staged + commitlint.)                                                                          | §13                        |
+| ID   | Decision                                                                                                                                                                                                                                          | Blocks                     |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| D-01 | Route slugs: localized (`/ca/projectes`, `/es/proyectos`, `/en/projects`) or shared (`/[lang]/work`).                                                                                                                                             | Routing, sitemap, hreflang |
+| D-02 | Default locale, and what `/` serves: default-locale home or a redirect by saved or browser language.                                                                                                                                              | Routing, SEO               |
+| D-03 | ~~Tech timeline on the home page or on About.~~ Decided: About (§6.6).                                                                                                                                                                            | —                          |
+| D-04 | WordPress i18n: WPML, Polylang or ACF custom; WordPress hosting.                                                                                                                                                                                  | Phase 4                    |
+| D-05 | Contact form delivery: Resend, EmailJS or Netlify Forms (depends partly on D-06).                                                                                                                                                                 | Contact form               |
+| D-06 | Deploy target: Vercel, Netlify or Cloudflare Pages.                                                                                                                                                                                               | Deploy, form               |
+| D-07 | Font hosting: Google Fonts CDN or self-hosting Space Grotesk and Bricolage like Commit Mono.                                                                                                                                                      | Layout, privacy            |
+| D-08 | Muted text color that passes AA (see `docs/design-state.md`).                                                                                                                                                                                     | Tokens, form placeholders  |
+| D-09 | ~~Personal section: page name and slug per locale, entry shape, topic order.~~ Decided: "Personal" at `/[lang]/personal`, manual topic order, no covers in v1, entry shape in §7 (§6.5).                                                          | —                          |
+| D-10 | ~~Blog: label of the technical category, and ca/es labels for both.~~ Decided: Enginyeria / Ingeniería / Engineering and Pensaments / Pensamientos / Thoughts, with localized slugs (§6.4).                                                       | —                          |
+| D-11 | ~~Content missing in one locale.~~ Decided: required in all three for pages, case studies and UI; posts and personal entries only where they exist, no fallback (§5).                                                                             | —                          |
+| D-12 | ~~Boundary between personal entries and non-technical blog posts.~~ Decided: short note without URL vs. Thoughts post; separate taxonomies (§6.5).                                                                                                | —                          |
+| D-13 | ~~Home page: hero CTA set; whether a work-experience section is added.~~ Decided: two CTAs (contact, then "See the work"), no work-experience section (§6.2). Also decided: summary layout, section order, "see all" as links, timeline on About. | —                          |
+| D-14 | Tooling still open: end-to-end runner (proposed Playwright), dependency bot (Renovate or Dependabot), uptime monitor. (Decided: Vitest, husky + lint-staged + commitlint.)                                                                        | §13                        |
 
 ## 13. Engineering and quality
 
@@ -363,6 +368,7 @@ Recurring work, tracked as recurring tasks:
 - Cookie policy only if non-essential cookies are introduced (v6 tied it to GA4, which is not used).
 - Home page becomes a summary with "see all" links (§6.2); the tech timeline moves to About and runs to the current year instead of a fixed 2026.
 - From the Claude Design review (October 2026): small-screen navigation as a second header row, no hamburger (§6); personal topic cards on the home page are text only (§6.2); keyboard shortcuts and the GitHub activity graph are out of v1 (§4.0).
+- Design phase closed (T-02, October 2026): motion rules (§4.4), filter hidden without JS (§6.3), keyboard-reachable code blocks (§6.4), honeypot, no-JS success and first-layer notice (§6.6), 404 and privacy page structure (§6.7), hero CTAs (D-13).
 - Content decisions (T-26): personal page name and entry shape (D-09), category labels (D-10), missing-translation rule (D-11, which replaces "every page exists in all three") and the personal-vs-blog boundary (D-12).
 - Stack precision: Astro 6 static, `graphql-request`, standalone repository.
 - Existing code declared a skeleton to replace (§0).

@@ -25,7 +25,7 @@ Housekeeping that runs alongside the design phase; nothing below depends on it e
 
 ### T-02 · Design the interface in Claude Design
 
-- **Status:** doing
+- **Status:** done (approved 2026-10-05; handoff in the Claude Design project, `design_handoff/README.md`)
 - **Source:** requirements §4, §4.0, §6, §11 (phase 2)
 - **Depends on:** T-01
 - **Deliverable:** home page in two directions (A "Summary", B "Sticky identity"), then the remaining pages in the chosen direction; light and dark; 375 and 1440 px; component inventory with states.
