@@ -34,15 +34,13 @@ const translations = [
 >
   <article class="post-detail content-reveal">
     <header class="post-header">
-      <time datetime={post.date}
-        >{
-          new Date(post.date).toLocaleDateString(lang, {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })
-        }</time
-      >
+      <time datetime={post.date}>
+        {new Date(post.date).toLocaleDateString(lang, {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}
+      </time>
       <h1 class="text-gradient">{post.title}</h1>
       <div class="post-meta">
         <span class="author">By Carlos Matheu</span>
@@ -74,16 +72,18 @@ const translations = [
         <h2>The Architecture</h2>
         <p>
           Using a decoupled approach with a Headless CMS allows us to iterate on
-          the design independently of the content. This means we can perfect the <strong
-            >Accessibility (A11y)</strong
-          > and <strong>User Experience (UX)</strong> before finalizing the data fetching
-          layers.
+          the design independently of the content. This means we can perfect the{" "}
+          <strong>Accessibility (A11y)</strong> and{" "}
+          <strong>User Experience (UX)</strong> before finalizing the data
+          fetching layers.
         </p>
       </div>
     </div>
 
     <footer class="post-footer">
-      <a href={`/${lang}/blog`} class="back-link">← Back to Blog</a>
+      <a href={`/${lang}/blog`} class="back-link">
+        ← Back to Blog
+      </a>
     </footer>
   </article>
 </BaseLayout>

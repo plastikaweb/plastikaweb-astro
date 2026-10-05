@@ -52,40 +52,44 @@ const translations = [
 >
   <section class="hero content-reveal">
     <div class="hero-content">
-      <span class="badge"
-        >{
-          lang === "en" ? "Available for Projects" : "Disponible para Proyectos"
-        }</span
-      >
-      <h1 id="hero-title" class="text-gradient">{t.title}</h1>
+      <span class="badge">
+        {lang === "en" ? "Available for Projects" : "Disponible para Proyectos"}
+      </span>
+      <h1 id="hero-title" class="text-gradient">
+        {t.title}
+      </h1>
       <p class="hero-bio">{t.bio}</p>
       <div class="hero-actions">
-        <a href="#contact" class="btn-primary">Contact</a>
-        <a href="#skills" class="btn-secondary">Skills</a>
+        <a href="#contact" class="btn-primary">
+          Contact
+        </a>
+        <a href="#skills" class="btn-secondary">
+          Skills
+        </a>
       </div>
     </div>
   </section>
 
   <section id="skills" class="section-padding">
     <div class="section-header">
-      <h2>{t.skills} <span class="text-gradient">2026</span></h2>
+      <h2>
+        {t.skills} <span class="text-gradient">2026</span>
+      </h2>
     </div>
     <div class="skills-grid">
-      {
-        skills.map((skill) => (
-          <article class="skill-card">
-            <div class="skill-icon" aria-hidden="true">
-              {skill.icon}
+      {skills.map((skill) => (
+        <article class="skill-card">
+          <div class="skill-icon" aria-hidden="true">
+            {skill.icon}
+          </div>
+          <div class="skill-content">
+            <h3>{skill.title}</h3>
+            <div class="progress-container">
+              <div class="progress-bar" style={`width: ${skill.level}%`} />
             </div>
-            <div class="skill-content">
-              <h3>{skill.title}</h3>
-              <div class="progress-container">
-                <div class="progress-bar" style={`width: ${skill.level}%`} />
-              </div>
-            </div>
-          </article>
-        ))
-      }
+          </div>
+        </article>
+      ))}
     </div>
   </section>
 
@@ -97,12 +101,16 @@ const translations = [
           {t.blog}
           <span class="text-gradient">Insights</span>
         </h2>
-        <a href={`/${lang}/blog`} class="link-more">View all articles →</a>
+        <a href={`/${lang}/blog`} class="link-more">
+          View all articles →
+        </a>
       </div>
     </div>
 
     <div class="blog-grid">
-      {blogPosts.map((post) => <PostCard post={post} lang={lang as string} />)}
+      {blogPosts.map((post) => (
+        <PostCard post={post} lang={lang as string} />
+      ))}
     </div>
   </section>
 </BaseLayout>

@@ -1,4 +1,16 @@
 {
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit",
+    "source.fixAll.markdownlint": "explicit"
+  },
+  "prettier.documentSelectors": ["**/*.astro"],
+  "files.eol": "\n",
+  "eslint.validate": ["javascript", "typescript", "astro"],
+  "stylelint.validate": ["css", "astro"],
+  "css.validate": false,
   "cSpell.words": [
     "crossfade",
     "FOUC",

@@ -1,0 +1,10 @@
+# Prettier also reads .gitignore (dist, .astro, node_modules, wip, local files).
+package-lock.json
+
+# Agent and session state, not project code
+.remember/
+.agents/
+.claude/skills/
+
+# Third-party font kit files, kept as delivered
+public/fonts/

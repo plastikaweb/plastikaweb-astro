@@ -74,7 +74,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-07 · Editor settings, line endings and format check
 
-- **Status:** todo
+- **Status:** done
 - **Source:** §13.2
 - **Depends on:** T-05
 - **Done when:** `.editorconfig`; `.gitattributes` with `* text=auto eol=lf` and binaries (fonts, images, PDF) marked `binary`; `.prettierignore`; `npm run format:check` fails on unformatted files; `.vscode/settings.json` (format and lint fixes on save) and `.vscode/extensions.json` (Astro, ESLint, Prettier, Stylelint, markdownlint, Error Lens) committed.

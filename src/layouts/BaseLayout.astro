@@ -43,7 +43,6 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
       const theme = getTheme();
       document.documentElement.setAttribute("data-theme", theme);
     </script>
-
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -62,7 +61,9 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
   </head>
   <body>
     <!-- A11y: Skip Link -->
-    <a href="#main-content" class="skip-link">Skip to content</a>
+    <a href="#main-content" class="skip-link">
+      Skip to content
+    </a>
 
     <header role="banner" class="glass-nav">
       <nav aria-label="Main Navigation">
@@ -72,33 +73,30 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
           </div>
           <div class="actions">
             <ul class="lang-list">
-              {
-                translations.map((t) => (
-                  <li>
-                    <a
-                      href={t.uri}
-                      hreflang={t.langCode.toLowerCase()}
-                      class:list={[
-                        "lang-link",
-                        {
-                          active:
-                            t.langCode.toLowerCase() === lang.toLowerCase(),
-                        },
-                      ]}
-                      aria-current={
-                        t.langCode.toLowerCase() === lang.toLowerCase()
-                          ? "page"
-                          : undefined
-                      }
-                    >
-                      <span class="lang-name">{t.langName}</span>
-                      <span class="lang-code-short" aria-hidden="true">
-                        {t.langCode}
-                      </span>
-                    </a>
-                  </li>
-                ))
-              }
+              {translations.map((t) => (
+                <li>
+                  <a
+                    href={t.uri}
+                    hreflang={t.langCode.toLowerCase()}
+                    class:list={[
+                      "lang-link",
+                      {
+                        active: t.langCode.toLowerCase() === lang.toLowerCase(),
+                      },
+                    ]}
+                    aria-current={
+                      t.langCode.toLowerCase() === lang.toLowerCase()
+                        ? "page"
+                        : undefined
+                    }
+                  >
+                    <span class="lang-name">{t.langName}</span>
+                    <span class="lang-code-short" aria-hidden="true">
+                      {t.langCode}
+                    </span>
+                  </a>
+                </li>
+              ))}
             </ul>
             <div class="divider-v" aria-hidden="true"></div>
             <ThemeToggle />
@@ -116,7 +114,8 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
     <footer role="contentinfo">
       <div class="container footer-content">
         <p>
-          © {new Date().getFullYear()} Carlos Matheu. Built with Astro & WPGraphQL.
+          © {new Date().getFullYear()} Carlos Matheu. Built with Astro &
+          WPGraphQL.
         </p>
       </div>
     </footer>

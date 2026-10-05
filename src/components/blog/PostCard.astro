@@ -31,12 +31,14 @@ const formattedDate = new Date(post.date).toLocaleDateString(lang, {
   <div class="card-body">
     <time datetime={post.date}>{formattedDate}</time>
     <h3>
-      <a href={`/${lang}/blog/${post.slug}`} class="stretched-link"
-        >{post.title}</a
-      >
+      <a href={`/${lang}/blog/${post.slug}`} class="stretched-link">
+        {post.title}
+      </a>
     </h3>
     <p class="excerpt">{post.excerpt}</p>
-    <span class="read-more" aria-hidden="true">Read Article →</span>
+    <span class="read-more" aria-hidden="true">
+      Read Article →
+    </span>
   </div>
 </article>
 
