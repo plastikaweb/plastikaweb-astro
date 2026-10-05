@@ -56,4 +56,4 @@ Ratios against `--color-bg` / `--color-surface` — light: raven-50 / white; dar
 
 Pending — design decision open, theme.css is unchanged for this one:
 
-- Muted text: no Raven step between 500 and 600, so in light mode it either becomes raven-600 (7.2, same as secondary) or is limited to large or non-essential text. On dark surfaces raven-400 gives 5.8. Form placeholders use this token (req. §2.3).
+- Muted text: no Raven step between 500 and 600, so in light mode it either becomes raven-600 (7.2, same as secondary) or is limited to large or non-essential text. On dark surfaces raven-400 gives 5.8. Form placeholders use this token (req. §2.3). Until D-08 closes, page text uses `--color-text-secondary`; the skeleton was moved off the muted token in T-15, when the axe check failed on it.

@@ -11,6 +11,8 @@ export default defineConfig([
   globalIgnores([
     "dist/",
     "coverage/",
+    "test-results/",
+    "playwright-report/",
     ".astro/",
     "wip/",
     "public/",

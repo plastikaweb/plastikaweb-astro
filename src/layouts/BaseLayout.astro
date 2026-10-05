@@ -92,9 +92,7 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
                     }
                   >
                     <span class="lang-name">{t.langName}</span>
-                    <span class="lang-code-short" aria-hidden="true">
-                      {t.langCode}
-                    </span>
+                    <span class="lang-code-short">{t.langCode}</span>
                   </a>
                 </li>
               ))}
@@ -190,7 +188,7 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
 
       .lang-link {
         text-decoration: none;
-        color: var(--color-text-muted);
+        color: var(--color-text-secondary);
         font-weight: 500;
         font-size: 0.85rem;
         text-transform: uppercase;
@@ -244,7 +242,7 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
       .footer-content {
         border-block-start: 1px solid var(--glass-border);
         text-align: center;
-        color: var(--color-text-muted);
+        color: var(--color-text-secondary);
         font-size: 0.9rem;
       }
     </style>

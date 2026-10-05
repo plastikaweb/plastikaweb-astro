@@ -18,16 +18,20 @@
     "check": "astro check",
     "prepare": "husky",
     "test": "vitest run --coverage",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
     "astro": "^7.3.5"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
+    "@axe-core/playwright": "4.13.0",
     "@commitlint/cli": "21.2.3",
     "@commitlint/config-conventional": "21.2.3",
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
     "@vitest/coverage-v8": "5.0.3",
     "eslint": "10.12.0",
     "eslint-plugin-astro": "3.2.1",

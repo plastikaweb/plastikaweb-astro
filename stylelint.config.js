@@ -7,6 +7,7 @@ export default {
   ignoreFiles: [
     "dist/**",
     "coverage/**",
+    "playwright-report/**",
     ".astro/**",
     "wip/**",
     "node_modules/**",

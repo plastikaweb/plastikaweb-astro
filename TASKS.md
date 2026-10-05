@@ -130,7 +130,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-15 · End-to-end and accessibility test setup
 
-- **Status:** todo
+- **Status:** done
 - **Source:** §13.3
 - **Depends on:** T-03, T-05
 - **Done when:** `npm run test:e2e` builds, serves the build and runs a smoke test plus an axe check on the home page in both themes at 375 and 1440 px; documented in `docs/testing.md`.
