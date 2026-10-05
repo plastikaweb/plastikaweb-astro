@@ -16,6 +16,7 @@ Notable changes to the site, newest first. Format: [Keep a Changelog](https://ke
 - Claude Code guard hooks and command allow list.
 - Project skills for commits (`commit-actions`) and branch audits (`task-audit`, ten read-only review lenses).
 - Changelog and a README version badge checked against `package.json`.
+- CI quality gate on every pull request; `main` is protected and requires it.
 
 ### Changed
 

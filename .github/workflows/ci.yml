@@ -1,0 +1,80 @@
+# Quality gate: the single workflow every pull request must pass (requirements §13.5).
+# Local hooks are a convenience; this is the authority. Docs: docs/commits.md → "CI".
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Quality gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      # Third-party actions are pinned to a commit SHA; the comment names the release.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Cheapest checks first, so a failure costs seconds.
+      - name: Version badge
+        run: npm run version:check
+      - name: Format
+        run: npm run format:check
+      - name: ESLint
+        run: npm run lint
+      - name: ESLint rule fixtures
+        run: npm run test:eslint-rules
+      - name: Stylelint
+        run: npm run lint:css
+      - name: CSS token check
+        run: npm run css:check
+      - name: Markdown
+        run: npm run lint:md
+      - name: Type check
+        run: npm run check
+      - name: Unit tests
+        run: npm test
+      - name: Build
+        run: npm run build
+
+      # Runtime dependencies fail on high; dev tools only on critical, since some
+      # high advisories in lint tooling have no fix yet (docs/commits.md → "CI").
+      - name: Dependency audit (runtime)
+        run: npm audit --omit=dev --audit-level=high
+      - name: Dependency audit (all)
+        run: npm audit --audit-level=critical
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+      - name: End-to-end and accessibility tests
+        run: npm run test:e2e
+
+      - name: Upload Playwright report
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

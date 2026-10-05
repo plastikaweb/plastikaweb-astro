@@ -323,6 +323,7 @@ All tooling in this section is decided (D-14 closed in October 2026). Several pr
 - Preview deploy per pull request; production deploy from `main` (host: D-06).
 - Content rebuilds: WordPress triggers a deploy hook when content is published or updated; a scheduled rebuild as a safety net.
 - Secrets live in the CI and host settings, never in the repository.
+- Decided in T-19: one job, **Quality gate**; `main` protected for everyone, admins included; pull requests merged by rebase (linear history, conventional commits kept as written); no required review (single maintainer). Dependency audit: runtime dependencies fail on `high`, the whole tree on `critical`. Lighthouse CI and the link check join with T-20.
 
 ### 13.6 Documentation
 
@@ -375,3 +376,4 @@ Recurring work, tracked as recurring tasks:
 - Existing code declared a skeleton to replace (§0).
 - Open decisions collected with IDs (§12); new ones: D-08 to D-14.
 - New §13: engineering and quality — versions, linting, tests, versioning, CI/CD, documentation, agent tooling, security, maintenance; adapted from the NewWebSite project.
+- CI and branch policy (T-19): one Quality gate job, `main` protected for admins too, rebase merges, audit thresholds (§13.5).

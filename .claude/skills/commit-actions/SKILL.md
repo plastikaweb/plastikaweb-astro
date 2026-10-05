@@ -97,8 +97,9 @@ If a hook rejects it, nothing was committed: fix the cause, re-stage and retry. 
 Never push on your own. After the commit, ask whether the branch is ready to merge. If it is:
 
 1. **Audit gate.** If the branch is feature-sized (about 10 or more touched files against `origin/main`, not docs-only) and `/task-audit` hasn't run since the last substantial change, say so and run it first. The user can skip it explicitly.
-2. **Ask before merging.** Show the commits (`git log --oneline origin/main..HEAD`) and ask. Until T-19 protects `main`, a merge is a fast-forward: `git switch main && git merge --ff-only <branch>`, then push and delete the branch, each only after the user's yes. Once T-19 lands, merging goes through a pull request and CI.
-3. **The push runs the whole-project gates** (`.husky/pre-push`, tens of seconds): warn before starting it rather than after.
+2. **Ask before publishing.** Show the commits (`git log --oneline origin/main..HEAD`) and ask. `main` is protected (`docs/commits.md` → "Pull requests and CI"): after the user's yes, push the branch (`git push -u origin <branch>`) and open a pull request (`gh pr create`, title = the main commit's header, body = what changed and how it was verified).
+3. **Merge only when CI passes and the user says so:** `gh pr checks <n> --watch`, then `gh pr merge <n> --rebase --delete-branch`, then `git switch main && git pull --ff-only`. Never merge with a failing or pending **Quality gate**, and never ask for the protection to be lifted to get a change in.
+4. **The push runs the whole-project gates** (`.husky/pre-push`, tens of seconds): warn before starting it rather than after.
 
 ## Hook bypass
 
