@@ -33,8 +33,23 @@ The whole-project gates run on push rather than on commit: a branch with ten com
 
 ## Branches
 
-- `main` is always releasable. Work happens on short-lived branches named `<type>/t-<id>-<slug>`, e.g. `chore/t-13-git-hooks`, merged with a fast-forward or a pull request once T-19 protects `main`.
+- `main` is always releasable. Work happens on short-lived branches named `<type>/t-<id>-<slug>`, e.g. `chore/t-13-git-hooks`, merged through a pull request: `main` is protected (T-19), and nobody, admins included, pushes to it directly.
 - No `release` branch: every pull request gets a preview deploy (T-23).
+
+## Pull requests and CI
+
+`.github/workflows/ci.yml` runs one job, **Quality gate**, on every pull request and on every push to `main`. It installs with `npm ci` on the Node version in `.nvmrc`, then runs, cheapest first: `version:check`, `format:check`, `lint`, `test:eslint-rules`, `lint:css`, `css:check`, `lint:md`, `check`, `npm test`, `build`, the dependency audit and `test:e2e` (Playwright's Chromium, installed in the job). On a failure it uploads the Playwright report and traces as an artifact.
+
+`main` is protected:
+
+- changes arrive only through a pull request, and **Quality gate** must pass on a branch that is up to date with `main`;
+- the rule applies to admins too;
+- history stays linear: pull requests are merged with **rebase**, so each `type: subject (t-xx)` commit lands on `main` as written;
+- no approving review is required (one maintainer can't approve their own pull request).
+
+Dependency audit policy: runtime dependencies fail on a `high` advisory (`npm audit --omit=dev --audit-level=high`); the whole tree fails only on `critical`, because some `high` advisories in lint tooling (`braces`, through Stylelint and markdownlint) have no fix yet. Renovate (T-21) brings the fixes as they ship.
+
+Actions are pinned to a commit SHA with the release in a comment; Renovate updates them. The workflow has read-only `contents` permission and no secrets.
 
 ## Skipping hooks
 
@@ -49,4 +64,4 @@ Semver: `0.x` until launch, `1.0.0` at launch (requirements §13.4). `CHANGELOG.
 
 `npm version` bumps `package.json` and the lock file, runs the `version` script (which rewrites the README badge and stages it), commits as `chore: release vx.y.z` (set in `.npmrc`) and tags `vx.y.z`. Push with `git push --follow-tags`.
 
-`npm run version:check` fails when the README badge and `package.json` disagree. `pre-push` runs it, and CI will (T-19).
+`npm run version:check` fails when the README badge and `package.json` disagree. `pre-push` and CI run it.

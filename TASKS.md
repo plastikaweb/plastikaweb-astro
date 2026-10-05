@@ -158,7 +158,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-19 · CI quality gate
 
-- **Status:** todo
+- **Status:** doing (workflow written; first run and branch protection pending)
 - **Source:** §13.5
 - **Depends on:** T-07 – T-15, T-17
 - **Done when:** a single GitHub Actions workflow runs on every pull request — `npm ci`, format check, ESLint, Stylelint and token check, markdownlint, local rule fixtures, type check, unit tests, build, end-to-end and accessibility tests, dependency audit, version badge check — with the Node version from `.nvmrc`; `main` is protected and requires it.
