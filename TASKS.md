@@ -67,7 +67,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-06 · Remove template leftovers
 
-- **Status:** todo
+- **Status:** done
 - **Source:** §0
 - **Depends on:** T-05
 - **Done when:** `Layout.astro`, `Welcome.astro`, `src/assets/astro.svg` and `background.svg` are gone and the build passes. (The rest of the skeleton is replaced page by page in phase 4.)
