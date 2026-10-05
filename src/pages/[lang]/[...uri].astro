@@ -48,48 +48,55 @@ const translations = [
 
 <style>
   .page-header {
-    margin-bottom: var(--space-fluid-l);
-    border-bottom: 1px solid var(--glass-border);
-    padding-bottom: var(--space-fluid-s);
+    margin-block-end: var(--space-fluid-l);
+    border-block-end: 1px solid var(--glass-border);
+    padding-block-end: var(--space-fluid-s);
   }
+
   .breadcrumbs {
     font-size: 0.8rem;
     color: var(--color-text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-top: 1rem;
+    margin-block-start: 1rem;
   }
+
   .breadcrumbs a {
     color: var(--color-text-link);
     text-decoration: none;
   }
+
   .placeholder-card {
     padding: var(--space-fluid-l);
     background: var(--color-surface);
     border: 1px solid var(--glass-border);
-    border-radius: 24px;
+    border-radius: 0;
     text-align: center;
-    margin-top: 2rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    margin-block-start: 2rem;
+    box-shadow: var(--shadow-lg);
   }
+
   .meta-tag {
     display: inline-block;
-    margin-top: 1.5rem;
+    margin-block-start: 1.5rem;
     color: var(--color-text-link);
     font-weight: bold;
     background: var(--color-primary-subtle);
-    padding: 4px 12px;
-    border-radius: 4px;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0;
     font-size: 0.8rem;
   }
+
   .content-reveal {
     animation: reveal 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
   }
+
   @keyframes reveal {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(1.25rem);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);

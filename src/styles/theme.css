@@ -191,11 +191,11 @@
   --color-bg: light-dark(var(--raven-50), var(--raven-950));
   --color-bg-secondary: light-dark(var(--raven-100), var(--raven-900));
   --color-bg-tertiary: light-dark(var(--raven-200), var(--raven-800));
-  --color-surface: light-dark(#ffffff, var(--raven-800));
-  --color-surface-raised: light-dark(#ffffff, var(--raven-700));
+  --color-surface: light-dark(#fff, var(--raven-800));
+  --color-surface-raised: light-dark(#fff, var(--raven-700));
   --color-surface-brand: var(--red-700);
   --color-surface-brand-hover: var(--red-800);
-  --color-surface-overlay: light-dark(rgba(6, 7, 15, 0.4), rgba(6, 7, 15, 0.8));
+  --color-surface-overlay: light-dark(rgb(6 7 15 / 40%), rgb(6 7 15 / 80%));
 
   /* --- Borders --- */
   --color-border: light-dark(var(--raven-200), var(--raven-700));
@@ -210,7 +210,7 @@
   --color-text-muted: light-dark(var(--raven-500), var(--raven-500));
   --color-text-disabled: light-dark(var(--raven-400), var(--raven-600));
   --color-text-inverse: light-dark(var(--raven-50), var(--raven-950));
-  --color-text-on-primary: #ffffff;
+  --color-text-on-primary: #fff;
   --color-text-on-secondary: var(--raven-950);
   --color-text-link: light-dark(var(--red-700), var(--red-400));
   --color-text-link-hover: light-dark(var(--red-800), var(--red-300));
@@ -235,16 +235,13 @@
   --color-focus-ring: light-dark(var(--violet-600), var(--violet-500));
   --color-focus-ring-offset: var(--color-surface);
   --color-highlight: light-dark(var(--broom-400), var(--broom-500));
-  --color-selection: light-dark(var(--broom-200), rgba(255, 244, 45, 0.2));
-  --color-backdrop: light-dark(rgba(6, 7, 15, 0.6), rgba(6, 7, 15, 0.8));
+  --color-selection: light-dark(var(--broom-200), rgb(255 244 45 / 20%));
+  --color-backdrop: light-dark(rgb(6 7 15 / 60%), rgb(6 7 15 / 80%));
 
   /* --- Glassmorphism --- */
-  --glass-bg: light-dark(rgba(255, 255, 255, 0.7), rgba(21, 24, 35, 0.7));
-  --glass-bg-strong: light-dark(
-    rgba(255, 255, 255, 0.85),
-    rgba(21, 24, 35, 0.85)
-  );
-  --glass-border: light-dark(rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.1));
+  --glass-bg: light-dark(rgb(255 255 255 / 70%), rgb(21 24 35 / 70%));
+  --glass-bg-strong: light-dark(rgb(255 255 255 / 85%), rgb(21 24 35 / 85%));
+  --glass-border: light-dark(rgb(0 0 0 / 8%), rgb(255 255 255 / 10%));
   --glass-blur: 12px;
   --glass-saturate: 180%;
 }
@@ -256,13 +253,12 @@
    ========================================================================== */
 
 :root {
-  --shadow-color-xs: light-dark(rgba(6, 7, 15, 0.05), rgba(0, 0, 0, 0.3));
-  --shadow-color-sm: light-dark(rgba(6, 7, 15, 0.08), rgba(0, 0, 0, 0.4));
-  --shadow-color-md: light-dark(rgba(6, 7, 15, 0.07), rgba(0, 0, 0, 0.35));
-  --shadow-color-lg: light-dark(rgba(6, 7, 15, 0.08), rgba(0, 0, 0, 0.35));
-  --shadow-color-xl: light-dark(rgba(6, 7, 15, 0.1), rgba(0, 0, 0, 0.4));
-  --shadow-color-inner: light-dark(rgba(6, 7, 15, 0.06), rgba(0, 0, 0, 0.3));
-
+  --shadow-color-xs: light-dark(rgb(6 7 15 / 5%), rgb(0 0 0 / 30%));
+  --shadow-color-sm: light-dark(rgb(6 7 15 / 8%), rgb(0 0 0 / 40%));
+  --shadow-color-md: light-dark(rgb(6 7 15 / 7%), rgb(0 0 0 / 35%));
+  --shadow-color-lg: light-dark(rgb(6 7 15 / 8%), rgb(0 0 0 / 35%));
+  --shadow-color-xl: light-dark(rgb(6 7 15 / 10%), rgb(0 0 0 / 40%));
+  --shadow-color-inner: light-dark(rgb(6 7 15 / 6%), rgb(0 0 0 / 30%));
   --shadow-xs: 0 1px 2px var(--shadow-color-xs);
   --shadow-sm: 0 1px 3px var(--shadow-color-sm);
   --shadow-md: 0 4px 6px var(--shadow-color-md);
@@ -291,6 +287,7 @@
     0.58rem + 0.3vw,
     0.8rem
   ); /* ~10–13px  small print */
+
   --step--1: clamp(0.8rem, 0.73rem + 0.36vw, 1rem); /* ~13–16px  captions    */
   --step-0: clamp(1rem, 0.93rem + 0.36vw, 1.25rem); /* ~16–20px  body        */
   --step-1: clamp(
@@ -298,26 +295,31 @@
     1.14rem + 0.54vw,
     1.56rem
   ); /* ~20–25px  H4 / lead   */
+
   --step-2: clamp(
     1.56rem,
     1.35rem + 1.05vw,
     2.23rem
   ); /* ~25–36px  H3          */
+
   --step-3: clamp(
     1.95rem,
     1.63rem + 1.63vw,
     2.79rem
   ); /* ~31–45px  H2          */
+
   --step-4: clamp(
     2.44rem,
     1.95rem + 2.45vw,
     3.49rem
   ); /* ~39–56px  H1          */
+
   --step-5: clamp(
     3.05rem,
     2.31rem + 3.7vw,
     5.42rem
   ); /* ~49–87px  Hero        */
+
   --step-6: clamp(
     3.81rem,
     2.71rem + 5.52vw,
@@ -424,7 +426,6 @@
   --duration-normal: 200ms;
   --duration-slow: 350ms;
   --duration-slower: 500ms;
-
   --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
@@ -436,6 +437,7 @@
     0.22,
     1
   ); /* ← from proto: silky decel */
+
   --ease-smooth: cubic-bezier(
     0.23,
     1,
@@ -556,6 +558,7 @@ svg {
   padding: 0;
   margin: -1px;
   overflow: hidden;
+  /* stylelint-disable-next-line property-no-deprecated -- fallback in the standard visually-hidden pattern */
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
@@ -566,6 +569,7 @@ svg {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  /* stylelint-disable-next-line property-no-vendor-prefix -- Safari before 18 only reads the prefixed form */
   -webkit-backdrop-filter: blur(var(--glass-blur))
     saturate(var(--glass-saturate));
 }
@@ -581,6 +585,7 @@ svg {
     var(--color-primary),
     var(--color-tertiary)
   );
+  /* stylelint-disable-next-line property-no-vendor-prefix -- paired with -webkit-text-fill-color for gradient text */
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -610,9 +615,11 @@ h6 {
 h2 {
   font-size: var(--step-3);
 }
+
 h3 {
   font-size: var(--step-2);
 }
+
 h4 {
   font-size: var(--step-1);
 }
@@ -675,12 +682,12 @@ figure {
   h2,
   h3,
   h4 {
-    page-break-after: avoid;
+    break-after: avoid;
   }
 
   img {
     max-width: 100%;
-    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }
 

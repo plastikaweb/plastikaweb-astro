@@ -95,7 +95,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-10 · Stylelint and the token check
 
-- **Status:** todo
+- **Status:** done
 - **Source:** §13.2, `.claude/rules/css.md`
 - **Depends on:** T-05
 - **Done when:** `npm run lint:css` rejects color literals and ad-hoc px outside `theme.css`, physical properties where logical ones exist, and `[data-theme]` overrides in components; `npm run css:check` fails on any `var(--…)` that `theme.css` doesn't declare; `theme.css` passes both; documented in `docs/code-quality.md`.

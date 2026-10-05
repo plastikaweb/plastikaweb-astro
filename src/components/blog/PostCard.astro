@@ -47,7 +47,7 @@ const formattedDate = new Date(post.date).toLocaleDateString(lang, {
     position: relative;
     background: var(--color-surface);
     border: 1px solid var(--glass-border);
-    border-radius: 16px;
+    border-radius: 0;
     overflow: hidden;
     transition: var(--transition-smooth);
     display: flex;
@@ -56,13 +56,13 @@ const formattedDate = new Date(post.date).toLocaleDateString(lang, {
 
   .post-card:hover {
     border-color: var(--color-primary);
-    transform: translateY(-4px);
+    transform: translateY(-0.25rem);
   }
 
   .image-container {
     aspect-ratio: 16/9;
     overflow: hidden;
-    background: #000;
+    background: var(--color-bg-secondary);
   }
 
   .image-container img {
@@ -104,10 +104,7 @@ const formattedDate = new Date(post.date).toLocaleDateString(lang, {
   .stretched-link::after {
     content: "";
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
     z-index: 1;
   }
 
@@ -123,7 +120,7 @@ const formattedDate = new Date(post.date).toLocaleDateString(lang, {
   }
 
   .read-more {
-    margin-top: auto;
+    margin-block-start: auto;
     color: var(--color-text-link);
     font-weight: 700;
     font-size: 0.85rem;
@@ -134,6 +131,6 @@ const formattedDate = new Date(post.date).toLocaleDateString(lang, {
   /* Focus indicator for the whole card via the link */
   .post-card:has(.stretched-link:focus-visible) {
     outline: 2px solid var(--color-primary);
-    outline-offset: 4px;
+    outline-offset: 0.25rem;
   }
 </style>

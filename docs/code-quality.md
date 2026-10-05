@@ -46,9 +46,29 @@ A comment says why, briefly. When the why needs more than five lines, write it i
 
 The rule's fixtures use ESLint's `RuleTester` under `node:test`: `npm run test:eslint-rules`.
 
+## CSS: Stylelint and the token check
+
+The rules in `.claude/rules/css.md`, enforced. `src/styles/theme.css` is the only file allowed raw values.
+
+`npm run lint:css` runs Stylelint (`stylelint.config.js`) on `src/**/*.{css,astro}` with zero warnings allowed. It extends `stylelint-config-standard` and reads Astro `<style>` blocks through `stylelint-config-html/astro`. On top:
+
+| Rule                                      | Rejects                                                                                               |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `color-no-hex`, `color-named`             | Color literals; use a semantic token.                                                                 |
+| `function-disallowed-list`                | `rgb()`, `hsl()`, `oklch()`, `color-mix()` and the rest of the color functions.                       |
+| `unit-disallowed-list`                    | `px`, except hairline border and outline widths; use tokens or `rem`.                                 |
+| `csstools/use-logical`                    | Physical properties where a logical one exists (`margin-top` → `margin-block-start`); sizes excepted. |
+| `selector-disallowed-list`                | `[data-theme]` selectors: theme values are declared once with `light-dark()`.                         |
+| `declaration-property-value-allowed-list` | Any `border-radius` other than `0` (sharp corners).                                                   |
+| `selector-class-pattern`                  | Class names that aren't kebab-case BEM (`.block__element--modifier`).                                 |
+
+Astro's `:global()` is allowed. In `theme.css` the color, unit, radius and `[data-theme]` rules are off, and repeated `:root` blocks are allowed (one per token section).
+
+`npm run css:check` (`scripts/check-css-tokens.js`) fails on any `var(--name)` in `src/` that neither `theme.css` nor the same file declares. A misspelt or removed token doesn't break the build: the browser just drops the declaration, so this check is the only thing that catches it.
+
 ## Disabling a rule
 
-Disable a rule for one line, never for a whole file, and always give the reason after `--`:
+Disable a rule for one line, never for a whole file, and always give the reason after `--` (in CSS: `/* stylelint-disable-next-line rule -- reason */`):
 
 ```ts
 // eslint-disable-next-line max-params -- mirrors the WPGraphQL resolver signature

@@ -123,75 +123,88 @@ const translations = [
     justify-content: center;
     text-align: center;
   }
+
   .section-padding {
     padding: var(--space-fluid-l) 0;
   }
+
   .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(17.5rem, 1fr));
     gap: 1.5rem;
   }
+
   .skill-card {
     background: var(--color-surface);
     padding: 2rem;
-    border-radius: 20px;
+    border-radius: 0;
     border: 1px solid var(--glass-border);
     display: flex;
     gap: 1rem;
     align-items: center;
   }
+
   .skill-icon {
     font-size: 2rem;
   }
+
   .progress-container {
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
+    height: 0.25rem;
+    background: var(--glass-border);
     width: 100%;
-    margin-top: 10px;
-    border-radius: 2px;
+    margin-block-start: 0.625rem;
+    border-radius: 0;
   }
+
   .progress-bar {
     height: 100%;
     background: var(--color-primary);
   }
+
   .badge {
     display: inline-block;
     padding: 0.5rem 1rem;
     background: var(--color-primary-subtle);
     color: var(--color-text-link);
-    border-radius: 100px;
+    border-radius: 0;
     font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
-    margin-bottom: 1.5rem;
+    margin-block-end: 1.5rem;
     border: 1px solid var(--color-primary);
   }
+
   .hero-bio {
     font-size: var(--step-0);
     color: var(--color-text-muted);
     margin: 2rem 0;
     line-height: 1.4;
   }
+
   .hero-actions {
     display: flex;
     gap: 1rem;
     justify-content: center;
   }
+
   .btn-primary,
   .btn-secondary {
     padding: 1rem 2rem;
-    border-radius: 8px;
+    border-radius: 0;
     font-weight: 700;
     text-decoration: none;
     transition: var(--transition-smooth);
   }
+
   .btn-primary {
     background: var(--color-surface-brand);
     color: var(--color-text-on-primary);
   }
+
   .btn-primary:hover {
     background: var(--color-surface-brand-hover);
   }
+
   .btn-secondary {
     border: 1px solid var(--glass-border);
     color: var(--color-text-primary);
@@ -204,13 +217,15 @@ const translations = [
     align-items: flex-end;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin-block-end: 2rem;
   }
+
   .blog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     gap: 2rem;
   }
+
   .link-more {
     color: var(--color-text-link);
     text-decoration: none;
@@ -220,6 +235,7 @@ const translations = [
     letter-spacing: 0.05em;
     transition: var(--transition-smooth);
   }
+
   .link-more:hover {
     letter-spacing: 0.1em;
   }
@@ -227,11 +243,13 @@ const translations = [
   .content-reveal {
     animation: reveal 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
   }
+
   @keyframes reveal {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(1.25rem);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);

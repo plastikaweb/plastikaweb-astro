@@ -46,34 +46,38 @@
     background: var(--color-surface);
     border: 1px solid var(--glass-border);
     padding: 0.6rem;
-    border-radius: 12px;
+    border-radius: 0;
     cursor: pointer;
     color: var(--color-text-primary);
     transition: var(--transition-smooth);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 
   .theme-toggle:hover {
     background: var(--color-primary-subtle);
     border-color: var(--color-primary);
     color: var(--color-primary);
-    transform: translateY(-2px);
+    transform: translateY(-0.125rem);
   }
 
   .sun {
     display: none;
   }
+
   .moon {
     display: block;
   }
 
+  /* stylelint-disable-next-line selector-disallowed-list -- icon swap follows the toggle state, not a theme value; aria-pressed replaces it in T-33 */
   :global([data-theme="light"]) .sun {
     display: block;
   }
+
+  /* stylelint-disable-next-line selector-disallowed-list -- icon swap follows the toggle state, not a theme value; aria-pressed replaces it in T-33 */
   :global([data-theme="light"]) .moon {
     display: none;
   }

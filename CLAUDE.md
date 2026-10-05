@@ -41,7 +41,7 @@ Lint, test and CI commands arrive with the foundation tasks (T-03 – T-24).
 
 Everything in `src/` except `src/styles/theme.css` is a borrowed skeleton used to get a deployable app. It doesn't implement the requirements and isn't a pattern to follow: replace it, don't extend it (TASKS.md T-06, T-33, T-46).
 
-- The skeleton uses tokens that no longer exist in theme.css (`--color-accent`, `--color-accent-soft`, `--color-text-main`, `--space-s`, `--space-l`) and uses `--glass-border` as a border shorthand although it's now a color.
+- Since T-10 the skeleton passes the CSS checks (no legacy tokens, no raw colors or px, sharp corners), but its markup, copy and structure still don't follow the requirements.
 - `astro.config.mjs` is empty (no `site`, no i18n) and `/` redirects to `/en/` with a meta refresh.
 - Kept and written for the current requirements: `src/styles/theme.css`, `public/fonts/` (Commit Mono), `docs/`, `.claude/rules/css.md`.
 

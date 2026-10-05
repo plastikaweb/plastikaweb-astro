@@ -124,29 +124,30 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
     <style>
       .skip-link {
         position: absolute;
-        top: -100px;
-        left: 0;
+        inset-block-start: -6.25rem;
+        inset-inline-start: 0;
         background: var(--color-secondary);
         color: var(--color-text-on-secondary);
         padding: 1rem;
         z-index: 999;
       }
+
       .skip-link:focus {
-        top: 0;
+        inset-block-start: 0;
       }
 
       .glass-nav {
         position: sticky;
-        top: 0;
+        inset-block-start: 0;
         background: var(--glass-bg);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--glass-border);
+        backdrop-filter: blur(var(--glass-blur));
+        border-block-end: 1px solid var(--glass-border);
         z-index: 100;
         padding: 1rem 0;
       }
 
       .header-container {
-        max-width: 1200px;
+        max-width: var(--max-width-content);
         margin: 0 auto;
         padding: 0 var(--space-fluid-s);
         display: flex;
@@ -161,8 +162,8 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
       }
 
       .divider-v {
-        width: 1px;
-        height: 20px;
+        width: 0.0625rem;
+        height: 1.25rem;
         background: var(--glass-border);
       }
 
@@ -174,7 +175,7 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
       }
 
       .container {
-        max-width: 1200px;
+        max-width: var(--max-width-content);
         margin: 0 auto;
         padding: var(--space-fluid-l) var(--space-fluid-s);
       }
@@ -204,9 +205,9 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
       .lang-link::after {
         content: "";
         position: absolute;
-        bottom: -4px;
+        inset-block-end: -0.25rem;
         width: 0;
-        height: 2px;
+        height: 0.125rem;
         background: var(--color-primary);
         transition: var(--transition-smooth);
       }
@@ -223,24 +224,25 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
 
       .lang-link.active {
         color: var(--color-text-link);
-        text-shadow: 0 0 10px var(--color-primary-subtle);
+        text-shadow: 0 0 0.625rem var(--color-primary-subtle);
       }
 
       .lang-name {
         display: none;
       }
 
-      @media (min-width: 768px) {
+      @media (width >= 48rem) {
         .lang-name {
           display: inline;
         }
+
         .lang-code-short {
           display: none;
         }
       }
 
       .footer-content {
-        border-top: 1px solid var(--glass-border);
+        border-block-start: 1px solid var(--glass-border);
         text-align: center;
         color: var(--color-text-muted);
         font-size: 0.9rem;
