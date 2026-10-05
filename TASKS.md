@@ -102,7 +102,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-11 · markdownlint
 
-- **Status:** todo
+- **Status:** done
 - **Source:** §13.2
 - **Depends on:** T-05
 - **Done when:** `.markdownlint.jsonc` (rules) and `.markdownlint-cli2.jsonc` (ignores: `.claude/skills/`, `.remember/`, `node_modules/`, `dist/`) exist; `npm run lint:md` passes on every Markdown file in the repo.

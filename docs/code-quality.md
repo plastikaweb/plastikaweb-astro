@@ -66,6 +66,10 @@ Astro's `:global()` is allowed. In `theme.css` the color, unit, radius and `[dat
 
 `npm run css:check` (`scripts/check-css-tokens.js`) fails on any `var(--name)` in `src/` that neither `theme.css` nor the same file declares. A misspelt or removed token doesn't break the build: the browser just drops the declaration, so this check is the only thing that catches it.
 
+## Markdown
+
+`npm run lint:md` runs markdownlint (`markdownlint-cli2`) on every Markdown file; `npm run lint:md:fix` fixes what it can. Rules are in `.markdownlint.jsonc` (also read by the VS Code extension): the defaults, minus line length (Prettier owns layout), inline HTML and a required first-line H1; repeated headings are allowed in different sections; code blocks are fenced. `.markdownlint-cli2.jsonc` skips everything git ignores plus vendored skills and session notes (`.claude/skills/`, `.remember/`, `.agents/`), even when lint-staged passes those paths explicitly.
+
 ## Disabling a rule
 
 Disable a rule for one line, never for a whole file, and always give the reason after `--` (in CSS: `/* stylelint-disable-next-line rule -- reason */`):

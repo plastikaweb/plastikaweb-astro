@@ -1,0 +1,12 @@
+// CLI options; rules live in .markdownlint.jsonc. `ignores` also applies to explicit
+// paths (lint-staged), and `gitignore` skips everything git ignores (wip/, local notes).
+{
+  "gitignore": true,
+  "ignores": [
+    ".claude/skills/**",
+    ".remember/**",
+    ".agents/**",
+    "node_modules/**",
+    "dist/**",
+  ],
+}

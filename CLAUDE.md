@@ -29,7 +29,7 @@ Portfolio and lead generator for Carlos Matheu (Plastikaweb), senior freelance A
 ## Commands
 
 - `npm install`: install dependencies.
-- `npm run dev`: dev server at http://localhost:4321.
+- `npm run dev`: dev server at `http://localhost:4321`.
 - `npm run build`: production build to `./dist/`.
 - `npm run preview`: serve the build locally before deploying.
 - `npm run format`: Prettier with `prettier-plugin-astro`; run it on the files you touch.

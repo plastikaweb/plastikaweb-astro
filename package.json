@@ -12,7 +12,9 @@
     "lint": "eslint . --max-warnings 0",
     "test:eslint-rules": "node --test eslint-rules/*.test.js",
     "css:check": "node scripts/check-css-tokens.js",
-    "lint:css": "stylelint \"src/**/*.{css,astro}\" --max-warnings 0"
+    "lint:css": "stylelint \"src/**/*.{css,astro}\" --max-warnings 0",
+    "lint:md": "markdownlint-cli2 \"**/*.md\"",
+    "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\""
   },
   "dependencies": {
     "astro": "^7.3.5"
@@ -24,6 +26,7 @@
     "eslint-plugin-jsx-a11y-x": "0.2.0",
     "eslint-plugin-simple-import-sort": "14.0.0",
     "globals": "17.13.0",
+    "markdownlint-cli2": "0.23.3",
     "postcss-html": "2.0.0",
     "prettier": "3.9.9",
     "prettier-plugin-astro": "1.1.0",

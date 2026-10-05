@@ -1,0 +1,13 @@
+// Rule config, also read by the VS Code markdownlint extension.
+{
+  "default": true,
+  // Prose lines aren't wrapped; Prettier owns layout.
+  "MD013": false,
+  // Repeated headings are fine in different sections (e.g. "Steps").
+  "MD024": { "siblings_only": true },
+  // Inline HTML is allowed (comments, <kbd>, <details>).
+  "MD033": false,
+  // Some files open with a comment or front matter instead of an H1.
+  "MD041": false,
+  "MD046": { "style": "fenced" },
+}
