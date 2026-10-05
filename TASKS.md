@@ -123,7 +123,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-14 · Unit test setup
 
-- **Status:** todo
+- **Status:** done
 - **Source:** §13.3
 - **Depends on:** T-05
 - **Done when:** `npm test` runs Vitest with one passing example test and coverage output; shared helpers live in `src/testing/`; `docs/testing.md` explains how to run and write tests.

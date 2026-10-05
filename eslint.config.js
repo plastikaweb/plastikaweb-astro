@@ -10,6 +10,7 @@ import maxCommentLines from "./eslint-rules/max-comment-lines.js";
 export default defineConfig([
   globalIgnores([
     "dist/",
+    "coverage/",
     ".astro/",
     "wip/",
     "public/",

@@ -4,7 +4,13 @@
 export default {
   extends: ["stylelint-config-standard", "stylelint-config-html/astro"],
   plugins: ["stylelint-use-logical"],
-  ignoreFiles: ["dist/**", ".astro/**", "wip/**", "node_modules/**"],
+  ignoreFiles: [
+    "dist/**",
+    "coverage/**",
+    ".astro/**",
+    "wip/**",
+    "node_modules/**",
+  ],
   rules: {
     // BEM-style class names and Utopia-style step tokens (`--step--1`).
     "selector-class-pattern": [
