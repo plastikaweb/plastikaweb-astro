@@ -240,8 +240,10 @@ const translations = [
     letter-spacing: 0.1em;
   }
 
-  .content-reveal {
-    animation: reveal 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  @media (prefers-reduced-motion: no-preference) {
+    .content-reveal {
+      animation: reveal var(--duration-slower) var(--ease-out-expo) forwards;
+    }
   }
 
   @keyframes reveal {
