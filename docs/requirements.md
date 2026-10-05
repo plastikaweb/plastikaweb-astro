@@ -45,7 +45,7 @@ CTOs, technical recruiters and high-end freelance clients. Secondary: developers
 
 | Layer     | Choice                                     | Notes                                                                     |
 | --------- | ------------------------------------------ | ------------------------------------------------------------------------- |
-| Front end | Astro 6, static output                     | Standalone repository, no monorepo.                                       |
+| Front end | Astro 7, static output                     | Standalone repository, no monorepo.                                       |
 | Styles    | Native modern CSS with custom properties   | No Tailwind, utility framework or CSS-in-JS.                              |
 | CMS       | Headless WordPress                         | Backend at api.plastikaweb.com. ACF for custom fields. i18n plugin: D-04. |
 | API       | WPGraphQL                                  | Client: `graphql-request` (planned). Data fetched at build time.          |
@@ -284,8 +284,8 @@ All tooling in this section is decided (D-14 closed in October 2026). Several pr
 
 ### 13.1 Versions and runtime
 
-- Node: current LTS supported by Astro 6, pinned in `.nvmrc` and `package.json` `engines`; CI uses the same version.
-- Astro: 6.x; dependencies installed from `package-lock.json` (`npm ci` in CI). Majors are upgraded deliberately, one at a time, with the full quality gate (§13.5) passing.
+- Node: 24 LTS (supported until April 2028), pinned in `.nvmrc` and `package.json` `engines`; CI uses the same version. Move to Node 26 once it is LTS and Astro supports it, as a deliberate upgrade.
+- Astro: 7.x (moved from 6 in T-05: the 6.x line stopped publishing in June 2026, before any page was built); dependencies installed from `package-lock.json` (`npm ci` in CI). Majors are upgraded deliberately, one at a time, with the full quality gate (§13.5) passing.
 - WordPress: a currently supported major on a supported PHP version. Required plugins and their versions are listed in the repo (WPGraphQL, ACF, WPGraphQL for ACF, the i18n plugin from D-04) so the backend can be rebuilt.
 
 ### 13.2 Code quality
@@ -370,7 +370,7 @@ Recurring work, tracked as recurring tasks:
 - From the Claude Design review (October 2026): small-screen navigation as a second header row, no hamburger (§6); personal topic cards on the home page are text only (§6.2); keyboard shortcuts and the GitHub activity graph are out of v1 (§4.0).
 - Design phase closed (T-02, October 2026): motion rules (§4.4), filter hidden without JS (§6.3), keyboard-reachable code blocks (§6.4), honeypot, no-JS success and first-layer notice (§6.6), 404 and privacy page structure (§6.7), hero CTAs (D-13).
 - Content decisions (T-26): personal page name and entry shape (D-09), category labels (D-10), missing-translation rule (D-11, which replaces "every page exists in all three") and the personal-vs-blog boundary (D-12).
-- Stack precision: Astro 6 static, `graphql-request`, standalone repository.
+- Stack precision: Astro 7 static (6 at first; upgraded in T-05), `graphql-request`, standalone repository.
 - Existing code declared a skeleton to replace (§0).
 - Open decisions collected with IDs (§12); new ones: D-08 to D-14.
 - New §13: engineering and quality — versions, linting, tests, versioning, CI/CD, documentation, agent tooling, security, maintenance; adapted from the NewWebSite project.

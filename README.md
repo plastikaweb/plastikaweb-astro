@@ -1,46 +1,20 @@
-# Astro Starter Kit: Basics
+# Plastikaweb
 
-```sh
-npm create astro@latest -- --template basics
-```
+Portfolio of Carlos Matheu, senior freelance Angular/TypeScript developer. Static site built with Astro 7, content from headless WordPress (planned), in Catalan, Spanish and English.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The full README (badges, quality checks, deploy and content rebuild) arrives with T-24 in [`TASKS.md`](TASKS.md). Requirements: [`docs/requirements.md`](docs/requirements.md).
 
-## 🚀 Project Structure
+## Requirements
 
-Inside of your Astro project, you'll see the following folders and files:
+- Node 24 LTS, pinned in [`.nvmrc`](.nvmrc) and `package.json` `engines`. With nvm: `nvm use`.
+- npm (ships with Node 24).
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+## Commands
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+| Command           | Action                                       |
+| ----------------- | -------------------------------------------- |
+| `npm ci`          | Install the exact dependencies from the lock |
+| `npm run dev`     | Dev server at `http://localhost:4321`        |
+| `npm run build`   | Production build to `./dist/`                |
+| `npm run preview` | Serve the build locally                      |
+| `npm run format`  | Format with Prettier                         |

@@ -60,10 +60,10 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-05 · Pin runtime and versions
 
-- **Status:** todo
+- **Status:** done (Node 24 LTS, Astro 7.3, Prettier 3.9 with `prettier-plugin-astro` 1.1)
 - **Source:** §13.1
 - **Depends on:** —
-- **Done when:** `.nvmrc` and `engines` pin the Node LTS supported by Astro 6; dependencies on the latest Astro 6.x; `npm ci` and `npm run build` pass; README states the Node version.
+- **Done when:** `.nvmrc` and `engines` pin the Node LTS supported by Astro 7; dependencies on the latest Astro 7.x; `npm ci` and `npm run build` pass; README states the Node version.
 
 ### T-06 · Remove template leftovers
 

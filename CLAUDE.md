@@ -18,7 +18,7 @@ Portfolio and lead generator for Carlos Matheu (Plastikaweb), senior freelance A
 
 ## Stack (decided — don't reopen)
 
-- Astro 6, static output, standalone repository. No Nx, no monorepo.
+- Astro 7 on Node 24 LTS (`.nvmrc`), static output, standalone repository. No Nx, no monorepo.
 - Styling: native modern CSS with custom properties. No Tailwind, no utility-class framework, no CSS-in-JS.
 - Content: headless WordPress through WPGraphQL, backend at api.plastikaweb.com (planned client: `graphql-request`, not installed yet). Until that phase, pages read local mock data shaped like the future WPGraphQL responses.
 - i18n: Catalan (`ca`), Spanish (`es`) and English (`en`).
