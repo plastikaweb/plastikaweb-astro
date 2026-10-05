@@ -23,11 +23,11 @@ How changes reach `main` (requirements §13.2). The hooks are a fast local filte
 
 husky installs them on `npm install` (the `prepare` script). They live in `.husky/`.
 
-| Hook         | Runs                                                                                       | Cost                      |
-| ------------ | ------------------------------------------------------------------------------------------ | ------------------------- |
-| `pre-commit` | lint-staged on the staged files only: ESLint, Stylelint, markdownlint fixes, then Prettier | Seconds                   |
-| `commit-msg` | commitlint on the message                                                                  | Instant                   |
-| `pre-push`   | The whole-project gates: `lint`, `lint:css`, `css:check`, `check`, `build`, unit tests     | Tens of seconds, per push |
+| Hook         | Runs                                                                                                                          | Cost                      |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| `pre-commit` | lint-staged on the staged files only: ESLint, Stylelint, markdownlint fixes, then Prettier                                    | Seconds                   |
+| `commit-msg` | commitlint on the message                                                                                                     | Instant                   |
+| `pre-push`   | The whole-project gates: `version:check`, `lint`, `lint:css`, `css:check`, `check`, `build`, unit tests, ESLint rule fixtures | Tens of seconds, per push |
 
 The whole-project gates run on push rather than on commit: a branch with ten commits pays for them once. lint-staged only sees staged files, so `pre-push` also catches what a change breaks elsewhere (an import left orphaned in an untouched file).
 

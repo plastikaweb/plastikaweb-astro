@@ -151,7 +151,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-18 · Project skills: commit and audit
 
-- **Status:** todo
+- **Status:** done
 - **Source:** §13.7
 - **Depends on:** T-04, T-08, T-10, T-11, T-13, T-17
 - **Done when:** `.claude/skills/commit-actions/` (adapted from NewWebSite: refuses `main`, runs the pre-commit gates, drafts the Conventional Commit, updates version and changelog when due, confirms before committing, never pushes on its own) and `.claude/skills/task-audit/` (mechanical gates first, then one read-only `audit-lens` agent per lens with a non-empty scope — code, styles, a11y, docs, i18n, UX, tests, security, SEO, performance — one deduplicated report) exist with `.claude/agents/audit-lens.md`; both documented in `CLAUDE.md`.

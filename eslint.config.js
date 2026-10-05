@@ -18,7 +18,6 @@ export default defineConfig([
     "public/",
     ".remember/",
     ".agents/",
-    ".claude/skills/",
   ]),
   { linterOptions: { reportUnusedDisableDirectives: "error" } },
   {

@@ -14,6 +14,7 @@ Notable changes to the site, newest first. Format: [Keep a Changelog](https://ke
 - Vitest unit tests with coverage.
 - Playwright smoke and axe accessibility tests on the home page, both themes, 375 and 1440 px.
 - Claude Code guard hooks and command allow list.
+- Project skills for commits (`commit-actions`) and branch audits (`task-audit`, ten read-only review lenses).
 - Changelog and a README version badge checked against `package.json`.
 
 ### Changed

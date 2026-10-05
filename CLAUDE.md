@@ -81,6 +81,13 @@ Vetted in T-04 (requirements §13.7). Only the MCP server is installed in the pr
 
 Not installed, on purpose: `impeccable` (downloads and runs a native binary, installs hooks that run without approval, writes its own `PRODUCT.md`); `transitions-dev` / `transitions-polish` (reference only: competing token names, and their licence forbids redistributing them, so never commit a copy). WordPress skills (`WordPress/agent-skills`: `wp-plugin-development`, `wp-wpcli-and-ops`, pinned to a commit) belong to the WordPress project in phase 5 (T-48).
 
+## Project skills
+
+In `.claude/` (T-18), adapted from NewWebSite; a clone gets them.
+
+- `commit-actions`: use it for every commit, merge or release. Refuses `main`, runs `lint-staged`, drafts the Conventional Commit with the task id, adds the `CHANGELOG.md` line when the change is notable, bumps the version only in a release (`npm version`), confirms before committing and never pushes on its own.
+- `task-audit`: run it before merging a feature-sized branch (about 10 or more touched files, not docs-only). Mechanical gates first, then one read-only `audit-lens` agent (`.claude/agents/audit-lens.md`) per lens whose files changed: code, styles, a11y, docs, i18n, UX, tests, security, SEO, performance. It ends with one deduplicated P0/P1/P2 report and fixes nothing before the user triages it.
+
 ## Agent guardrails
 
 `.claude/settings.json` (T-16) applies to every Claude Code session in this repo:

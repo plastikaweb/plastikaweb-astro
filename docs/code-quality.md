@@ -5,7 +5,7 @@ How the code is checked before it reaches `main` (requirements §13.2). Each too
 ## Formatting
 
 - Prettier with `prettier-plugin-astro`, config in `.prettierrc`. `npm run format` writes, `npm run format:check` fails on any unformatted file.
-- `.prettierignore` skips agent and session state (`.remember/`, `.agents/`, `.claude/skills/`) and the font kit in `public/fonts/`; Prettier also skips everything in `.gitignore`.
+- `.prettierignore` skips agent and session state (`.remember/`, `.agents/`) and the font kit in `public/fonts/`; Prettier also skips everything in `.gitignore`.
 - `.editorconfig` and `.gitattributes` keep UTF-8, two-space indentation and LF line endings; fonts, images and PDFs are binary.
 
 ## ESLint
@@ -68,7 +68,7 @@ Astro's `:global()` is allowed. In `theme.css` the color, unit, radius and `[dat
 
 ## Markdown
 
-`npm run lint:md` runs markdownlint (`markdownlint-cli2`) on every Markdown file; `npm run lint:md:fix` fixes what it can. Rules are in `.markdownlint.jsonc` (also read by the VS Code extension): the defaults, minus line length (Prettier owns layout), inline HTML and a required first-line H1; repeated headings are allowed in different sections; code blocks are fenced. `.markdownlint-cli2.jsonc` skips everything git ignores plus vendored skills and session notes (`.claude/skills/`, `.remember/`, `.agents/`), even when lint-staged passes those paths explicitly.
+`npm run lint:md` runs markdownlint (`markdownlint-cli2`) on every Markdown file; `npm run lint:md:fix` fixes what it can. Rules are in `.markdownlint.jsonc` (also read by the VS Code extension): the defaults, minus line length (Prettier owns layout), inline HTML and a required first-line H1; repeated headings are allowed in different sections; code blocks are fenced. `.markdownlint-cli2.jsonc` skips everything git ignores plus session notes (`.remember/`, `.agents/`), even when lint-staged passes those paths explicitly. The project skills in `.claude/skills/` are linted and formatted like any other file.
 
 ## Types
 
