@@ -66,7 +66,7 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
       Skip to content
     </a>
 
-    <header role="banner" class="glass-nav">
+    <header class="glass-nav">
       <nav aria-label="Main Navigation">
         <div class="header-container">
           <div class="logo">
@@ -110,10 +110,10 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
       </div>
     </main>
 
-    <footer role="contentinfo">
+    <footer>
       <div class="container footer-content">
         <p>
-          © {new Date().getFullYear()} Carlos Matheu. Built with Astro &
+          © {new Date().getFullYear()} Carlos Matheu. Built with Astro &amp;
           WPGraphQL.
         </p>
       </div>

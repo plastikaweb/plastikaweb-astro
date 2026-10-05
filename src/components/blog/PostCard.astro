@@ -6,7 +6,7 @@ interface Props {
     excerpt: string;
     slug: string;
     date: string;
-    image: string;
+    image?: string;
   };
 }
 
@@ -19,15 +19,17 @@ const formattedDate = new Date(post.date).toLocaleDateString(lang, {
 ---
 
 <article class="post-card">
-  <div class="image-container">
-    <img
-      src={post.image}
-      alt=""
-      aria-hidden="true"
-      loading="lazy"
-      decoding="async"
-    />
-  </div>
+  {post.image && (
+    <div class="image-container">
+      <img
+        src={post.image}
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  )}
   <div class="card-body">
     <time datetime={post.date}>{formattedDate}</time>
     <h3>

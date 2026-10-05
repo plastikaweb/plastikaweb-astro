@@ -85,7 +85,7 @@ const translations = [
           <div class="skill-content">
             <h3>{skill.title}</h3>
             <div class="progress-container">
-              <div class="progress-bar" style={`width: ${skill.level}%`} />
+              <div class="progress-bar" style={`--level: ${skill.level}%`} />
             </div>
           </div>
         </article>
@@ -157,6 +157,7 @@ const translations = [
   }
 
   .progress-bar {
+    inline-size: var(--level);
     height: 100%;
     background: var(--color-primary);
   }

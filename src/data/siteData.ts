@@ -12,7 +12,7 @@ export interface Post {
   excerpt: string;
   date: string;
   slug: string;
-  image: string;
+  image?: string;
 }
 
 export const skills: Skill[] = [
@@ -61,8 +61,6 @@ export const blogPosts: Post[] = [
       "Why the 'Less is More' philosophy is dominating the modern web stack, focusing on zero-JS runtimes and server-side excellence.",
     date: "2026-02-15",
     slug: "future-web-performance",
-    image:
-      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80",
   },
   {
     title: "Accessibility as a Design Requirement",
@@ -70,7 +68,5 @@ export const blogPosts: Post[] = [
       "Moving beyond checklists to create truly inclusive digital experiences for everyone, regardless of their hardware or abilities.",
     date: "2026-01-10",
     slug: "a11y-design-requirement",
-    image:
-      "https://images.unsplash.com/photo-1586717791821-3f44a563eb4c?auto=format&fit=crop&w=800&q=80",
   },
 ];
