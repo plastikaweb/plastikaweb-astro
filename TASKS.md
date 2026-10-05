@@ -137,7 +137,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-16 · Claude Code project settings
 
-- **Status:** doing (hooks written; `.claude/settings.json` pending, created by the user because the agent can't write its own settings)
+- **Status:** done
 - **Source:** §13.7
 - **Depends on:** T-12
 - **Done when:** `.claude/settings.json` blocks edits to `.env*` and `package-lock.json` (PreToolUse hook), runs the type check after edits to `.ts`/`.astro` files (PostToolUse hook), and allows the read-only and gate commands without prompting.
