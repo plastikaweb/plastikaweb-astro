@@ -38,7 +38,7 @@ Housekeeping that runs alongside the design phase; nothing below depends on it e
 
 ### T-67 · Home design revision (October 2026 review)
 
-- **Status:** doing (decisions recorded in the requirements; Prompt 3 drafted in `docs/design/claude-design-prompt.md`, to run in Claude Design)
+- **Status:** done (17 October 2026: Prompts 3 to 5 in `docs/design/claude-design-prompt.md`; the final export's decisions recorded in §4.2, §4.4 and §6.2. Checked in Claude Design's preview at about 400 and 1440 px in both themes, with the four availability states and the "now" block at 0, 1 and 3 lines; the icons' contrast computed from the tokens, at least 4.8:1. Exception accepted: the design-system docs that still describe the previous home, listed in T-34, are ignored in the build.)
 - **Source:** §5, §6, §6.2, §7, D-13, D-15
 - **Depends on:** T-02
 - **Scope:** the home page and the site header (on every page). Footer, buttons and section headings keep their design; other pages are revised later, one at a time.
@@ -243,7 +243,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §4, D-07, D-08
 - **Depends on:** T-02, T-27, T-67
-- **Done when:** `theme.css` has the tokens the designs added (T-02 and T-67), no rounded `--radius-*` values remain (sharp corners), muted text passes AA, fonts load as decided with only Space Grotesk preloaded; `docs/design-state.md` contrast table updated.
+- **Done when:** `theme.css` has the tokens the designs added (T-02 and T-67), no rounded `--radius-*` values remain (sharp corners), muted text passes AA, fonts load as decided in §4.2 (Space Grotesk preloaded; Bricolage Grotesque's preload is settled in T-35); the type-scale line in `.claude/rules/css.md` names the hero size adopted from T-67; `docs/design-state.md` contrast table updated.
 
 ### T-31 · UI strings and i18n helpers
 
@@ -271,14 +271,14 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §4, T-02 and T-67 component inventories
 - **Depends on:** T-33
-- **Done when:** the components in the design inventory (buttons, links, chips, tags, cards, section heading with "see all", …) exist with all their states, using semantic tokens only.
+- **Done when:** the components in the design inventory (buttons, links, chips, tags, cards, section heading, …) exist with all their states, using semantic tokens only. The section heading has no "see all" link: that link ends its section (§6.2). Where the final Home export's design-system docs still describe the previous home (a "Veure la feina" button, an email address with a copy button in the contact block, the old figures in `ProofStats`), §6.2 wins.
 
 ### T-35 · Home page
 
 - **Status:** todo
 - **Source:** §6.2
 - **Depends on:** T-28, T-32, T-34, T-67
-- **Done when:** the five sections render in order from data; the hero has one CTA, to the contact form; each of the four availability states renders its own text and icon shape, a "from" month that has already started at build time (the build month or earlier) renders as available now, Catalan month names elide ("a partir d’abril"), and the pulse stops within 5 s and is absent under reduced motion; the "now" block is absent when there are no lines; "see all" links go to their pages; only technical posts appear; the page has no contact form and no email address. The link check's `skipFragment` entry for the skeleton's dead `#contact` anchor is removed (T-20).
+- **Done when:** the five sections render in order from data; the hero has one CTA, to the contact form; each of the four availability states renders its own text and icon shape, a "from" month that has already started at build time (the build month or earlier) renders as available now, Catalan month names elide ("a partir d’abril"), and the pulse stops within 5 s and is absent under reduced motion; the "now" block is absent when there are no lines; "see all" links go to their pages; only technical posts appear; the page has no contact form and no email address. A desktop-profile Lighthouse run of the home page (the gate runs the mobile profile, where the H1 is the LCP) keeps LCP under 2.5 s with the hero lead as the LCP element, and settles whether Bricolage Grotesque is preloaded (§4.2). The link check's `skipFragment` entry for the skeleton's dead `#contact` anchor is removed (T-20).
 
 ### T-36 · Work listing
 

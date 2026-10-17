@@ -9,7 +9,7 @@ Prompts 1 and 2 designed every page before any was coded (TASKS.md T-02, done). 
 3. Pick a direction (or a mix), then paste **Prompt 2** with the choice filled in.
 4. Record the decisions that come out of it in `docs/requirements.md` (§4, §6, §12).
 
-Later revisions get their own self-contained prompt, numbered from **Prompt 3** (home page, October 2026 review, T-67). Each one carries its decisions in full, so it works even before they reach `main`.
+Later revisions get their own prompt, numbered from **Prompt 3**. Prompts 3 to 5 revised the home page in October 2026 (T-67, done): Prompt 3 is self-contained and carries its decisions in full, so it works even before they reach `main`; Prompts 4 and 5 are follow-ups that only make sense on top of Claude Design's previous result. Their decisions are now in `docs/requirements.md`, which wins where they differ.
 
 ---
 
@@ -217,4 +217,136 @@ Keep the ProofStats and CopyButton components in the project: the case-study KPI
 - Both handoff READMEs updated. design_handoff/README.md: the shared shell (menu, header contact link), the Home sheet (no "ara →" line, no proof strip, no copy button, the new H1 and lead), the sample content and the hero CTA decision (one CTA). design_handoff_home/README.md still holds the hero and motion spec, so rewrite every part this prompt changes; don't only delete. Page structure: hero → 01 serveis → 02 feina → 03 blog → 04 contacte. Header: three-link menu; contact link as the outlined secondary button. Hero: no name line in the meta, the new H1 and lead, one CTA, the "now" block at every width; drop the secondary CTA, the proof strip and its motion row. Also the Performance copy, the sober work card and the contact block (04 / contacte, no mailto, no copy button, no copy-email state). In the open decisions, close D-13 (one CTA) and drop "confirm the proof numbers". Then document the availability component (four states: shapes, tokens, motion, the data rules above) and list any new or changed token.
 - In both handoff READMEs and readme.md, name Home v4.dc.html as the current home design (headings, file lists, how to view it, tweak list) and Home v3 as the previous iteration, kept for comparison.
 - At the end: anything in this prompt that was hard to satisfy, and anything you changed that I didn't ask for.
+```
+
+---
+
+## Prompt 4 — home page, second round (portrait, H1 at 320 px, "see all")
+
+Task T-67. Pasted on top of `Home v4.dc.html` after the review of Prompt 3's result. It asked for two portrait layouts to choose between, the H1 fit at 320 px, the "see all" links at the end of their sections and the design-system docs that still described v3. Not self-contained: it only makes sense on top of that result.
+
+```text
+Revise Home v4.dc.html after my review of it. Update it in place (don't create Home v5). Only the home page, the components it uses and the design-system docs listed below change. Leave the older home files (Home v3, Home v2, Home A, Home B, Plastikaweb Home) and the other pages as they are. Don't spend effort on the review canvas. Same brand system, tokens and components. Where this prompt and the attached requirements disagree, this prompt wins.
+
+Copy rule, as before: typographic apostrophe ’ only.
+
+## Hero: a much smaller portrait
+
+The portrait is too big. At 1440 px it is 320 × 427 px, taller than everything beside it (availability, links and H1 together are about 266 px), and it leaves an empty area above the availability line. Make it much smaller. I want to choose between two layouts by seeing them, so add a `portraitLayout` tweak with two options, default A. Below 56.25rem both options are the current narrow layout, unchanged.
+
+A · Avatar. The narrow layout at every width: a small portrait (about 6.5–8rem wide) beside the availability and the GitHub and LinkedIn links, and the H1 below it at full width. The wide variant of the top grid goes away: one set of grid areas at every width ("pic meta" / "title title"). From 56.25rem the H1 still sets in exactly three lines.
+
+B · Beside. The portrait stays left of the meta and the H1, but it is never taller than the text block beside it (availability, links and H1): its top aligns with the availability line and its bottom with the H1's last line. Start from v4's width at 900 px (104 px) and let it grow only while the three role lines fit; at 1440 px it should end up about 200 px wide. If the image needs a different crop to fill that height, use object-fit: cover; never distort it.
+
+English H1, the same in both options (still a draft): "Carlos Matheu. Angular front-end developer in Barcelona." Lines on wide screens: "Carlos Matheu." / "Angular front-end developer" / "in Barcelona."
+
+My measurements (Space Grotesk 700, −0.035em, <mark> padding included, at 48.8 px): ca "Front-end amb ANGULAR," 561 px, es "Front-end con ANGULAR," 548 px, en "ANGULAR front-end developer" 666 px. In A the title column at 900 px is about 810 px. In B it depends on the portrait width: with v4's 104 px it is 679 px, 13 px to spare for English, so at 900 px the portrait can't be much wider than about 116 px. If a portrait that narrow and that tall looks wrong, don't shrink the H1 silently: tell me what B needs at 900 px (a narrower crop, a smaller H1 or something else).
+
+- Keep --step-hero (still proposed) unless a layout calls for a change. In A the H1 has room to grow on wide screens: if you think it should, propose the sizes and say why.
+- For each option, put a fit table in design_handoff_home/README.md: ca, es and en at 320, 900, 1100, 1280 and 1440 px, with the portrait width and the spare space at each width. Add the hero height at 1440 × 900 and how far down the CTA sits.
+- Say which element is the LCP candidate in each option. Preload the portrait only if it can still be the largest element.
+- Remove the paragraph that explains the 104 px portrait. Describe both options as proposed until I choose one.
+
+## Hero: the H1 at 320 px
+
+Requirements §2: every viewport from 320 px, no horizontal scroll. Below 56.25rem the H1 stays at the 48.8 px floor and the column at 320 px is 280 px (gutter 20 px each side). The city line is held together with a no-break space, and in Spanish "en Barcelona." is 300 px wide: it overflows by 20 px. English "in Barcelona." overflows by 5 px. Catalan "a Barcelona." (272 px) fits.
+
+Fix it so that no H1 unit overflows at 320 px in any locale. For example, below 56.25rem cap the size against the hero container (`min(var(--step-hero), 14cqi)` gives 44.8 px at 320 px), or drop the no-break space below 56.25rem. Choose one, say which and why, and add the 320 px widths to both fit tables. The fix is the same in both portrait options and changes nothing from 56.25rem up.
+
+## "See all" links at the end of their sections
+
+In 02 / feina and 03 / blog, move "Veure tota la feina →" and "Veure tots els articles →" from the section heading to the end of the section, after the cards or posts, the same way Services ends with "Més sobre com treballo →". Keep their labels and their TextLink style.
+
+- One link per section, last in source order. Don't reorder it with CSS (order, grid placement): the reading and tab order must match what is seen.
+- Remove the "see all" slot from SectionHeading. If any other page still uses it, keep it there and tell me which page; don't change that page now.
+- Update the docs that describe the slot: SectionHeading .d.ts and .prompt.md, both handoff READMEs.
+
+## Smaller fixes on the home page
+
+- Placeholders: make the `ph` tweak default to on, so a screenshot alone shows which content is sample data.
+- Part-time availability with 1 hour: add the singular, ca "Disponible una hora a la setmana" · es "Disponible una hora a la semana" · en "Available for one hour a week". In design_handoff_home/README.md the hours rule becomes "integer, 1 or more; 1 uses the singular" (drop "integer ≥ 2": no requirement says it).
+- The mock must match its own component CSS: move the hero entrance animations from inline styles into rules inside @media (prefers-reduced-motion: no-preference), as sections.css already does, and drive the three-line layout from the 56.25rem container query instead of the JavaScript width check.
+- Pulse: its length now depends on --duration-slowest, a shared token. Give it its own proposed token (for example --duration-pulse: 1.8s, two cycles) and state in the Availability docs that the total must stay under 5 seconds.
+
+## Design-system docs that still describe v3
+
+Update them; they are what a builder reads.
+
+- D-15 is still open, with three options in the requirements: keep the Personal page at /[lang]/personal, reachable from About; merge it into About; or leave it out of v1. design_handoff/README.md (line 320) and DS 05 (line 122) narrow it to "cut or redirect". Restate it with the three options and keep the factual note that About and the 404 link to /ca/personal. Don't choose.
+- DS 05 Decisions: the settled list still has a four-link menu with Personal, the personal section on the Home and the "ara →" line. Rewrite it for v4: three-link menu plus language, theme and, from 56.25rem, the outlined contact link; five home sections (hero, serveis, feina, blog, contacte); the "now" block instead of "ara →".
+- DS 05 shows D-09 to D-12 and D-14 as open. They are decided: D-09 "Personal" at /[lang]/personal; D-10 Enginyeria / Pensaments; D-11 no fallback; D-12 note vs. Thoughts post; D-14 Playwright + axe, Renovate, Better Stack. Remove the "Close D-09 to D-12" and "Run Prompt 2" next steps, and the same line in design_handoff_home/README.md (line 320).
+- "Where" labels: DS 04b puts ProofStats on the hero and TopicCard in "home personal"; DS 04 puts CopyButton in the contact block. Change them to: ProofStats, Work KPI strip (not on the Home since v4); CopyButton, blog code blocks; TopicCard, Personal page only (D-15 open). Make the same change in ProofStats.d.ts, ProofStats.prompt.md, CopyButton.d.ts and CopyButton.prompt.md; CopyButton's example becomes a code block, with no email or mailto.
+- Add --step-hero (and the pulse token) to the token lists in DS 05 and readme.md; update the tokens/extensions.css header from v2 to v4.
+- CaseCard: mark ctaLabel and tagsLabel as feature-only in the .d.ts, or move them into labels so both variants read one source.
+- cards.card.html: use the v4 Performance copy (no field-data claim).
+- navigation.card.html: add a wide instance (900 px or more) so the outlined contact link shows.
+- DS 04c: the contact lead must match Home v4 ("…48 hores, en català, castellà o anglès.").
+- ui_kits/website: mark it as deprecated (v2) in its card and in readme.md; don't rebuild it.
+- readme.md: Astro 7, not Astro 6.
+- Work card 2: make the slug match the title (biblioteca-components).
+
+## What I want back
+
+- Home v4.dc.html updated, light and dark, at 375 and 1440 px, Catalan copy, tweaks as before plus `portraitLayout` (A and B).
+- The two fit tables (one per option) with ca, es and en at 320, 900, 1100, 1280 and 1440 px.
+- Every file you changed, in one list.
+- At the end: anything hard to satisfy, and anything you changed that I didn't ask for, marked as proposed.
+```
+
+---
+
+## Prompt 5 — home page, last round (portrait layout, LCP, motion)
+
+Task T-67. Pasted on top of Prompt 4's result. It records the owner's choice of the portrait beside the meta and the H1 (layout B), corrects the LCP candidates (the lead, not the portrait) and stops the lead from fading in. Its export (17 October 2026) is the final home design; the decisions are in `docs/requirements.md` §4.4 and §6.2.
+
+```text
+Revise Home v4.dc.html after my review of your Prompt 4 changes. Update it in place (don't create Home v5). Change only the files named below. Leave the older home files, the other pages and the review canvas as they are. Don't fix anything this prompt doesn't list, even if you notice it: I've logged the remaining design-system leftovers for later. Where this prompt and the attached requirements disagree, this prompt wins.
+
+Copy rule, as before: typographic apostrophe ’ only.
+
+The copies under design_handoff_home/ (components/, the DS pages, Home v4.dc.html, styles.css, tokens/) are identical to the root files today. Keep them identical. Line numbers below refer to the files as they are now.
+
+## Portrait: B · Beside is the layout
+
+I choose B, from the 56.25rem breakpoint as you built it. At 900 px the portrait is the 104 × 218 strip and it fills out to about 3:4 at 1440: I accept that as the gesture. A is dropped.
+
+- Remove A from the mock and the components: the `portraitLayout` tweak and the mock's `data-layout` hook, the Hero prop `portraitLayout` and the `.pw-hero--beside` modifier. B's rules become the hero's own wide layout inside the 56.25rem container query. Below 56.25rem nothing changes.
+- In the docs, describe one layout and stop calling it proposed (the portrait widths stay component values, not tokens). Remove A and the text that only served the choice:
+  - design_handoff_home/README.md: the tweak list (line 22), "Changes in v4" item 3 (36), Top grid (72), the layouts section (91–99: one layout; replace "What B needs at 900 px" with one sentence saying the strip at 900 px is accepted), A's fit table (107–115) and the "Option B · Beside" heading over the other one (117), "Both options…" (127), "H1 size in A" (133), Files (334), Open decisions (345: the layout is decided). Also drop the option wording at 82 ("Same in both portrait options"), 89 ("Unchanged by the portrait options") and 105 ("in B,").
+  - design_handoff/README.md (lines 54 and 67), readme.md (12), DS 04c (46), DS 05 (168: keep the D-15 step), the sections.css header comment and A's rule, Hero.jsx, Hero.d.ts, Hero.prompt.md, and the --step-hero comment in tokens/extensions.css (line 27: the comment only; the token stays).
+  - In the files named here, remove any other mention of two portrait layouts or options.
+- Portrait.d.ts (line 1), the Portrait card in DS 04b (line 118) and the imagery line in readme.md (65) say the crop is always 3:4. Say instead: 3:4 everywhere except the Home hero from 56.25rem, where the crop follows the height of the text beside it (about 1:2 at 900 px, 3:4 at 1440), object-fit: cover, object-position 50% 30% (one clause is enough in readme.md). The About page keeps 3:4 at every width. In Portrait.d.ts also replace the outdated hero width: clamp(5.5rem, 2rem + 10cqi, 6.5rem) below 56.25rem, clamp(6.5rem, 17.78cqi - 3.5rem, 12.5rem) from it.
+- Hero height at 1440 × 900 (README line 129): keep only B's figures, and add that they are with `ph` off (the sample banner sits above the header and pushes the hero down about 30 px).
+- The tight cell stays: 13 px to spare for the English role line at 900 px. Keep the CI check in the build notes and add this fallback: if the English role line doesn't fit at 900 px with the production font, make the portrait narrower at the breakpoint with a steeper slope, clamp(6rem, 19.26cqi - 4.83rem, 12.5rem): 96 px at 900, about 135 at 1100, 200 at 1440. Lowering only the floor changes nothing at 900. That raises the spare to about 20 px, enough for a production font up to about 3% wider. Never a smaller H1 at the breakpoint and never a fourth line.
+
+## LCP: the lead, not the portrait
+
+Your LCP paragraph (README line 131) compares the portrait with the H1's role line only and leaves out the lead. I measured all three in the browser: Space Grotesk and Bricolage Grotesque from Google Fonts, the union of each text's client rects, in px². From 56.25rem each H1 line is display: block, so each line is its own candidate; below it the whole H1 is one.
+
+| Width | H1 role line ca / es / en | Lead ca / es / en | Portrait |
+| --- | --- | --- | --- |
+| 375 | whole H1: 62k / 62k / 77k | about 35k | small |
+| 900 | 35k / 34k / 41k | 55k / 59k / 58k | 23k |
+| 1100 | 44k / 43k / 53k | 58k / 61k / 60k | 34k |
+| 1280 | 55k / 53k / 65k | 63k / 59k / 63k | 45k |
+| 1440 | 64k / 63k / 76k | 64k / 65k / 63k | 55k |
+
+The portrait is never the largest element, so it gets no preload and no fetchpriority="high". The LCP element is the whole H1 below 56.25rem (measured at 375 px), the lead at 900–1100 px, and the lead or the role line from 1280 px. Use these numbers; don't re-measure.
+
+- Rewrite README line 131 with this.
+- Remove the portrait preload from the Portrait bullet (README line 73), Hero.d.ts (line 11) and Portrait.prompt.md (line 5). The portrait keeps explicit dimensions and AVIF/WebP with srcset.
+
+## Motion: the lead renders from the first frame
+
+The lead row (lead and CTA) fades up from opacity 0 after 650 ms, over 800 ms: sections.css line 47, the mock's [data-hero-row] rule, README line 271. On wide screens the lead is the LCP element, so this delays LCP by up to about 1.5 s.
+
+- Don't animate the lead. Keep the same fade-up on the CTA alone and on the "now" block. The meta, the highlight and the red block stay as they are.
+- The rule becomes: the H1 and the lead render from the first frame (LCP candidates); the portrait is static too. Say it that way in README line 45, the motion table (lines 271 and 275: "H1, lead and portrait | not animated"), readme.md line 71, design_handoff/README.md line 267, Hero.d.ts lines 10–11 and Hero.prompt.md line 13.
+- Requirements §4.4 still says "the H1 and the portrait (LCP candidates)". I'll fix it in the repo; follow this prompt meanwhile.
+
+## What I want back
+
+- Home v4.dc.html updated in place, without the portraitLayout tweak.
+- Every file you changed, in one list.
+- At the end: anything hard to satisfy, and anything you changed that I didn't ask for, marked as proposed.
 ```
