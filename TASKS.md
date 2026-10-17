@@ -36,6 +36,14 @@ Housekeeping that runs alongside the design phase; nothing below depends on it e
   4. Record the resulting decisions in `docs/requirements.md` and any new tokens in `src/styles/theme.css`.
 - **Done when:** every page in §6.1 has an approved design in both themes and both widths, and the decisions it settled are in the requirements.
 
+### T-67 · Home design revision (October 2026 review)
+
+- **Status:** doing (decisions recorded in the requirements; Prompt 3 drafted in `docs/design/claude-design-prompt.md`, to run in Claude Design)
+- **Source:** §5, §6, §6.2, §7, D-13, D-15
+- **Depends on:** T-02
+- **Scope:** the home page and the site header (on every page). Footer, buttons and section headings keep their design; other pages are revised later, one at a time.
+- **Done when:** a new Claude Design export (`Home v4`) matches §6.2 in both themes at 375 and 1440 px, including the four availability states and the "now" block empty, with one line and with three; the header carries the three-item menu and, on wide screens, the outlined contact button; both handoff READMEs and the design-system components match; the local design reference in `CLAUDE.local.md` points at the new export.
+
 ## Phase 3 — Foundation
 
 Can run in parallel with T-02. Goal: the quality gate exists before the first page is built. Each tool lands with its documentation in `docs/` (§13.6), not in a later docs pass.
@@ -186,7 +194,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ## Phase 4 — Front end with mock data
 
-Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate). A page task is done only when it matches the approved design in both themes at 375 and 1440 px, all its copy exists in ca, es and en, and its end-to-end, axe and Lighthouse checks pass in the gate.
+Page tasks depend on T-02 (approved design for that page; for the home page and the shared shell, T-67) and T-19 (quality gate). A page task is done only when it matches the approved design in both themes at 375 and 1440 px, all its copy exists in ca, es and en, and its end-to-end, axe and Lighthouse checks pass in the gate.
 
 ### T-25 · Decide routing (D-01, D-02)
 
@@ -209,12 +217,19 @@ Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate
 - **Depends on:** —
 - **Done when:** both decisions are recorded; D-08 with contrast ratios that pass AA in both themes.
 
+### T-68 · Decide the Personal page (D-15)
+
+- **Status:** todo
+- **Source:** §6.5, §12 D-15
+- **Depends on:** —
+- **Done when:** D-15 is recorded in the requirements (keep the page reachable from About, merge it into About, or leave it out of v1), and T-28, T-32, T-41, T-42, T-49 and the content model (§7) are adjusted to match.
+
 ### T-28 · Site copy and assets
 
 - **Status:** todo
 - **Source:** §6.2, §6.6, §11
 - **Depends on:** —
-- **Done when:** hero, services, About bio and personal-page intro exist in ca, es and en; professional photo and a CV per locale are ready.
+- **Done when:** hero (H1, lead, availability and "now" lines, §6.2), the home page title and meta description with the §9.1 keywords the hero leaves out (§6.2), services, About bio and, depending on D-15, the personal-page intro exist in ca, es and en; professional photo and a CV per locale are ready.
 
 ### T-29 · Astro configuration and routing
 
@@ -227,8 +242,8 @@ Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate
 
 - **Status:** todo
 - **Source:** §4, D-07, D-08
-- **Depends on:** T-02, T-27
-- **Done when:** `theme.css` has the tokens the design added, no rounded `--radius-*` values remain (sharp corners), muted text passes AA, fonts load as decided with only Space Grotesk preloaded; `docs/design-state.md` contrast table updated.
+- **Depends on:** T-02, T-27, T-67
+- **Done when:** `theme.css` has the tokens the designs added (T-02 and T-67), no rounded `--radius-*` values remain (sharp corners), muted text passes AA, fonts load as decided with only Space Grotesk preloaded; `docs/design-state.md` contrast table updated.
 
 ### T-31 · UI strings and i18n helpers
 
@@ -248,13 +263,13 @@ Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate
 
 - **Status:** todo
 - **Source:** §2, §4.5, §5, §6
-- **Depends on:** T-02, T-30, T-31
-- **Done when:** a new base layout replaces `BaseLayout.astro` and `ThemeToggle.astro`: `lang` per locale, skip link, landmarks, theme script before first paint, theme toggle `<button>` with persistence and crossfade, main menu (Work, Blog, Personal, About) that moves to a second header row on small screens, with no hamburger and no truncation of ca/es labels, language selector linking to the same page (or to the blog listing in that locale when a post has no translation, D-11), footer. End-to-end tests cover theme persistence without a flash and language switching. Lighthouse also fails on every template below 100 in performance, or with LCP of 2.5 s or more, or CLS of 0.1 or more: `checkBudgets` in `scripts/lighthouse.js` (T-20) reads `blocking` entries as minimum scores, so it gains maximum thresholds for LCP and CLS, and each page and theme is judged on the median of three runs, since a single run varies by several points.
+- **Depends on:** T-02, T-30, T-31, T-67
+- **Done when:** a new base layout replaces `BaseLayout.astro` and `ThemeToggle.astro`: `lang` per locale, skip link, landmarks, theme script before first paint, theme toggle `<button>` with persistence and crossfade, main menu (Work, Blog, About) that moves to a second header row on small screens, plus, from the wide breakpoint up, a header contact link styled as a secondary (outlined) button that goes to the contact form, with no hamburger and no truncation of ca/es labels, language selector linking to the same page (or to the blog listing in that locale when a post has no translation, D-11), footer. End-to-end tests cover theme persistence without a flash and language switching. Lighthouse also fails on every template below 100 in performance, or with LCP of 2.5 s or more, or CLS of 0.1 or more: `checkBudgets` in `scripts/lighthouse.js` (T-20) reads `blocking` entries as minimum scores, so it gains maximum thresholds for LCP and CLS, and each page and theme is judged on the median of three runs, since a single run varies by several points.
 
 ### T-34 · Shared components
 
 - **Status:** todo
-- **Source:** §4, T-02 component inventory
+- **Source:** §4, T-02 and T-67 component inventories
 - **Depends on:** T-33
 - **Done when:** the components in the design inventory (buttons, links, chips, tags, cards, section heading with "see all", …) exist with all their states, using semantic tokens only.
 
@@ -262,8 +277,8 @@ Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate
 
 - **Status:** todo
 - **Source:** §6.2
-- **Depends on:** T-28, T-32, T-34
-- **Done when:** the six sections render in order from data; "see all" links go to their pages; only technical posts appear; personal cards link to topic anchors. The link check's `skipFragment` entry for the skeleton's dead `#contact` anchor is removed (T-20).
+- **Depends on:** T-28, T-32, T-34, T-67
+- **Done when:** the five sections render in order from data; the hero has one CTA, to the contact form; each of the four availability states renders its own text and icon shape, a "from" month that has already started at build time (the build month or earlier) renders as available now, Catalan month names elide ("a partir d’abril"), and the pulse stops within 5 s and is absent under reduced motion; the "now" block is absent when there are no lines; "see all" links go to their pages; only technical posts appear; the page has no contact form and no email address. The link check's `skipFragment` entry for the skeleton's dead `#contact` anchor is removed (T-20).
 
 ### T-36 · Work listing
 
@@ -304,15 +319,15 @@ Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate
 
 - **Status:** todo
 - **Source:** §6.5
-- **Depends on:** T-26, T-32, T-34
-- **Done when:** one page with entries grouped by topic, an anchor per topic, optional fields handled, and the full grouped list readable without JS.
+- **Depends on:** T-26, T-32, T-34, T-68
+- **Done when:** (scope set by D-15) one page with entries grouped by topic, an anchor per topic, optional fields handled, and the full grouped list readable without JS.
 
 ### T-42 · About page
 
 - **Status:** todo
 - **Source:** §6.6
-- **Depends on:** T-28, T-34
-- **Done when:** bio, photo, CV download per locale, GitHub and LinkedIn links.
+- **Depends on:** T-28, T-34, T-68
+- **Done when:** bio, photo, CV download per locale, GitHub and LinkedIn links; whatever D-15 assigns to About from the personal section.
 
 ### T-43 · Tech timeline
 
@@ -405,7 +420,7 @@ Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate
 - **Status:** todo
 - **Source:** §13.5
 - **Depends on:** T-23, T-51
-- **Done when:** publishing or updating content in WordPress triggers a production build; a scheduled rebuild runs as a safety net.
+- **Done when:** publishing or updating content in WordPress triggers a production build; a scheduled rebuild runs as a safety net, at least on the first day of each month (availability, §6.2).
 
 ## Phase 6 — Polish and launch
 
