@@ -9,7 +9,7 @@ What is tested and how (requirements §13.3). Unit tests, end-to-end tests with 
 | `npm test`           | Runs every unit test once, with a v8 coverage report. |
 | `npm run test:watch` | Watch mode while writing code.                        |
 
-`npm test` prints a coverage table and writes an HTML report to `coverage/` (git-ignored). There is no coverage threshold: coverage shows what is untested, it isn't a target. The `pre-push` hook runs the suite, and CI will (T-19).
+`npm test` prints a coverage table and writes an HTML report to `coverage/` (git-ignored). There is no coverage threshold: coverage shows what is untested, it isn't a target. The `pre-push` hook and CI run the suite.
 
 Config: `vitest.config.ts`, built on Astro's `getViteConfig`, so tests resolve imports exactly like the build.
 
@@ -61,21 +61,24 @@ Add a spec per page or feature in `e2e/`, using the same pattern: loop over both
 
 Both run on `dist/`, so `npm run build` first. CI runs them right after the build; `pre-push` too.
 
-| Command                 | Does                                                                                                                       |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `npm run validate:html` | `html-validate` with its recommended rules (`.htmlvalidate.json`) on every built page.                                     |
-| `npm run links:check`   | `linkinator` crawls from the three locale homes and fails on any broken internal link or asset (`linkinator.config.json`). |
+| Command                 | Does                                                                                                                                                                     |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `npm run validate:html` | `html-validate` with its recommended rules (`.htmlvalidate.json`) on every built page.                                                                                   |
+| `npm run links:check`   | `linkinator` reads every built page and stylesheet and fails on any broken internal link, in-page anchor or asset, with the exceptions below (`linkinator.config.json`). |
 
-- Inline `style` is rejected except custom properties: pass data as `style="--level: 98%"` and let the component CSS use `var(--level)`.
+- Inline `style` is rejected except custom properties: pass data as `style="--level: 98%"` and let the component CSS use `var(--level)`. The config empties `no-inline-style`'s allowed properties, whose default would let `display` through.
+- Every page and stylesheet is a starting point (`**/*.{html,css}` under `dist/`). Linkinator only reads pages whose URL starts with the one it started from, so a start at `ca/index.html` reads that file alone: starting from the locale homes read 3 of the 22 pages. `checkCss` makes it read `url()` in the stylesheets, so the self-hosted fonts are checked too. Only HTML and CSS are read; the sitemap gets its own check in T-58.
+- An in-page link (`#id`) must match an `id` on its page (`checkFragments`), which keeps the skip link honest. One exception until T-35 replaces the home: the skeleton's hero links to `#contact`, a section it never had (`skipFragment`).
 - External links are skipped: other sites' uptime would make the gate flaky. Linkinator serves `dist/` on `127.0.0.1`, which is why the skip pattern names that host.
-- `dist/index.html` is a meta refresh, which linkinator doesn't follow, so the crawl starts at `ca/`, `es/` and `en/`.
+- Not checked yet: absolute URLs, the site's own included (the skip pattern drops every URL outside the local server), and relative URLs in `<meta>` tags other than a refresh, such as `og:image` (linkinator reads those only when absolute). T-57 checks the site's own URLs through linkinator's API rather than its CLI: linkinator tests the skip pattern on each link as the page writes it and again after any rewrite, so the pattern has to let the site's origin through, and `urlRewriteExpressions` then maps that origin to the local server, whose port the CLI picks at random and won't take from the config.
 
 ## Lighthouse
 
 `npm run lighthouse` (`scripts/lighthouse.js`, Lighthouse 13) serves the build with `astro preview` on port 4324 and audits **one page per template in both themes**, with Lighthouse's default mobile profile (simulated slow 4G, 4× CPU slowdown). It writes an HTML report per run to `lighthouse-reports/` (git-ignored; a CI artifact) and a table to the console and the CI job summary.
 
 - **Templates:** pages are grouped by path without the locale; a page whose parent is also a page counts as an instance (`/blog/<slug>/` → `blog/*`). One page per template, rotating ca, es, en so every locale gets audited. A new route is picked up automatically.
-- **Themes:** the theme is written to `localStorage` before the audit, and `disableStorageReset` keeps it. That flag also keeps the HTTP cache, so the script clears it: every run is a cold first visit. (Without that, a warm cache reported 100 and LCP 0.8 s where the real figure was 95 and 2.8 s.)
-- **Budgets (requirements §1.3):** Accessibility, Best Practices and SEO must be 100 on every run, or the step fails and names the failing audits. Performance (100), LCP (< 2.5 s) and CLS (< 0.1) are reported with ⚠ but don't fail until T-33 replaces the skeleton layout; then `BUDGETS` in the script moves them to `blocking`. INP needs real interaction, so the lab can't measure it; Total Blocking Time is its proxy inside the performance score.
+- **Themes:** the theme is written to `localStorage` before the audit, and `disableStorageReset` keeps it. The script reloads the page and checks that the layout applied it, so a renamed key fails instead of auditing the same theme twice. `disableStorageReset` also keeps the HTTP cache, so the script clears it: every run is a cold first visit. (Without that, a warm cache reported 100 and LCP 0.8 s where the real figure was 95 and 2.8 s.)
+- **Budgets (requirements §1.3):** Accessibility, Best Practices and SEO must be 100 on every run, or the step fails and names the failing audits. Performance (100), LCP (< 2.5 s) and CLS (< 0.1) are reported with ⚠ but don't fail until T-33 replaces the skeleton layout; the limits themselves count as misses, and LCP and CLS are truncated rather than rounded, so a passing value never prints as the limit. Making them blocking takes more than moving keys in `BUDGETS`: `checkBudgets` reads every `blocking` entry as a minimum score, while LCP and CLS are maximums, so T-33 adds maximum thresholds and judges each page on the median of three runs (a single run varies: the same template scored 91 and 95 on identical code). INP needs real interaction, so the lab can't measure it; Total Blocking Time is its proxy inside the performance score.
+- **Guards:** the script fails when `dist/` has no locale homes (run `npm run build` first) and refuses to start while something answers on port 4324, since that server would be audited instead of the build.
 - It isn't in `pre-push`: twelve audits take about four minutes. Run it before opening a pull request that touches layout, CSS, images, fonts or scripts.
 - Chrome is Playwright's Chromium (`npx playwright install chromium`).

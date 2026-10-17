@@ -299,7 +299,7 @@ All tooling in this section is decided (D-14 closed in October 2026). Several pr
 - Markdown: markdownlint on every `.md` file, vendored skills and session notes excluded.
 - Types: TypeScript strict (in place) and `astro check`.
 - i18n: UI dictionaries share one key type, so a missing translation fails the type check; a small check rejects empty strings.
-- Git hooks (husky): pre-commit runs lint-staged on staged files and stays fast; commit-msg runs commitlint (Conventional Commits; types `feat fix docs refactor perf test build ci chore`; header ≤ 100 characters; lowercase subject); pre-push runs lint, type check, build and unit tests.
+- Git hooks (husky): pre-commit runs lint-staged on staged files and stays fast; commit-msg runs commitlint (Conventional Commits; types `feat fix docs refactor perf test build ci chore`; header ≤ 100 characters; lowercase subject); pre-push runs lint, type check, build, HTML validation, the link check and unit tests.
 - Branches: `main` plus short-lived branches named `<type>/t-<id>-<slug>`; no `release` branch, since every pull request gets a preview deploy.
 
 ### 13.3 Tests
@@ -307,7 +307,7 @@ All tooling in this section is decided (D-14 closed in October 2026). Several pr
 - Unit (Vitest): data layer and mappers, i18n helpers (route and `hreflang` resolution), reading time, reserved-slug check (§6.4), feed generation. Shared helpers in `src/testing/`.
 - End to end (Playwright, with `@axe-core/playwright` for the accessibility checks): navigation, language switch to the same page, theme toggle without a flash and with persistence, work and blog filters with and without JS, contact form states.
 - Accessibility: automated axe checks on every page template, both themes, mobile and desktop widths. Automated checks don't replace a manual keyboard and screen-reader pass before launch.
-- Lighthouse CI with budgets equal to §1.3, on every page template.
+- Lighthouse with budgets equal to §1.3, on every page template (a project script: see the T-20 decision below).
 - Build output: HTML validation and internal link check.
 - Decided in T-20: a project script on Lighthouse 13 (`@lhci/cli` pins Lighthouse 12.6 and had no release since June 2025) audits one page per template in both themes, cold cache, mobile profile. Accessibility, Best Practices and SEO block below 100; performance, LCP and CLS are reported but block only from T-33, when the skeleton layout is replaced. HTML validation with `html-validate` (recommended rules; inline styles only for custom properties) and internal links with `linkinator`; external links are not checked in the gate.
 
@@ -320,11 +320,11 @@ All tooling in this section is decided (D-14 closed in October 2026). Several pr
 ### 13.5 CI/CD
 
 - GitHub Actions (repository on GitHub), **one** workflow for every pull request rather than near-duplicate per-environment files.
-- Quality gate on every pull request: format check, ESLint, Stylelint and token check, markdownlint, local rule fixtures, type check, unit tests, build, end-to-end and accessibility tests, Lighthouse CI, link check, dependency audit, version badge. Merging requires it to pass; local hooks are a convenience, CI is the authority.
+- Quality gate on every pull request: format check, ESLint, Stylelint and token check, markdownlint, local rule fixtures, type check, unit tests, build, end-to-end and accessibility tests, Lighthouse, HTML validation, link check, dependency audit, version badge. Merging requires it to pass; local hooks are a convenience, CI is the authority.
 - Preview deploy per pull request; production deploy from `main` (host: D-06).
 - Content rebuilds: WordPress triggers a deploy hook when content is published or updated; a scheduled rebuild as a safety net.
 - Secrets live in the CI and host settings, never in the repository.
-- Decided in T-19: one job, **Quality gate**; `main` protected for everyone, admins included; pull requests merged by rebase (linear history, conventional commits kept as written); no required review (single maintainer). Dependency audit: runtime dependencies fail on `high`, the whole tree on `critical`. Lighthouse CI and the link check join with T-20.
+- Decided in T-19: one job, **Quality gate**; `main` protected for everyone, admins included; pull requests merged by rebase (linear history, conventional commits kept as written); no required review (single maintainer). Dependency audit: runtime dependencies fail on `high`, the whole tree on `critical`. Lighthouse, HTML validation and the link check joined in T-20.
 
 ### 13.6 Documentation
 
