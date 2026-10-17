@@ -1,5 +1,7 @@
 {
-  "recurse": true,
+  "checkCss": true,
+  "checkFragments": true,
+  "skipFragment": ["^contact$"],
   "serverRoot": "dist",
   "skip": ["^https?://(?!127\\.0\\.0\\.1[:/])"],
   "verbosity": "error"
