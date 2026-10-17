@@ -1,14 +1,14 @@
 # Design state after requirements v6
 
-What was decided after the v6 requirements (April 2026), where the design review stands, and a contrast audit of the tokens in `src/styles/theme.css`. **Wherever this file and the requirements differ, this file wins.**
+What was decided after the v6 requirements (April 2026), where the design review stands, and a contrast audit of the tokens in `src/styles/theme.css`. **Wherever this file and `docs/requirements.md` differ, the requirements win.** The decisions below were folded into the requirements in October 2026 and are kept here as history; new decisions go in the requirements.
 
-## Decisions that supersede the requirements
+## Decisions taken after the v6 requirements
 
 - **Theming** (req. §2.2, §2.5): `light-dark()` + `color-scheme` instead of redefining variables under `[data-theme='dark']`. `[data-theme]` only forces the scheme; the inline head script and localStorage persistence stay.
 - **Type scale** (req. §2.3): a Utopia-style fluid scale, `--step--2` to `--step-6` (16 → 20 px base between 320 and 1440 px viewports, ~1.25 ratio), is the default. Fixed `--text-*` tokens remain for text that must not scale.
 - **Spacing:** fluid tiers `--space-fluid-s` to `--space-fluid-xl` for section-level spacing.
 - **Semantic color mapping** (req. §2.2): theme.css refines it — e.g. tertiary, warning and error move one step lighter in dark mode. theme.css is the reference.
-- **Hero CTAs** (req. §5.2 lists two): there are three on purpose. They're scroll anchors to the three homepage sections, not competing conversion CTAs; the hierarchy is solid / ghost / text link. Don't reduce the count.
+- ~~**Hero CTAs** (req. §5.2 lists two): there are three on purpose. They're scroll anchors to the three homepage sections, not competing conversion CTAs; the hierarchy is solid / ghost / text link. Don't reduce the count.~~ Superseded by requirements §6.2 (D-13): one CTA, "Let's talk about your project", to the contact form (October 2026 home review; an earlier "See the work" second CTA was dropped).
 - **Navigation:** present on every page. A nav-free archive layout doesn't suit a multilingual site of 5+ pages where visitors land directly on inner pages.
 - **Work listing:** Variant 1 structure with Variant 3's larger expanded-row image.
 - **Work filter chips:** the real stack — Angular, TypeScript, RxJS, NgRx, Performance. No unrelated technologies.

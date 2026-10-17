@@ -17,7 +17,7 @@ Revision of the v6 analysis (`Plastikaweb_Analisi_Requeriments_v6.pdf`, April 20
 
 - Win high-quality freelance clients: companies that need a senior Angular/TypeScript expert.
 - Position Carlos Matheu as a technical reference through the blog and the technology timeline.
-- Show the person behind the developer: a personal section and non-technical writing (§6.5, §6.4).
+- Show the person behind the developer: a personal section and non-technical writing (§6.5, §6.4). The form the personal section takes is open (D-15).
 - The site is a professional showcase, a lead generator and a technical lab. It has to prove front-end craft by itself: semantics, accessibility, performance.
 
 ### 1.2 Audience
@@ -64,11 +64,11 @@ Values live in `theme.css`; component rules in `.claude/rules/css.md`.
 
 Reference sites for structure and interaction, not for look. The palette, type and shape decisions below stay; copying a reference's visual identity is out of scope.
 
-| Site                                              | Take                                                                                                                                                                                                              | Leave                                                                                                                                                                                           |
-| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [ramx.in](https://ramx.in/)                       | Home as a summary: each section shows a few items and a "see all" link to its page. Personal topics (books, films) as compact cards.                                                                              | Monochrome, single narrow column; job-seeker framing; live "last played" widget.                                                                                                                |
-| [psudokit.in](https://www.psudokit.in/)           | First-person, relaxed voice; short lines of what I'm doing now; subtle line-texture background.                                                                                                                   | Lowercase-only copy. Keyboard shortcut hints in the nav and the GitHub activity graph: dropped for v1 (shortcuts need a way to turn them off, WCAG 2.1.4; the graph needs a build-time render). |
-| [brittanychiang.com](https://brittanychiang.com/) | Desktop layout with a sticky identity column (name, role, one line, section nav with active indicator, socials) and a scrolling content column; list rows with hover states and tech chips; accessibility polish. | Navy palette; cursor spotlight effect (decorative JS, and must respect reduced motion if adopted).                                                                                              |
+| Site                                              | Take                                                                                                                                                                                                               | Leave                                                                                                                                                                                           |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [ramx.in](https://ramx.in/)                       | Home as a summary: each section shows a few items and a "see all" link to its page. Personal topics (books, films) as compact cards, on the personal page (off the home page since the October 2026 review, D-15). | Monochrome, single narrow column; job-seeker framing; live "last played" widget.                                                                                                                |
+| [psudokit.in](https://www.psudokit.in/)           | First-person, relaxed voice; short lines of what I'm doing now; subtle line-texture background.                                                                                                                    | Lowercase-only copy. Keyboard shortcut hints in the nav and the GitHub activity graph: dropped for v1 (shortcuts need a way to turn them off, WCAG 2.1.4; the graph needs a build-time render). |
+| [brittanychiang.com](https://brittanychiang.com/) | Desktop layout with a sticky identity column (name, role, one line, section nav with active indicator, socials) and a scrolling content column; list rows with hover states and tech chips; accessibility polish.  | Navy palette; cursor spotlight effect (decorative JS, and must respect reduced motion if adopted).                                                                                              |
 
 ### 4.1 Color
 
@@ -111,43 +111,65 @@ Reference sites for structure and interaction, not for look. The palette, type a
 - Localized routes. Slug scheme: D-01. Default locale and what `/` serves: D-02.
 - Language selector in the navigation (CA · ES · EN), linking to the same page in the other locale; the choice is persisted.
 - Browser language is only a fallback for the first visit (D-02).
+- Copy uses the typographic apostrophe ’ (U+2019), never the straight one (`'`): Catalan elisions (d’abril), English contractions (I’ve, Let’s).
+- Month names in copy come from a fixed list per locale, not from `Intl.DateTimeFormat`, which writes "gener del 2027" in Catalan. Catalan elides "de" before a vowel (a partir d’abril de 2027) and the year always takes "de" (gener de 2027).
 - Content managed per locale in WordPress (D-04). Missing translations (D-11, decided): pages, case studies, site settings and UI strings are required in all three locales, and the build fails if one is missing. Blog posts and personal entries are published only in the locales where they exist: they don't appear in the other locales' listings, feeds or sitemaps, `hreflang` links only real translations, and on such a post the language selector links to the blog listing of the other locale. No fallback-language content.
 
 ## 6. Pages
 
-Navigation is present on every page. Main menu items: Work, Blog, Personal, About (labels per locale; the personal item is "Personal" in all three). Plus the language selector and the theme toggle. With ca/es labels up to 30% longer, the menu needs a small-screen pattern that doesn't truncate. Decided: below the wide breakpoint the four links move to a second header row, spread across the width; no hamburger menu and no truncation.
+Navigation is present on every page. Main menu items: Work, Blog, About (ca: Feina, Blog, Sobre mi; es: Proyectos, Blog, Sobre mí). Plus the language selector, the theme toggle and, from the wide breakpoint up, a contact link styled as a secondary (outlined) button — "Parlem" / "Hablemos" / "Let’s talk" — which goes to the contact form (the same target as the hero CTA, §6.2). It is outlined so the hero CTA stays the only filled primary on the home page; below the wide breakpoint it is left out, and contact is reached through About (and, on the home page, the hero CTA and the closing block). Personal left the menu in the October 2026 home review; what happens to that page is D-15. With ca/es labels up to 30% longer, the menu needs a small-screen pattern that doesn't truncate. Decided: below the wide breakpoint the three links move to a second header row, spread across the width; no hamburger menu and no truncation.
 
 ### 6.1 Site map
 
-| Page               | Route (pending D-01)               |
-| ------------------ | ---------------------------------- |
-| Home               | `/[lang]/`                         |
-| Work listing       | `/[lang]/work`                     |
-| Case study         | `/[lang]/work/[slug]`              |
-| Blog listing       | `/[lang]/blog`                     |
-| Blog category page | `/[lang]/blog/category/[category]` |
-| Blog tag page      | `/[lang]/blog/tag/[tag]`           |
-| Post               | `/[lang]/blog/[slug]`              |
-| Personal           | `/[lang]/personal`                 |
-| About + contact    | `/[lang]/about`                    |
-| Privacy policy     | `/[lang]/privacy`                  |
-| Cookie policy      | only if ever needed (§10)          |
-| 404                | `/404`                             |
+| Page               | Route (pending D-01)                                   |
+| ------------------ | ------------------------------------------------------ |
+| Home               | `/[lang]/`                                             |
+| Work listing       | `/[lang]/work`                                         |
+| Case study         | `/[lang]/work/[slug]`                                  |
+| Blog listing       | `/[lang]/blog`                                         |
+| Blog category page | `/[lang]/blog/category/[category]`                     |
+| Blog tag page      | `/[lang]/blog/tag/[tag]`                               |
+| Post               | `/[lang]/blog/[slug]`                                  |
+| Personal           | `/[lang]/personal`, not in the menu; fate pending D-15 |
+| About + contact    | `/[lang]/about`                                        |
+| Privacy policy     | `/[lang]/privacy`                                      |
+| Cookie policy      | only if ever needed (§10)                              |
+| 404                | `/404`                                                 |
 
 ### 6.2 Home
 
-A summary of the site: each section shows a few items and a "see all" **link** to its full page. Nothing expands in place, so the home page carries no duplicated content and needs no JS for it. Structure inspired by ramx.in; the look follows the design system in §4, not that site.
+A summary of the site: each section shows a few items and a "see all" **link** to its full page. Nothing expands in place, so the home page carries no duplicated content and needs no JS for it. Structure inspired by ramx.in; the look follows the design system in §4, not that site. Revised in the October 2026 home review: five sections, one CTA, no personal section.
 
 Sections, in this order:
 
-1. **Intro (hero):** name, role, one-line positioning, availability, social links and two CTAs (D-13): primary "Let's talk about your project" (filled, brand surface) and secondary "See the work" (outlined, links to the Work listing). "ANGULAR" highlight in the secondary yellow. No work-experience section: the case studies and the About timeline cover it.
-2. **Services:** three columns — Front-End Development, Angular Architecture, Performance. No "see all" (there's no services page).
-3. **Selected work:** 2–3 featured case studies, "see all" → Work.
+1. **Intro (hero):** portrait, H1 with name, role and city ("Angular" highlighted in the secondary yellow), a two-sentence lead, availability, an optional "now" block, GitHub and LinkedIn links, and one CTA (D-13): "Parlem del teu projecte" / "Hablemos de tu proyecto" / "Let’s talk about your project" (filled, brand surface), to the contact form. Left out on purpose: a line above the H1 that repeats name, role or city; a strip of headline figures; a "See the work" CTA (the Selected work "see all" link covers it); a work-experience section (the case studies and the About timeline cover it).
+2. **Services:** three columns — Front-End Development, Angular Architecture, Performance — followed by one link to About ("More about how I work"). There's no services page, so no "see all". Performance is described as audits plus concrete fixes, with no claim of measured field data until a case study backs it.
+3. **Selected work:** 2 featured case studies as sober cards: title, year, client type (the client's name only with their permission), role, technologies and a one-line summary. No metrics or diagrams on the home page; they belong to the case study (§6.3). "See all" → Work.
 4. **Latest posts:** the three most recent _technical_ posts, "see all" → Blog. _Thoughts_ posts never appear on the home page.
-5. **Personal:** 3–4 topic cards, text only (no cover images), each linking to its anchor on the personal page (e.g. `/personal#books`).
-6. **Contact CTA:** closing block on a brand surface.
+5. **Contact CTA:** closing block on a brand surface: a heading, one line and a link styled as a button (`<a>`: it navigates) to the contact form, "Escriu-me" / "Escríbeme" / "Get in touch". No form and no email address on the home page.
 
 The tech timeline is not on the home page; it lives on About (§6.6).
+
+**Hero copy** (stored in site settings, §7). Catalan is decided; Spanish and English are drafts pending the owner's review.
+
+| Locale | H1                                                       | Lead                                                                                                                             |
+| ------ | -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| ca     | Carlos Matheu. Front-end amb Angular, a Barcelona.       | Escric codi des de fa gairebé vint anys. Treballo com a freelance i faig aplicacions ràpides, accessibles i fàcils de mantenir.  |
+| es     | Carlos Matheu. Front-end con Angular, en Barcelona.      | Llevo casi veinte años escribiendo código. Trabajo como freelance y hago aplicaciones rápidas, accesibles y fáciles de mantener. |
+| en     | Carlos Matheu. Angular front-end developer in Barcelona. | I’ve been writing code for almost twenty years. I work freelance, building apps that are fast, accessible and easy to maintain.  |
+
+"Angular" is stored in normal case; the highlight (`<mark>`) shows it in capitals with `text-transform`, so the text itself stays "Angular" for copying, search and screen readers. On wide screens the H1 sets in three lines: name, role, city ("a Barcelona." / "en Barcelona." / "in Barcelona."); on small screens it wraps naturally. The hero leaves out keywords from §9.1 (senior, Spain, TypeScript, consultant, and "desarrollador" in Spanish); the home page `<title>` and meta description carry them, with their copy written in T-28.
+
+**Availability** (site settings, §7): one of four states. Each has its own text and its own icon shape, so the state never depends on color alone (WCAG 1.4.1). The text carries the state and the icon is decorative. The month and the number of hours are data. A "from" month that has already started at build time (the build month or earlier) renders as "available now", so a stale setting never shows a past date; the scheduled rebuild on the first day of each month (§13.5) makes that switch without a content change. Month names follow §5 (Catalan elision: "a partir d’abril de 2027"). Every icon reaches 3:1 against its background in both themes — `--color-success` is too light on the light background, so the icon uses a darker step there — and is large enough to tell the four shapes apart; "fully booked" is never green. The pulse stops on its own within 5 s (WCAG 2.2.2), for example after two cycles.
+
+| State         | Icon                                                                                 | ca                                       | es                                        | en                                  |
+| ------------- | ------------------------------------------------------------------------------------ | ---------------------------------------- | ----------------------------------------- | ----------------------------------- |
+| Available now | Filled square; a decorative pulse only under `prefers-reduced-motion: no-preference` | Disponible ara                           | Disponible ahora                          | Available now                       |
+| From a month  | Outlined square                                                                      | Disponible a partir de gener de 2027     | Disponible a partir de enero de 2027      | Available from January 2027         |
+| Part-time     | Half-filled square                                                                   | Disponible unes 10 hores a la setmana    | Disponible unas 10 horas a la semana      | Available for about 10 hours a week |
+| Fully booked  | Square crossed by a diagonal stroke, no pulse                                        | Agenda plena. Escriu-me de totes maneres | Agenda completa. Escríbeme de todos modos | Fully booked. Get in touch anyway   |
+
+**"Now" block** (optional, site settings): up to three short lines about what I'm doing now (the psudokit.in idea, §4.0). Each line is a verb from a fixed list plus free text per locale, read as one phrase with no colon between them ("llegint Montaigne"); the block shows the month it was last updated and is left out entirely when empty. Shown at every width. It is in the markup once, after the CTA; wide layouts may place it elsewhere with grid areas but never duplicate it. Markup: a list named by its label ("Ara" / "Ahora" / "Now") through `aria-labelledby`, the label is not a heading, and the updated month is a `<time datetime="2026-10">`. No embeds or live widgets (§8). Verbs: _treballant en, llegint, estudiant, escoltant_ (ca); _trabajando en, leyendo, estudiando, escuchando_ (es); _working on, reading, studying, listening to_ (en).
 
 ### 6.3 Work
 
@@ -174,9 +196,9 @@ Pages:
 
 - A section about the person, with varied content: films, books, music, philosophy, psychology, and more topics over time. The topic list is open-ended, so topics are data (a taxonomy in WordPress), not hard-coded sections.
 - **One URL:** a single page, no detail pages. Entries are grouped or filterable by topic on that page; each topic is reachable by an in-page anchor so it can be linked directly. Filtering, if any, works without JS as the full grouped list.
-- **Main menu item** of its own (§6).
+- ~~**Main menu item** of its own (§6).~~ Out of the menu and off the home page since the October 2026 home review; whether the page stays, merges into About or waits for a later version is D-15.
 - Content comes from WordPress like the rest, in the three locales.
-- Decided (D-09): the page is "Personal" in all three locales, at `/[lang]/personal`; the page heading can carry more voice than the menu label. Topics are ordered by a manual order field. Entries have no cover images in v1 (rights on covers and posters, image weight); entry shape in §7.
+- Decided (D-09): the page is "Personal" in all three locales, at `/[lang]/personal`; the page heading can carry more voice than that name. Whether the page stays at that URL in v1 is D-15. Topics are ordered by a manual order field. Entries have no cover images in v1 (rights on covers and posters, image weight); entry shape in §7.
 - Political topics are out of scope.
 - Boundary with the blog (D-12, decided): a personal entry is a short note about a work or an idea (about three lines, no URL of its own). Anything that argues a point or runs longer is a _Thoughts_ blog post, which the entry can link to. Personal topics and blog tags are separate taxonomies, even when they share a name (philosophy, psychology…).
 
@@ -202,13 +224,13 @@ Pages:
 
 Mock data first, shaped like the future WPGraphQL responses.
 
-- **Case study:** title, slug, locale, summary, featured flag, technologies (from the chip set), challenge, solution, stack, results, diagrams, dates, SEO fields.
+- **Case study:** title, slug, locale, summary, featured flag, client type, optional client name (only with the client's permission), role, technologies (from the chip set), challenge, solution, stack, results, diagrams, dates, SEO fields.
 - **Category:** fixed set of two (Engineering, Thoughts); name and slug per locale (§6.4).
 - **Tag:** name and slug per locale.
 - **Post:** title, slug, locale, date, one category, one or more tags, excerpt, body, reading time, SEO fields.
-- **Personal topic:** name and slug per locale, manual order, optional one-line note per locale (shown on the home card).
+- **Personal topic:** name and slug per locale, manual order, optional one-line note per locale. Pending D-15.
 - **Personal entry:** topic, title, locale, short text (about three lines), date added (orders entries within a topic, newest first); optional creator (author, director, artist), year, external link, link to a related blog post. No cover image in v1 (D-09).
-- **Site settings:** bio, CV file per locale, social links, hero and services copy.
+- **Site settings:** bio, CV file per locale, social links, hero and services copy; availability (state, plus the month or the weekly hours where the state needs them); "now" lines (verb from the fixed list and text per locale, up to three) with the month they were last updated (§6.2).
 - Translations of the same item are linked so the language selector and `hreflang` can find them.
 - Mock data minimum: 3 complete case studies, 3–5 posts covering both categories, with several tags each, and personal entries across at least four topics, enough to lay out the page.
 
@@ -261,22 +283,23 @@ Content needed before or during phase 4: hero copy in three locales, an updated 
 
 ## 12. Open decisions
 
-| ID   | Decision                                                                                                                                                                                                                                                                                                                                                                              | Blocks                     |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| D-01 | Route slugs: localized (`/ca/projectes`, `/es/proyectos`, `/en/projects`) or shared (`/[lang]/work`).                                                                                                                                                                                                                                                                                 | Routing, sitemap, hreflang |
-| D-02 | Default locale, and what `/` serves: default-locale home or a redirect by saved or browser language.                                                                                                                                                                                                                                                                                  | Routing, SEO               |
-| D-03 | ~~Tech timeline on the home page or on About.~~ Decided: About (§6.6).                                                                                                                                                                                                                                                                                                                | —                          |
-| D-04 | WordPress i18n: WPML, Polylang or ACF custom; WordPress hosting.                                                                                                                                                                                                                                                                                                                      | Phase 4                    |
-| D-05 | Contact form delivery: Resend, EmailJS or Netlify Forms (depends partly on D-06).                                                                                                                                                                                                                                                                                                     | Contact form               |
-| D-06 | Deploy target: Vercel, Netlify or Cloudflare. Deferred until WordPress and Astro run together locally (after T-51). Recommendation on record: Cloudflare Workers with static assets (free with commercial use, nearest `404.html` per locale, a Worker can send the form's 303); Vercel Hobby forbids commercial use; Netlify's free plan allows about 20 production deploys a month. | Deploy, form               |
-| D-07 | Font hosting: Google Fonts CDN or self-hosting Space Grotesk and Bricolage like Commit Mono.                                                                                                                                                                                                                                                                                          | Layout, privacy            |
-| D-08 | Muted text color that passes AA (see `docs/design-state.md`).                                                                                                                                                                                                                                                                                                                         | Tokens, form placeholders  |
-| D-09 | ~~Personal section: page name and slug per locale, entry shape, topic order.~~ Decided: "Personal" at `/[lang]/personal`, manual topic order, no covers in v1, entry shape in §7 (§6.5).                                                                                                                                                                                              | —                          |
-| D-10 | ~~Blog: label of the technical category, and ca/es labels for both.~~ Decided: Enginyeria / Ingeniería / Engineering and Pensaments / Pensamientos / Thoughts, with localized slugs (§6.4).                                                                                                                                                                                           | —                          |
-| D-11 | ~~Content missing in one locale.~~ Decided: required in all three for pages, case studies and UI; posts and personal entries only where they exist, no fallback (§5).                                                                                                                                                                                                                 | —                          |
-| D-12 | ~~Boundary between personal entries and non-technical blog posts.~~ Decided: short note without URL vs. Thoughts post; separate taxonomies (§6.5).                                                                                                                                                                                                                                    | —                          |
-| D-13 | ~~Home page: hero CTA set; whether a work-experience section is added.~~ Decided: two CTAs (contact, then "See the work"), no work-experience section (§6.2). Also decided: summary layout, section order, "see all" as links, timeline on About.                                                                                                                                     | —                          |
-| D-14 | ~~Tooling still open: end-to-end runner, dependency bot, uptime monitor.~~ Decided: Playwright with axe, Renovate, Better Stack free plan (§13). Also decided: Vitest, husky + lint-staged + commitlint.                                                                                                                                                                              | —                          |
+| ID   | Decision                                                                                                                                                                                                                                                                                                                                                                                         | Blocks                     |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------- |
+| D-01 | Route slugs: localized (`/ca/projectes`, `/es/proyectos`, `/en/projects`) or shared (`/[lang]/work`).                                                                                                                                                                                                                                                                                            | Routing, sitemap, hreflang |
+| D-02 | Default locale, and what `/` serves: default-locale home or a redirect by saved or browser language.                                                                                                                                                                                                                                                                                             | Routing, SEO               |
+| D-03 | ~~Tech timeline on the home page or on About.~~ Decided: About (§6.6).                                                                                                                                                                                                                                                                                                                           | —                          |
+| D-04 | WordPress i18n: WPML, Polylang or ACF custom; WordPress hosting.                                                                                                                                                                                                                                                                                                                                 | Phase 4                    |
+| D-05 | Contact form delivery: Resend, EmailJS or Netlify Forms (depends partly on D-06).                                                                                                                                                                                                                                                                                                                | Contact form               |
+| D-06 | Deploy target: Vercel, Netlify or Cloudflare. Deferred until WordPress and Astro run together locally (after T-51). Recommendation on record: Cloudflare Workers with static assets (free with commercial use, nearest `404.html` per locale, a Worker can send the form's 303); Vercel Hobby forbids commercial use; Netlify's free plan allows about 20 production deploys a month.            | Deploy, form               |
+| D-07 | Font hosting: Google Fonts CDN or self-hosting Space Grotesk and Bricolage like Commit Mono.                                                                                                                                                                                                                                                                                                     | Layout, privacy            |
+| D-08 | Muted text color that passes AA (see `docs/design-state.md`).                                                                                                                                                                                                                                                                                                                                    | Tokens, form placeholders  |
+| D-09 | ~~Personal section: page name and slug per locale, entry shape, topic order.~~ Decided: "Personal" at `/[lang]/personal`, manual topic order, no covers in v1, entry shape in §7 (§6.5). Its place after leaving the menu: D-15.                                                                                                                                                                 | —                          |
+| D-10 | ~~Blog: label of the technical category, and ca/es labels for both.~~ Decided: Enginyeria / Ingeniería / Engineering and Pensaments / Pensamientos / Thoughts, with localized slugs (§6.4).                                                                                                                                                                                                      | —                          |
+| D-11 | ~~Content missing in one locale.~~ Decided: required in all three for pages, case studies and UI; posts and personal entries only where they exist, no fallback (§5).                                                                                                                                                                                                                            | —                          |
+| D-12 | ~~Boundary between personal entries and non-technical blog posts.~~ Decided: short note without URL vs. Thoughts post; separate taxonomies (§6.5).                                                                                                                                                                                                                                               | —                          |
+| D-13 | ~~Home page: hero CTA set; whether a work-experience section is added.~~ Decided: one CTA, "Let’s talk about your project", to the contact form; no work-experience section (§6.2). The October 2026 home review dropped the earlier second CTA, "See the work": the Selected work "see all" link covers it. Also decided: summary layout, section order, "see all" as links, timeline on About. | —                          |
+| D-14 | ~~Tooling still open: end-to-end runner, dependency bot, uptime monitor.~~ Decided: Playwright with axe, Renovate, Better Stack free plan (§13). Also decided: Vitest, husky + lint-staged + commitlint.                                                                                                                                                                                         | —                          |
+| D-15 | Personal page after leaving the menu and the home page (October 2026 home review): keep it at `/[lang]/personal`, reachable from About; merge it into About (a short section, or the full topic and entry system); or leave it out of v1.                                                                                                                                                        | T-41, T-42                 |
 
 ## 13. Engineering and quality
 
@@ -322,7 +345,7 @@ All tooling in this section is decided (D-14 closed in October 2026). Several pr
 - GitHub Actions (repository on GitHub), **one** workflow for every pull request rather than near-duplicate per-environment files.
 - Quality gate on every pull request: format check, ESLint, Stylelint and token check, markdownlint, local rule fixtures, type check, unit tests, build, end-to-end and accessibility tests, Lighthouse, HTML validation, link check, dependency audit, version badge. Merging requires it to pass; local hooks are a convenience, CI is the authority.
 - Preview deploy per pull request; production deploy from `main` (host: D-06).
-- Content rebuilds: WordPress triggers a deploy hook when content is published or updated; a scheduled rebuild as a safety net.
+- Content rebuilds: WordPress triggers a deploy hook when content is published or updated; a scheduled rebuild as a safety net, at least on the first day of each month, so date-dependent copy (availability, §6.2) turns over without a content change.
 - Secrets live in the CI and host settings, never in the repository.
 - Decided in T-19: one job, **Quality gate**; `main` protected for everyone, admins included; pull requests merged by rebase (linear history, conventional commits kept as written); no required review (single maintainer). Dependency audit: runtime dependencies fail on `high`, the whole tree on `critical`. Lighthouse, HTML validation and the link check joined in T-20.
 
@@ -365,17 +388,18 @@ Recurring work, tracked as recurring tasks:
 ## 14. Changes from v6
 
 - Design tool: Claude Design replaces Google Stitch → Figma; the "current phase: design" note is gone (§3, §11).
-- New: personal section — one page with open-ended topics, own menu item (§6.5) — and blog classification by one required category (technical or Thoughts) plus open-ended tags, with Thoughts kept off the home page (§6.4).
+- New: personal section — one page with open-ended topics, at first with its own menu item, removed in the October 2026 home review (§6.5, D-15) — and blog classification by one required category (technical or Thoughts) plus open-ended tags, with Thoughts kept off the home page (§6.4).
 - Folded in from `docs/design-state.md`: `light-dark()` theming, fluid type and spacing, sharp corners, navigation on every page, work chip set and layout, brand-surface and link tokens for contrast.
 - FID replaced by INP; WCAG 2.2 AA instead of unspecified WCAG 2.
 - Cookie policy only if non-essential cookies are introduced (v6 tied it to GA4, which is not used).
 - Home page becomes a summary with "see all" links (§6.2); the tech timeline moves to About and runs to the current year instead of a fixed 2026.
-- From the Claude Design review (October 2026): small-screen navigation as a second header row, no hamburger (§6); personal topic cards on the home page are text only (§6.2); keyboard shortcuts and the GitHub activity graph are out of v1 (§4.0).
+- From the Claude Design review (October 2026): small-screen navigation as a second header row, no hamburger (§6); personal topic cards on the home page are text only (§6.2; the cards were later dropped); keyboard shortcuts and the GitHub activity graph are out of v1 (§4.0).
 - Design phase closed (T-02, October 2026): motion rules (§4.4), filter hidden without JS (§6.3), keyboard-reachable code blocks (§6.4), honeypot, no-JS success and first-layer notice (§6.6), 404 and privacy page structure (§6.7), hero CTAs (D-13).
 - Content decisions (T-26): personal page name and entry shape (D-09), category labels (D-10), missing-translation rule (D-11, which replaces "every page exists in all three") and the personal-vs-blog boundary (D-12).
 - Stack precision: Astro 7 static (6 at first; upgraded in T-05), `graphql-request`, standalone repository.
 - Existing code declared a skeleton to replace (§0).
-- Open decisions collected with IDs (§12); new ones: D-08 to D-14.
+- Open decisions collected with IDs (§12); new ones: D-08 to D-15.
 - New §13: engineering and quality — versions, linting, tests, versioning, CI/CD, documentation, agent tooling, security, maintenance; adapted from the NewWebSite project.
 - CI and branch policy (T-19): one Quality gate job, `main` protected for admins too, rebase merges, audit thresholds (§13.5).
 - Lighthouse and build-output checks (T-20): own Lighthouse 13 script, performance non-blocking until T-33 (§13.3).
+- Home review (October 2026, T-67): Personal out of the menu and off the home page (D-15 opened); five home sections; one hero CTA (D-13 revised); availability in four states with distinct icon shapes; optional "now" block; no figures strip; sober work cards without metrics; closing block without form or email; outlined header contact button on wide screens; typographic apostrophe and Catalan month names (§5, §6, §6.2, §7, §13.5).
