@@ -24,7 +24,7 @@
     "version:check": "node scripts/version-badge.js",
     "version": "node scripts/version-badge.js --write && git add README.md",
     "validate:html": "html-validate \"dist/**/*.html\"",
-    "links:check": "linkinator ca/index.html es/index.html en/index.html --config linkinator.config.json",
+    "links:check": "linkinator \"**/*.{html,css}\" --config linkinator.config.json",
     "lighthouse": "node scripts/lighthouse.js"
   },
   "dependencies": {
