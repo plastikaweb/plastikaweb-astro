@@ -18,7 +18,7 @@ How changes reach `main` (requirements §13.2). The hooks are a fast local filte
 - **Header:** at most 100 characters; the subject starts in lowercase and has no final period.
 - **Task reference:** the `TASKS.md` id in parentheses at the end of the subject, e.g. `chore: add markdownlint (t-11)`. Decisions add their `d-xx` ids.
 - **Body and footer:** each preceded by a blank line; body lines up to 500 characters.
-- **A body line must not start with `word:`** (e.g. `theme: axe measured…`): the parser reads it as a trailer, the footer starts there and `footer-leading-blank` fails. Reword or rewrap the line.
+- **A body line must not start with `word:` or with one word and a `#`** (e.g. `theme: axe measured…`, `a #contact section…`): the parser reads the first as a trailer and the second as an issue reference like `Closes #12`, so the footer starts there and `footer-leading-blank` fails. Reword or rewrap the line; backticks around the hash (`` `#contact` ``) also work.
 
 ## Hooks
 
