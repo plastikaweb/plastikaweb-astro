@@ -163,12 +163,12 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 - **Depends on:** T-07 – T-15, T-17
 - **Done when:** a single GitHub Actions workflow runs on every pull request — `npm ci`, format check, ESLint, Stylelint and token check, markdownlint, local rule fixtures, type check, unit tests, build, end-to-end and accessibility tests, dependency audit, version badge check — with the Node version from `.nvmrc`; `main` is protected and requires it.
 
-### T-20 · Lighthouse CI and build-output checks
+### T-20 · Lighthouse and build-output checks
 
 - **Status:** done
 - **Source:** §1.3, §13.3
 - **Depends on:** T-19
-- **Done when:** Lighthouse CI asserts the §1.3 budgets on every built page; HTML validation and an internal link check run on `dist/`; all three are part of the gate.
+- **Done when:** a project script (`scripts/lighthouse.js`) runs Lighthouse on one page per template in both themes and fails below 100 in Accessibility, Best Practices and SEO, while performance, LCP and CLS are reported until T-33 makes them blocking; HTML validation and an internal link check run on `dist/`; all three are part of the gate.
 
 ### T-21 · Dependency update bot
 
@@ -249,7 +249,7 @@ Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate
 - **Status:** todo
 - **Source:** §2, §4.5, §5, §6
 - **Depends on:** T-02, T-30, T-31
-- **Done when:** a new base layout replaces `BaseLayout.astro` and `ThemeToggle.astro`: `lang` per locale, skip link, landmarks, theme script before first paint, theme toggle `<button>` with persistence and crossfade, main menu (Work, Blog, Personal, About) that moves to a second header row on small screens, with no hamburger and no truncation of ca/es labels, language selector linking to the same page (or to the blog listing in that locale when a post has no translation, D-11), footer. End-to-end tests cover theme persistence without a flash and language switching. Lighthouse performance, LCP and CLS move to `blocking` in `scripts/lighthouse.js` (T-20) and pass at 100 on every template.
+- **Done when:** a new base layout replaces `BaseLayout.astro` and `ThemeToggle.astro`: `lang` per locale, skip link, landmarks, theme script before first paint, theme toggle `<button>` with persistence and crossfade, main menu (Work, Blog, Personal, About) that moves to a second header row on small screens, with no hamburger and no truncation of ca/es labels, language selector linking to the same page (or to the blog listing in that locale when a post has no translation, D-11), footer. End-to-end tests cover theme persistence without a flash and language switching. Lighthouse also fails on every template below 100 in performance, or with LCP of 2.5 s or more, or CLS of 0.1 or more: `checkBudgets` in `scripts/lighthouse.js` (T-20) reads `blocking` entries as minimum scores, so it gains maximum thresholds for LCP and CLS, and each page and theme is judged on the median of three runs, since a single run varies by several points.
 
 ### T-34 · Shared components
 
@@ -263,7 +263,7 @@ Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate
 - **Status:** todo
 - **Source:** §6.2
 - **Depends on:** T-28, T-32, T-34
-- **Done when:** the six sections render in order from data; "see all" links go to their pages; only technical posts appear; personal cards link to topic anchors.
+- **Done when:** the six sections render in order from data; "see all" links go to their pages; only technical posts appear; personal cards link to topic anchors. The link check's `skipFragment` entry for the skeleton's dead `#contact` anchor is removed (T-20).
 
 ### T-36 · Work listing
 
@@ -435,14 +435,14 @@ Page tasks depend on T-02 (approved design for that page) and T-19 (quality gate
 - **Status:** todo
 - **Source:** §9.2
 - **Depends on:** T-35 – T-45
-- **Done when:** unique title, description and canonical per page and locale; `hreflang` with `x-default`; Open Graph and Twitter cards with preview images; JSON-LD (Person, WebSite, BlogPosting, BreadcrumbList) passing validation.
+- **Done when:** unique title, description and canonical per page and locale; `hreflang` with `x-default`; Open Graph and Twitter cards with preview images; JSON-LD (Person, WebSite, BlogPosting, BreadcrumbList) passing validation. The link check (T-20) also checks the site's own absolute URLs (canonical, `hreflang`, Open Graph images), which it skips until then. That takes linkinator's `check()` API instead of its CLI: the skip pattern is tested on each link as the page writes it and again after any rewrite, so it has to exempt the site's origin, and `urlRewriteExpressions` must map that origin to the local server's port, which the CLI picks at random and won't take from `linkinator.config.json`. The skeleton's `og:image` (`/default-og.png`) doesn't exist yet.
 
 ### T-58 · Sitemap and robots
 
 - **Status:** todo
 - **Source:** §6.7, §9.2
 - **Depends on:** T-57
-- **Done when:** multilingual sitemap with alternates, excluding `noindex` pages; `robots.txt` pointing to it.
+- **Done when:** multilingual sitemap with alternates, excluding `noindex` pages; `robots.txt` pointing to it. Every sitemap URL is checked against `dist/`: the link check (T-20) reads only HTML and CSS, and linkinator's sitemap mode takes only an HTTP URL, not a file in `dist/`.
 
 ### T-59 · Analytics
 

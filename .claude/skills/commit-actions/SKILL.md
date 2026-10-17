@@ -32,7 +32,7 @@ The hook runs `lint-staged` (ESLint, Stylelint, markdownlint fixes, then Prettie
 npx lint-staged
 ```
 
-If it fails, report the output and stop. The whole-project gates (`version:check`, `lint`, `lint:css`, `css:check`, `check`, `build`, unit tests, ESLint rule fixtures) run on `pre-push`, not here.
+If it fails, report the output and stop. The whole-project gates (`version:check`, `lint`, `lint:css`, `css:check`, `check`, `build`, `validate:html`, `links:check`, unit tests, ESLint rule fixtures) run on `pre-push`, not here.
 
 ## Step 3 — Type and subject
 
