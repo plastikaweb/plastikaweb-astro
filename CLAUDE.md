@@ -10,7 +10,7 @@ Portfolio and lead generator for Carlos Matheu (Plastikaweb), senior freelance A
 
 - `docs/requirements.md`: **the requirements — single source.** Read the relevant section before building a page or feature. Open decisions are listed there as `D-xx` (§12): ask before choosing any of them.
 - `TASKS.md`: the backlog, in dependency order; each task cites its requirements section. Work in that order.
-- `docs/design/claude-design-prompt.md`: the brief used to design the interface in Claude Design (task T-02), with `PRODUCT.md` (T-01) as context.
+- `docs/design/claude-design-prompt.md`: the prompts used in Claude Design, with `PRODUCT.md` (T-01) as context: the interface brief (T-02, Prompts 1 and 2) and the home revision (T-67, Prompts 3 to 5).
 - `src/styles/theme.css`: design tokens, Commit Mono `@font-face`, reset, base typography, utilities and print styles. Single source for every visual value.
 - `docs/design-state.md`: design review log and contrast audit. Its decisions up to October 2026 are folded into the requirements; new decisions go in the requirements.
 - `.claude/rules/css.md`: CSS rules, loaded automatically when working on `.css` or `.astro` files.
