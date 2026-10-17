@@ -68,31 +68,56 @@ export function summarize(/** @type {any} */ lhr) {
   };
 }
 
+// Truncated, not rounded: a 2499 ms LCP must not print as the 2.5 s limit it passes.
+const seconds = (/** @type {number} */ ms) =>
+  `${(Math.floor(ms / 10) / 100).toFixed(2)} s`;
+const shift = (/** @type {number} */ cls) =>
+  (Math.floor(cls * 1000) / 1000).toFixed(3);
+
 /** Lists blocking failures and reported misses for one summarized run. */
 export function checkBudgets(
   /** @type {ReturnType<typeof summarize>} */ result,
 ) {
   const failures = Object.entries(BUDGETS.blocking)
     .filter(([id, min]) => result[id] < min)
-    .map(([id]) => `${id} ${Math.round(result[id] * 100)}`);
+    .map(([id]) => ({ id, score: result[id] }));
+  // §1.3 asks for LCP < 2.5 s and CLS < 0.1, so the limits themselves miss.
   const { performance, lcpMs, cls } = BUDGETS.reported;
   const misses = [
     result.performance < performance &&
       `performance ${Math.round(result.performance * 100)}`,
-    result.lcpMs > lcpMs && `LCP ${(result.lcpMs / 1000).toFixed(1)} s`,
-    result.cls > cls && `CLS ${result.cls.toFixed(2)}`,
+    result.lcpMs >= lcpMs && `LCP ${seconds(result.lcpMs)}`,
+    result.cls >= cls && `CLS ${shift(result.cls)}`,
   ].filter(Boolean);
   return { failures, misses };
 }
 
 /** Audits behind a category score below 1, so a failure says what to fix. */
-function failingAudits(/** @type {any} */ lhr, /** @type {string} */ category) {
-  return lhr.categories[category].auditRefs
-    .filter((ref) => ref.weight > 0 && (lhr.audits[ref.id].score ?? 1) < 1)
+export function failingAudits(
+  /** @type {any} */ lhr,
+  /** @type {string} */ category,
+) {
+  // Lighthouse zeroes the weight of not-applicable audits, so a weighted null score
+  // is an audit that errored: it nulls the category score and must be named.
+  return (lhr.categories[category]?.auditRefs ?? [])
+    .filter((ref) => ref.weight > 0 && lhr.audits[ref.id]?.score !== 1)
     .map((ref) => ref.id);
 }
 
+/** The response at ORIGIN, or null when nothing answers there within 2 s. */
+async function probe() {
+  try {
+    return await fetch(ORIGIN, { signal: AbortSignal.timeout(2000) });
+  } catch {
+    return null;
+  }
+}
+
 async function startPreview() {
+  // A server already on the port would be audited instead of this build.
+  if (await probe()) {
+    throw new Error(`${ORIGIN} is already in use: stop that server first`);
+  }
   const server = spawn(
     "npx",
     ["astro", "preview", "--port", String(PORT), "--ignore-lock"],
@@ -101,12 +126,8 @@ async function startPreview() {
     },
   );
   for (let attempt = 0; attempt < 60; attempt += 1) {
-    try {
-      if ((await fetch(ORIGIN)).ok) {
-        return server;
-      }
-    } catch {
-      // Not listening yet.
+    if ((await probe())?.ok) {
+      return server;
     }
     await new Promise((resolve) => setTimeout(resolve, 500));
   }
@@ -130,6 +151,16 @@ async function audit(
     THEME_STORAGE_KEY,
     theme,
   );
+  // If the layout stops reading this key, every run would audit the same theme.
+  await tab.reload();
+  const applied = await tab.evaluate(
+    () => document.documentElement.dataset.theme,
+  );
+  if (applied !== theme) {
+    throw new Error(
+      `${page.path} shows the ${applied} theme with "${THEME_STORAGE_KEY}" set to ${theme}`,
+    );
+  }
   const cdp = await tab.createCDPSession();
   await cdp.send("Network.clearBrowserCache");
   await tab.close();
@@ -159,10 +190,10 @@ function report(/** @type {any[]} */ rows) {
           percent(result.accessibility),
           percent(result["best-practices"]),
           percent(result.seo),
-          `${(result.lcpMs / 1000).toFixed(1)} s`,
-          result.cls.toFixed(2),
+          seconds(result.lcpMs),
+          shift(result.cls),
           failures.length > 0
-            ? `✖ ${failures.join("; ")}`
+            ? `✖ ${failures.map(({ id, score }) => `${id} ${percent(score)}`).join("; ")}`
             : misses.length > 0
               ? `⚠ ${misses.join(", ")}`
               : "✔",
@@ -183,41 +214,54 @@ async function auditAndCheck(chrome, browser, page, theme) {
   const lhr = await audit(chrome, browser, page, theme);
   const result = summarize(lhr);
   const { failures, misses } = checkBudgets(result);
-  for (const failure of failures) {
-    const [category] = failure.split(" ");
-    const audits = failingAudits(lhr, category).join(", ");
-    console.error(`✖ ${page.path} ${theme}: ${failure} (${audits})`);
+  for (const { id, score } of failures) {
+    // A page that fails to load errors every audit: its cause beats a list of all of them.
+    const detail = lhr.runtimeError
+      ? `${lhr.runtimeError.code}: ${lhr.runtimeError.message}`
+      : failingAudits(lhr, id).join(", ") || "no weighted audits";
+    console.error(
+      `✖ ${page.path} ${theme}: ${id} ${Math.round(score * 100)} (${detail})`,
+    );
   }
   return { page, theme, result, failures, misses };
 }
 
 if (import.meta.main) {
   const pages = pickTemplatePages(globSync("dist/**/index.html"));
+  // A dist/ without locale pages must fail, not pass with nothing audited.
+  if (!pages.some((page) => page.template === "home")) {
+    throw new Error(
+      "dist/ has no locale home pages: run `npm run build` first",
+    );
+  }
   mkdirSync(REPORTS, { recursive: true });
-  const server = await startPreview();
-  const chrome = await chromeLauncher.launch({
-    chromePath: chromium.executablePath(),
-    // GitHub's Ubuntu runners block Chrome's sandbox; Playwright disables it there too.
-    chromeFlags: [
-      "--headless=new",
-      ...(process.env.CI ? ["--no-sandbox"] : []),
-    ],
-  });
-  const browser = await puppeteer.connect({
-    browserURL: `http://127.0.0.1:${chrome.port}`,
-  });
   const rows = [];
+  let server;
+  let chrome;
+  let browser;
 
   try {
+    server = await startPreview();
+    chrome = await chromeLauncher.launch({
+      chromePath: chromium.executablePath(),
+      // GitHub's Ubuntu runners block Chrome's sandbox; Playwright disables it there too.
+      chromeFlags: [
+        "--headless=new",
+        ...(process.env.CI ? ["--no-sandbox"] : []),
+      ],
+    });
+    browser = await puppeteer.connect({
+      browserURL: `http://127.0.0.1:${chrome.port}`,
+    });
     for (const page of pages) {
       for (const theme of THEMES) {
         rows.push(await auditAndCheck(chrome, browser, page, theme));
       }
     }
   } finally {
-    await browser.disconnect();
-    chrome.kill();
-    server.kill();
+    await browser?.disconnect();
+    chrome?.kill();
+    server?.kill();
   }
 
   report(rows);

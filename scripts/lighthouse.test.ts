@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { checkBudgets, pickTemplatePages } from "./lighthouse.js";
+import {
+  checkBudgets,
+  failingAudits,
+  pickTemplatePages,
+  summarize,
+} from "./lighthouse.js";
 
 const built = [
   "dist/index.html",
@@ -40,6 +45,96 @@ describe("pickTemplatePages", () => {
   });
 });
 
+describe("summarize", () => {
+  const lhr = {
+    categories: {
+      performance: { score: 0.93 },
+      accessibility: { score: 1 },
+      "best-practices": { score: 1 },
+      seo: { score: 0.92 },
+    },
+    audits: {
+      "largest-contentful-paint": { numericValue: 2650 },
+      "cumulative-layout-shift": { numericValue: 0.004 },
+    },
+  };
+
+  it("reads the four category scores, LCP and CLS", () => {
+    expect(summarize(lhr)).toEqual({
+      performance: 0.93,
+      accessibility: 1,
+      "best-practices": 1,
+      seo: 0.92,
+      lcpMs: 2650,
+      cls: 0.004,
+    });
+  });
+
+  it("scores a missing or errored category as 0, so it fails", () => {
+    const result = summarize({
+      ...lhr,
+      categories: {
+        performance: { score: null },
+        accessibility: { score: null },
+      },
+    });
+    expect(result.performance).toBe(0);
+    expect(result.accessibility).toBe(0);
+    expect(checkBudgets(result).failures.map(({ id }) => id)).toEqual([
+      "accessibility",
+      "best-practices",
+      "seo",
+    ]);
+  });
+
+  it("treats a missing LCP or CLS as infinite, so it misses", () => {
+    const result = summarize({ ...lhr, audits: {} });
+    expect(result.lcpMs).toBe(Infinity);
+    expect(result.cls).toBe(Infinity);
+    expect(checkBudgets(result).misses).toEqual([
+      "performance 93",
+      "LCP Infinity s",
+      "CLS Infinity",
+    ]);
+  });
+});
+
+describe("failingAudits", () => {
+  const lhr = {
+    categories: {
+      accessibility: {
+        // Lighthouse zeroes the weight of not-applicable audits (image-alt on a page
+        // without images), and some audits never carry weight (empty-heading).
+        auditRefs: [
+          { id: "color-contrast", weight: 7 },
+          { id: "landmark-one-main", weight: 3 },
+          { id: "label", weight: 10 },
+          { id: "image-alt", weight: 0 },
+          { id: "empty-heading", weight: 0 },
+        ],
+      },
+    },
+    audits: {
+      "color-contrast": { score: 0 },
+      "landmark-one-main": { score: 1 },
+      label: { score: null },
+      "image-alt": { score: null },
+      "empty-heading": { score: 0 },
+    },
+  };
+
+  it("names the weighted audits that failed or errored", () => {
+    expect(failingAudits(lhr, "accessibility")).toEqual([
+      "color-contrast",
+      "label",
+    ]);
+  });
+
+  it("returns nothing for a category the run lacks", () => {
+    expect(failingAudits(lhr, "seo")).toEqual([]);
+  });
+});
+
 describe("checkBudgets", () => {
   const perfect = {
     performance: 1,
@@ -54,15 +149,52 @@ describe("checkBudgets", () => {
     expect(checkBudgets(perfect)).toEqual({ failures: [], misses: [] });
   });
 
-  it("fails on accessibility, best practices or SEO below 100", () => {
-    expect(checkBudgets({ ...perfect, accessibility: 0.96 }).failures).toEqual([
-      "accessibility 96",
+  it.each(["accessibility", "best-practices", "seo"])(
+    "fails when %s is below 100",
+    (id) => {
+      expect(checkBudgets({ ...perfect, [id]: 0.96 }).failures).toEqual([
+        { id, score: 0.96 },
+      ]);
+    },
+  );
+
+  it("lists every blocking failure of a run", () => {
+    expect(
+      checkBudgets({ ...perfect, accessibility: 0.9, seo: 0.8 }).failures,
+    ).toEqual([
+      { id: "accessibility", score: 0.9 },
+      { id: "seo", score: 0.8 },
     ]);
   });
 
   it("only reports performance and Core Web Vitals misses", () => {
-    const result = checkBudgets({ ...perfect, performance: 0.81, lcpMs: 2900 });
+    const result = checkBudgets({
+      ...perfect,
+      performance: 0.81,
+      lcpMs: 2900,
+      cls: 0.12,
+    });
     expect(result.failures).toEqual([]);
-    expect(result.misses).toEqual(["performance 81", "LCP 2.9 s"]);
+    expect(result.misses).toEqual([
+      "performance 81",
+      "LCP 2.90 s",
+      "CLS 0.120",
+    ]);
+  });
+
+  it("misses LCP and CLS at their limits, since §1.3 asks for less than", () => {
+    expect(checkBudgets({ ...perfect, lcpMs: 2500, cls: 0.1 }).misses).toEqual([
+      "LCP 2.50 s",
+      "CLS 0.100",
+    ]);
+    expect(
+      checkBudgets({ ...perfect, lcpMs: 2499, cls: 0.0999 }).misses,
+    ).toEqual([]);
+  });
+
+  it("truncates LCP and CLS instead of rounding them", () => {
+    expect(
+      checkBudgets({ ...perfect, lcpMs: 2649.9, cls: 0.1239 }).misses,
+    ).toEqual(["LCP 2.64 s", "CLS 0.123"]);
   });
 });
