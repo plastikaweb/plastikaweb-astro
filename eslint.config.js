@@ -59,6 +59,16 @@ export default defineConfig([
       "no-console": ["error", { allow: ["warn", "error"] }],
       "no-else-return": ["error", { allowElseIf: false }],
       "no-lonely-if": "error",
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: ["vitest", "node:test"].map((name) => ({
+            name,
+            importNames: ["it"],
+            message: "Use test(), as the Playwright specs do.",
+          })),
+        },
+      ],
       "no-var": "error",
       "prefer-const": "error",
       "simple-import-sort/exports": "error",

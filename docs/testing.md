@@ -20,7 +20,7 @@ Pure logic with rules worth pinning down: the data layer and its mappers, i18n h
 ## Writing a test
 
 - Put the test next to the code: `src/lib/blog/reserved-slugs.ts` → `src/lib/blog/reserved-slugs.test.ts`.
-- Import `describe`, `it` and `expect` from `vitest` (no globals).
+- Import `describe`, `test` and `expect` from `vitest` (no globals). Cases call `test()`, as the Playwright specs do: ESLint rejects importing `it` from `vitest` or `node:test`.
 - Name each case for the behaviour it proves (`"only matches whole slugs"`), not the input.
 - Shared fixtures and helpers live in `src/testing/` and are excluded from coverage. Keep fixtures small and named for what they prove.
 - Prefer real data shapes (as WPGraphQL returns them) over mocks; mock only what crosses the network.
