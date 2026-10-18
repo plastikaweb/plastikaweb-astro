@@ -32,6 +32,7 @@ Project rules on top:
 | `max-lines`                                      | At most 450 lines per file.                      |
 | `max-params`                                     | At most 4 parameters.                            |
 | `no-else-return`, `no-lonely-if`                 | Flat control flow.                               |
+| `no-restricted-imports`                          | Tests call `test()`; importing `it` fails.       |
 | `@typescript-eslint/no-unused-vars`              | Unused names only with a `_` prefix.             |
 | `@typescript-eslint/consistent-type-imports`     | `import type` for type-only imports.             |
 | `@typescript-eslint/no-import-type-side-effects` | No `import { type X }` that keeps a side effect. |

@@ -1,13 +1,13 @@
 // Fixtures for the local `max-comment-lines` rule: `npm run test:eslint-rules`.
 
-import { describe, it } from "node:test";
+import { describe, test } from "node:test";
 
 import { RuleTester } from "eslint";
 
 import rule from "./max-comment-lines.js";
 
 RuleTester.describe = describe;
-RuleTester.it = it;
+RuleTester.it = test;
 
 const ruleTester = new RuleTester({
   languageOptions: { ecmaVersion: 2022, sourceType: "module" },

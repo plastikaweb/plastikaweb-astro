@@ -178,6 +178,13 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 - **Depends on:** T-19
 - **Done when:** a project script (`scripts/lighthouse.js`) runs Lighthouse on one page per template in both themes and fails below 100 in Accessibility, Best Practices and SEO, while performance, LCP and CLS are reported until T-33 makes them blocking; HTML validation and an internal link check run on `dist/`; all three are part of the gate.
 
+### T-69 · One test function across the suites
+
+- **Status:** done
+- **Source:** §13.3
+- **Depends on:** T-14, T-15
+- **Done when:** unit tests and the ESLint rule fixtures call `test()`, as the Playwright specs do; ESLint (`no-restricted-imports`) rejects importing `it` from `vitest` or `node:test`; `docs/testing.md` and `docs/code-quality.md` say so.
+
 ### T-21 · Dependency update bot
 
 - **Status:** todo
