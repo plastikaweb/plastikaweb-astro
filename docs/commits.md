@@ -34,7 +34,7 @@ The whole-project gates run on push rather than on commit: a branch with ten com
 
 ## Branches
 
-- `main` is always releasable. Work happens on short-lived branches named `<type>/t-<id>-<slug>`, e.g. `chore/t-13-git-hooks`, merged through a pull request: `main` is protected (T-19), and nobody, admins included, pushes to it directly.
+- `main` is always releasable. Work happens on short-lived branches named `<type>/t-<id>-<slug>`, e.g. `chore/t-13-git-hooks`, merged through a pull request: `main` is protected (T-19), and nobody, admins included, pushes to it directly. The one exception to the name is Renovate's `renovate/<group or package>` branches (see [Dependency updates](#dependency-updates)).
 - No `release` branch: every pull request gets a preview deploy (T-23).
 
 ## Pull requests and CI
@@ -48,9 +48,35 @@ The whole-project gates run on push rather than on commit: a branch with ten com
 - history stays linear: pull requests are merged with **rebase**, so each `type: subject (t-xx)` commit lands on `main` as written;
 - no approving review is required (one maintainer can't approve their own pull request).
 
-Dependency audit policy: runtime dependencies fail on a `high` advisory (`npm audit --omit=dev --audit-level=high`); the whole tree fails only on `critical`, because some `high` advisories in lint tooling (`braces`, through Stylelint and markdownlint) have no fix yet. Renovate (T-21) brings the fixes as they ship.
+Dependency audit policy: runtime dependencies fail on a `high` advisory (`npm audit --omit=dev --audit-level=high`); the whole tree fails only on `critical`, because some `high` advisories in lint tooling (`braces`, through Stylelint and markdownlint) have no fix yet. Renovate brings fixes for the dependencies in `package.json` as advisories are published; a fix deeper in the tree takes a lock file refresh (see [Dependency updates](#dependency-updates)).
 
 Actions are pinned to a commit SHA with the release in a comment; Renovate updates them. The workflow has read-only `contents` permission and no secrets.
+
+## Dependency updates
+
+Renovate (requirements §13.8) opens the update pull requests. It runs as the hosted Mend Renovate app; its config is `.github/renovate.jsonc`, whose comments say why each rule is there.
+
+- **When:** new pull requests open on Mondays, Madrid time. An open one is kept current on any day: Renovate rebases it when `main` moves and adds newer releases to it, so the patch group can merge itself midweek. Security fixes and pull requests ticked in the Dependency Dashboard don't wait for Monday either.
+- **Release age:** a new npm release waits three days before Renovate proposes it, and the lock file maintenance takes nothing younger (npm `--before`), so a broken or compromised release has time to be pulled. If npm can't resolve the tree that way, Renovate refreshes the lock without the limit and says so in the pull request: leave that one for the next Monday.
+- **Groups:** one pull request per group, with any update outside a group in its own.
+
+  | Pull request                    | Holds                                              | Merge                                      |
+  | ------------------------------- | -------------------------------------------------- | ------------------------------------------ |
+  | `astro packages`                | `astro` and every `@astrojs/*` package             | By hand                                    |
+  | `dev dependency patch releases` | Patch releases of the dev dependencies             | Merges itself once **Quality gate** passes |
+  | `dev dependency minor releases` | Minor releases of the dev dependencies             | By hand                                    |
+  | `github actions`                | Minor, patch and SHA updates of the pinned actions | By hand                                    |
+  | `lock file maintenance`         | The lock file refreshed within the ranges in use   | By hand                                    |
+
+  A group merges itself only if every update in it would: an `astro packages` pull request that holds only a patch of `@astrojs/check`, a dev dependency, merges itself.
+
+- **Majors** wait in the Dependency Dashboard (an issue Renovate keeps up to date) under "Pending Approval": tick one to get its pull request, one major at a time (§13.1). TypeScript 7 stays there until `typescript-eslint` supports it. A Node major updates `.nvmrc` and `engines` together (`^24.0.0` becomes `^26.0.0`; a range such as `>=24.0.0 <25` would only be widened); the npm version in `constraints` in `.github/renovate.jsonc` (the npm that ships with Node 24) then changes by hand, to the npm that ships with the new Node.
+- **Automerge:** Renovate turns on GitHub's auto-merge, by rebase, and GitHub merges once the gate passes on a branch up to date with `main`. A failing pull request stays open.
+- **Commits:** `build: update dependency prettier to v3.9.10 (m-1)`, `build: update astro packages (m-1)`, `ci:` for actions. A group that holds a single update keeps its branch but takes that package's subject: `build: update dependency astro to v7.4.0 (m-1)`. The reference is M-1 in `TASKS.md`, the recurring review, in place of a task id. Renovate's commits skip the local hooks, and CI doesn't run commitlint: the format comes from the config.
+- **Security fixes** arrive as soon as an advisory is published, outside the schedule and without the three-day wait, with `[security] (m-1)` at the end of the subject; a patch of a dev dependency merges itself once the gate passes, like any other. Renovate learns of advisories from the repository's Dependabot alerts, so those must be on; Dependabot security updates stay off, or both bots would open the same fix.
+- **Advisories deeper in the tree:** Renovate fixes only the dependencies in `package.json`. An advisory in a package they pull in fails the dependency audit in CI (`critical` anywhere, `high` in runtime dependencies), which blocks every pull request until it's fixed: by the Monday lock file maintenance when the fix fits the ranges in use, by updating the package that pulls it in, or by hand with `npm update <package>` on a branch when it can't wait (the lock file maintenance won't take a fix younger than three days).
+- **Reviewing (M-1):** read the release notes linked in the pull request body, check the gate, merge with rebase. When an update breaks the gate, push the fix to the Renovate branch (Renovate then stops rebasing it). Closing the pull request of a single package skips that version, or the whole major for a major; a group or lock file maintenance pull request comes back after closing, so to hold a release back add a `packageRules` entry with `allowedVersions` to the config.
+- **Setup, once, by a maintainer:** install the app from <https://github.com/apps/renovate> with "Only select repositories" and this repository (with "All repositories" it runs silent and opens nothing), and turn on Dependabot alerts in the repository's security settings. The config is already on `main`, so there is no onboarding pull request.
 
 ## Skipping hooks
 

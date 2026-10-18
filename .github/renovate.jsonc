@@ -1,0 +1,80 @@
+// Renovate (requirements §13.8, T-21): grouped updates on Mondays, dev-dependency
+// patches merged on their own once Quality gate passes, everything else reviewed
+// by hand. How it works and what to do with each pull request: docs/commits.md.
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    // config:recommended plus action digest pinning, weekly lock file maintenance
+    // and a three-day minimum release age for npm packages.
+    "config:best-practices",
+    // Subjects as in docs/commits.md: `build: update dependency x to v1.2.3 (m-1)`.
+    ":semanticCommits",
+    ":semanticCommitScopeDisabled",
+    ":semanticCommitTypeAll(build)",
+  ],
+  "timezone": "Europe/Madrid",
+  // All of Monday: the hosted app runs a repository every few hours, and only
+  // daily until its first pull request merges, so a short window gets missed.
+  "schedule": ["* * * * 1"],
+  // The preset's three-day wait skips lock file maintenance; this passes npm
+  // `--before`, so the refreshed lock takes no release younger than three days.
+  // The lock has no release dates to check, hence timestamp-optional.
+  "lockFileMaintenance": {
+    "schedule": ["* * * * 1"],
+    "minimumReleaseAge": "3 days",
+    "minimumReleaseAgeBehaviour": "timestamp-optional",
+  },
+  // The groups keep a week to a handful of pull requests; the default limit of
+  // two an hour would spread them over several runs.
+  "prHourlyLimit": 0,
+  // M-1 in TASKS.md: reviewing these pull requests is the recurring task.
+  "commitMessageSuffix": "(m-1)",
+  "vulnerabilityAlerts": { "commitMessageSuffix": "[security] (m-1)" },
+  // main accepts rebase merges only.
+  "automergeStrategy": "rebase",
+  // The npm that ships with Node 24, used locally and in CI, so the lock file
+  // isn't rewritten by a newer npm.
+  "constraints": { "npm": "^11" },
+  "packageRules": [
+    {
+      // Renovate reads the npm constraint above as a dependency of this file.
+      // It moves by hand, with the Node version in .nvmrc.
+      "matchManagers": ["renovate-config"],
+      "matchDepTypes": ["tool-constraint"],
+      "enabled": false,
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "semanticCommitType": "ci",
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "github actions",
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch"],
+      "groupName": "dev dependency patch releases",
+      "automerge": true,
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor"],
+      "groupName": "dev dependency minor releases",
+    },
+    {
+      // After the dev groups, so @astrojs/check stays with astro. A group merges
+      // on its own only if every update in it would.
+      "matchPackageNames": ["astro", "@astrojs/**"],
+      "groupName": "astro packages",
+    },
+    {
+      // Majors are upgraded deliberately, one at a time (§13.1): each waits for
+      // approval in the Dependency Dashboard issue. TypeScript 7 stays there
+      // until typescript-eslint supports it.
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true,
+    },
+  ],
+}
