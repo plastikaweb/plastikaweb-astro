@@ -22,5 +22,5 @@ paths:
 - Focus: `:focus-visible` comes from the focus-ring tokens. Inside `--color-surface-brand` blocks, where the violet ring fails, set `outline-color: var(--color-focus-ring-on-brand)`. Never remove an outline without an equally visible replacement.
 - No fixed widths or heights on elements that contain text (ca/es copy runs up to 30% longer than en).
 - Brand red: filled primary buttons and brand blocks use `--color-surface-brand` (hover: `--color-surface-brand-hover`) with `--color-text-on-primary`. `--color-primary` (#FF0008) is only for accents, borders, icons and large display text, never behind normal-size text; the one exception is a data fill, which carries `--color-text-on-data` text, never white. Links use `--color-text-link`.
-- Contrast: WCAG 2 AA in both themes (4.5:1 normal text; 3:1 large text and UI boundaries). `--color-text-secondary` is the only secondary text grey, form placeholders included; there is no muted text token (D-08).
+- Contrast: WCAG 2 AA in both themes (4.5:1 normal text; 3:1 large text and UI boundaries). `--color-text-secondary` is the only secondary text gray, form placeholders included; there is no muted text token (D-08).
 - Astro: theme.css is imported once in `BaseLayout.astro`; component styles go in scoped `<style>` blocks; global CSS stays in theme.css.

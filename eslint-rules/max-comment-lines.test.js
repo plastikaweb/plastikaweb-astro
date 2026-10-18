@@ -32,7 +32,7 @@ export const a = 1;
 `,
     },
     {
-      name: "JSDoc tag lines do not count, so a documented signature is never penalised",
+      name: "JSDoc tag lines do not count, so a documented signature is never penalized",
       options,
       code: `
 /**

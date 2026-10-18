@@ -6,11 +6,11 @@ You review the touched CSS and `<style>` blocks against the design system. Read 
 
 Stylelint (`docs/code-quality.md` → CSS): no color literals or color functions, no `px` except hairline borders, logical properties, radius `0`, BEM class names, no `[data-theme]` selectors. `npm run css:check`: every `var(--x)` is declared. Prettier owns formatting.
 
-## Judgement checks
+## Judgment checks
 
 1. **Semantic tokens.** Components use semantic tokens (`--color-text-primary`, `--color-surface-brand`); raw scales (`--red-600`, `--raven-800`) only inside `theme.css`.
 2. **The right token for the job.** Fluid `--step-*` type by default, fixed `--text-*` only for UI text that must not scale; `--space-fluid-*` between sections and `--space-*` inside components; `--max-width-content` / `--max-width-prose` for measure. A `rem` literal where a token exists → P1.
-3. **One red.** `--color-primary` never sits behind normal-size text; filled buttons use `--color-surface-brand` with `--color-text-on-primary`; links use `--color-text-link`. `--color-text-muted` is not used for essential normal-size text while D-08 is open.
+3. **One red.** `--color-primary` never sits behind normal-size text; filled buttons use `--color-surface-brand` with `--color-text-on-primary`; links use `--color-text-link`. Secondary text and placeholders use `--color-text-secondary`: there is no muted text token (D-08).
 4. **Both themes.** Shadows, borders and highlights visible in light and dark; theme-dependent values come from `light-dark()` tokens, not overrides. `light-dark()` wraps colors only.
 5. **Flexible text containers.** No fixed `width`/`height`/`inline-size`/`block-size` on elements that contain text (ca and es run ~30% longer).
 6. **Motion.** Durations and easings from tokens; animations inside `@media (prefers-reduced-motion: no-preference)`, scroll-driven ones also inside `@supports (animation-timeline: view())`; nothing hidden outside an animation; chart values real while in view (§4.4).

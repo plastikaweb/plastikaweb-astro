@@ -75,7 +75,7 @@ Reference sites for structure and interaction, not for look. The palette, type a
 - Palette 7 from uicolors.app: Red (primary, `#FF0008`, red-600), Broom (secondary, `#FFF42D`, broom-400), Electric Violet (tertiary, `#6032F8`, violet-600), Raven neutrals, and Green, Corn and Flush Mahogany for success, warning and error.
 - **One red.** `#FF0008` is for accents, borders, icons and large display text. Filled buttons and brand blocks use the brand surface (red-700, hover red-800) with white text; links use the link tokens (red-700 / red-400). Reason: white on red-600 is 4.0:1 and fails AA for normal text.
 - Components use semantic tokens only; raw scales stay inside theme.css.
-- Every text/background pair passes WCAG AA in both themes. Secondary text, form placeholders included, uses `--color-text-secondary` (raven-600 / raven-400): 7.2:1 on the page background and 7.5:1 on surfaces in light, 8.0:1 and 5.8:1 in dark. There is no muted grey (D-08): there is no Raven step between raven-500 (4.0:1, fails AA in light) and raven-600 (the secondary grey). In dark, `--color-surface-raised` (raven-700) fails AA for secondary text (4.05:1) and for most accent and UI colours as well (link 3.3, error 2.7, primary 2.6, focus ring 2.1): no text or UI colour goes on it in dark until a component needs it and its dark value is settled then.
+- Every text/background pair passes WCAG AA in both themes. Secondary text, form placeholders included, uses `--color-text-secondary` (raven-600 / raven-400): 7.2:1 on the page background and 7.5:1 on surfaces in light, 8.0:1 and 5.8:1 in dark. There is no muted gray (D-08): there is no Raven step between raven-500 (4.0:1, fails AA in light) and raven-600 (the secondary gray). In dark, `--color-surface-raised` (raven-700) fails AA for secondary text (4.05:1) and for most accent and UI colors as well (link 3.3, error 2.7, primary 2.6, focus ring 2.1): no text or UI color goes on it in dark until a component needs it and its dark value is settled then.
 
 ### 4.2 Typography
 
@@ -112,6 +112,7 @@ Reference sites for structure and interaction, not for look. The palette, type a
 - Localized routes. Slug scheme: D-01. Default locale and what `/` serves: D-02.
 - Language selector in the navigation (CA · ES · EN), linking to the same page in the other locale; the choice is persisted.
 - Browser language is only a fallback for the first visit (D-02).
+- English copy is American English (`color`, `optimize`), like the code docs (§13.6); cspell checks it in the files that hold the copy.
 - Copy uses the typographic apostrophe ’ (U+2019), never the straight one (`'`): Catalan elisions (d’abril), English contractions (I’ve, Let’s).
 - Month names in copy come from a fixed list per locale, not from `Intl.DateTimeFormat`, which writes "gener del 2027" in Catalan. Catalan elides "de" before a vowel (a partir d’abril de 2027) and the year always takes "de" (gener de 2027).
 - Content managed per locale in WordPress (D-04). Missing translations (D-11, decided): pages, case studies, site settings and UI strings are required in all three locales, and the build fails if one is missing. Blog posts and personal entries are published only in the locales where they exist: they don't appear in the other locales' listings, feeds or sitemaps, `hreflang` links only real translations, and on such a post the language selector links to the blog listing of the other locale. No fallback-language content.
@@ -191,7 +192,7 @@ Pages:
 - **Listing:** shows all posts by default, sorted by date; each item shows its category, tags, date, reading time and excerpt. A prominent category filter plus tag filtering; without JS, every category and tag links to its own page.
 - **Category page:** lists the posts in that category. Category and tag pages live under `/blog/category/` and `/blog/tag/`, so `category` and `tag` are reserved and can't be post slugs (the build must fail if one is).
 - **Tag page:** lists the posts with that tag. Indexed only when the tag has at least 3 posts; below that the page is `noindex` (and left out of the sitemap) to avoid thin, near-duplicate pages. The threshold of 3 is a starting value, adjustable.
-- **Post:** 65ch measure, Commit Mono syntax highlighting for code (colours from tokens), share links (no third-party share scripts), category, tags and reading time. Code blocks scroll horizontally and are keyboard-reachable (`<pre tabindex="0" role="region">` with an accessible name); the copy button is the only JS and reports through a live region.
+- **Post:** 65ch measure, Commit Mono syntax highlighting for code (colors from tokens), share links (no third-party share scripts), category, tags and reading time. Code blocks scroll horizontally and are keyboard-reachable (`<pre tabindex="0" role="region">` with an accessible name); the copy button is the only JS and reports through a live region.
 - **Feeds:** one general feed plus one per category, so readers who follow the technical writing don't get Thoughts posts.
 - Positioning risk: Thoughts posts sit on a site aimed at CTOs and recruiters, and dilute the technical keywords (§9.1). The category keeps them in check: off the home page, filterable in the listing, separate feed.
 
@@ -218,7 +219,7 @@ Pages:
 
 ### 6.7 Required pages
 
-- **404:** branded, with navigation and links to the main sections, in the three locales. Plain H1 that says what happened (no humour hiding it); the big "404" is decorative and hidden from screen readers; a line invites reporting a broken internal link. `noindex`, HTTP 404; per-locale 404s depend on the host (D-06).
+- **404:** branded, with navigation and links to the main sections, in the three locales. Plain H1 that says what happened (no humor hiding it); the big "404" is decorative and hidden from screen readers; a line invites reporting a broken internal link. `noindex`, HTTP 404; per-locale 404s depend on the host (D-06).
 - **Privacy policy:** mandatory (the form collects personal data). 65ch measure, numbered index in a `<nav>` (sticky column from 64rem), last-updated date, and sections: controller, data and purposes (including which form fields are required), legal basis, recipients, retention, rights, complaint to the AEPD, cookies and local storage, changes. Text reviewed before launch (T-56).
 - **Cookie policy:** only if non-essential cookies are ever introduced; with Plausible and no third-party embeds there are none.
 - **Multilingual XML sitemap and robots.txt**, generated at build.
@@ -323,6 +324,7 @@ All tooling in this section is decided (D-14 closed in October 2026). Several pr
 - Comments: a local ESLint rule limits a comment block to 5 lines of prose; longer rationale goes to `docs/` with a one-line pointer.
 - CSS: Stylelint enforces the token rules in `.claude/rules/css.md` (no color literals or ad-hoc px outside `theme.css`, logical properties, no `[data-theme]` overrides); a token check fails on any `var(--…)` that `theme.css` doesn't declare (an undefined custom property fails silently in the browser).
 - Markdown: markdownlint on every `.md` file, vendored skills and session notes excluded.
+- Spelling: cspell in American English on docs, comments and identifiers; Catalan and Spanish only in the files that quote the site's copy.
 - Types: TypeScript strict (in place) and `astro check`.
 - i18n: UI dictionaries share one key type, so a missing translation fails the type check; a small check rejects empty strings.
 - Git hooks (husky): pre-commit runs lint-staged on staged files and stays fast; commit-msg runs commitlint (Conventional Commits; types `feat fix docs refactor perf test build ci chore`; header ≤ 100 characters; lowercase subject); pre-push runs lint, type check, build, HTML validation, the link check and unit tests.
@@ -346,7 +348,7 @@ All tooling in this section is decided (D-14 closed in October 2026). Several pr
 ### 13.5 CI/CD
 
 - GitHub Actions (repository on GitHub), **one** workflow for every pull request rather than near-duplicate per-environment files.
-- Quality gate on every pull request: format check, ESLint, Stylelint and token check, markdownlint, local rule fixtures, type check, unit tests, build, end-to-end and accessibility tests, Lighthouse, HTML validation, link check, dependency audit, version badge. Merging requires it to pass; local hooks are a convenience, CI is the authority.
+- Quality gate on every pull request: format check, ESLint, Stylelint and token check, markdownlint, spell check, local rule fixtures, type check, unit tests, build, end-to-end and accessibility tests, Lighthouse, HTML validation, link check, dependency audit, version badge. Merging requires it to pass; local hooks are a convenience, CI is the authority.
 - Preview deploy per pull request; production deploy from `main` (host: D-06).
 - Content rebuilds: WordPress triggers a deploy hook when content is published or updated; a scheduled rebuild as a safety net, at least on the first day of each month, so date-dependent copy (availability, §6.2) turns over without a content change.
 - Secrets live in the CI and host settings, never in the repository.
@@ -356,7 +358,7 @@ All tooling in this section is decided (D-14 closed in October 2026). Several pr
 
 - `README.md`: badges, table of contents, requirements, commands, quality checks, an index of `docs/`, deploy and content rebuild, working conventions.
 - `docs/code-quality.md`, `docs/testing.md`, `docs/commits.md`, `docs/i18n.md` and `docs/manual-checks.md` (what automation can't reach: theme flash, screen readers, zoom). Each is written when its tool lands.
-- Code documentation in English; comments explain why, not what.
+- Code documentation, comments and committed docs in American English (`color`, `behavior`, `-ize`), checked by cspell; comments explain why, not what.
 
 ### 13.7 Agent tooling
 
@@ -367,7 +369,7 @@ All tooling in this section is decided (D-14 closed in October 2026). Several pr
   - Installed: the official Astro Docs MCP server (`https://mcp.docs.astro.build/mcp`, one read-only search tool, no auth) in `.mcp.json`. There is no official Astro skill for site developers.
   - Phase 5, in the WordPress project (T-48): the official `WordPress/agent-skills` `wp-plugin-development` (custom post types, fields, security) and `wp-wpcli-and-ops` (maintenance), pinned to a commit because they are AI-maintained. None of them covers WPGraphQL; block, theme and Interactivity API skills don't apply to a headless site.
   - Recommended, user-level and optional: `superpowers`, `code-review`, `/security-review`, `frontend-design`, `typeset`, the `design` plugin (accessibility review, design critique, UX copy) and `grilling`. Listed in `CLAUDE.md` with when to use each.
-  - Rejected: `impeccable` (downloads and runs a native binary, installs hooks that run without approval, writes its own `PRODUCT.md`) and `browser-automation` (no recorded source; the built-in browser and Playwright cover it). `transitions-dev` / `transitions-polish` are reference only: their tokens compete with `theme.css` and their licence forbids redistribution, so no copy is committed.
+  - Rejected: `impeccable` (downloads and runs a native binary, installs hooks that run without approval, writes its own `PRODUCT.md`) and `browser-automation` (no recorded source; the built-in browser and Playwright cover it). `transitions-dev` / `transitions-polish` are reference only: their tokens compete with `theme.css` and their license forbids redistribution, so no copy is committed.
   - Community registries (e.g. `astro-*` skills) only after reading the source: they are unvetted.
 
 ### 13.8 Security
@@ -406,6 +408,7 @@ Recurring work, tracked as recurring tasks:
 - CI and branch policy (T-19): one Quality gate job, `main` protected for admins too, rebase merges, audit thresholds (§13.5).
 - Lighthouse and build-output checks (T-20): own Lighthouse 13 script, performance non-blocking until T-33 (§13.3).
 - Home review (October 2026, T-67): Personal out of the menu and off the home page (D-15 opened); five home sections; one hero CTA (D-13 revised); availability in four states with distinct icon shapes; optional "now" block; no figures strip; sober work cards without metrics; closing block without form or email; outlined header contact button on wide screens; typographic apostrophe and Catalan month names (§5, §6, §6.2, §7, §13.5).
-- Home design closed (T-67, Claude Design Home v4): the H1 and the lead render from the first frame, since one of them is always the LCP element; the portrait never is (§4.4); Bricolage Grotesque's preload settled in T-35 (§4.2); portrait beside the meta and the H1 from 56.25rem; H1 in three stored parts, fit from 320 px; "see all" links end their sections; labelled work-card facts; singular for one hour a week (§6.2).
-- Fonts and muted text (T-27): fonts through the Astro Fonts API, served from the site's domain, with Space Grotesk preloaded only where it's used (D-07); no muted grey, so secondary text and placeholders use the secondary token (D-08); the base H1 is Bricolage Grotesque (§4.1, §4.2, §8).
+- Home design closed (T-67, Claude Design Home v4): the H1 and the lead render from the first frame, since one of them is always the LCP element; the portrait never is (§4.4); Bricolage Grotesque's preload settled in T-35 (§4.2); portrait beside the meta and the H1 from 56.25rem; H1 in three stored parts, fit from 320 px; "see all" links end their sections; labeled work-card facts; singular for one hour a week (§6.2).
+- Fonts and muted text (T-27): fonts through the Astro Fonts API, served from the site's domain, with Space Grotesk preloaded only where it's used (D-07); no muted gray, so secondary text and placeholders use the secondary token (D-08); the base H1 is Bricolage Grotesque (§4.1, §4.2, §8).
 - Font subset (T-30): latin only, because with latin-ext Astro's generated fallbacks came out 20 to 69% too large (§4.2).
+- Spelling (T-70): American English in docs, comments, identifiers and the site's English copy, enforced by cspell in lint-staged and CI (§5, §13.2, §13.6).

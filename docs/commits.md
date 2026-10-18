@@ -26,7 +26,7 @@ husky installs them on `npm install` (the `prepare` script). They live in `.husk
 
 | Hook         | Runs                                                                                                                                                           | Cost                      |
 | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| `pre-commit` | lint-staged on the staged files only: ESLint, Stylelint, markdownlint fixes, then Prettier                                                                     | Seconds                   |
+| `pre-commit` | lint-staged on the staged files only: ESLint, Stylelint, markdownlint fixes, Prettier, then cspell                                                             | Seconds                   |
 | `commit-msg` | commitlint on the message                                                                                                                                      | Instant                   |
 | `pre-push`   | The whole-project gates: `version:check`, `lint`, `lint:css`, `css:check`, `check`, `build`, HTML validation, internal links, unit tests, ESLint rule fixtures | Tens of seconds, per push |
 
@@ -39,7 +39,7 @@ The whole-project gates run on push rather than on commit: a branch with ten com
 
 ## Pull requests and CI
 
-`.github/workflows/ci.yml` runs one job, **Quality gate**, on every pull request and on every push to `main`. It installs with `npm ci` on the Node version in `.nvmrc`, then runs, cheapest first: `version:check`, `format:check`, `lint`, `test:eslint-rules`, `lint:css`, `css:check`, `lint:md`, `check`, `npm test`, `build`, `validate:html`, `links:check`, the dependency audit, `test:e2e` (Playwright's Chromium, installed in the job) and `lighthouse`. The Lighthouse reports are always uploaded as an artifact, with a summary table in the job summary; the Playwright report and traces only on a failure.
+`.github/workflows/ci.yml` runs one job, **Quality gate**, on every pull request and on every push to `main`. It installs with `npm ci` on the Node version in `.nvmrc`, then runs, cheapest first: `version:check`, `format:check`, `lint`, `test:eslint-rules`, `lint:css`, `css:check`, `lint:md`, `lint:spell`, `check`, `npm test`, `build`, `validate:html`, `links:check`, the dependency audit, `test:e2e` (Playwright's Chromium, installed in the job) and `lighthouse`. The Lighthouse reports are always uploaded as an artifact, with a summary table in the job summary; the Playwright report and traces only on a failure.
 
 `main` is protected:
 

@@ -3,16 +3,16 @@
 The site is a portfolio and lead generator for CTOs, technical recruiters and high-end freelance clients: the interface itself has to prove front-end craft. Read, in this order:
 
 1. `PRODUCT.md` — register, users, voice, brand personality, anti-references, design principles.
-2. Requirements §4 (design system) and the §6 section of the page you review (content, CTAs, decided behaviour).
+2. Requirements §4 (design system) and the §6 section of the page you review (content, CTAs, decided behavior).
 3. `src/styles/theme.css` — the only vocabulary your proposals may use.
 
-The approved Claude Design handoff isn't in the repo; if a judgement depends on the exact design, say so under `Unverified:` and the main thread will compare.
+The approved Claude Design handoff isn't in the repo; if a judgment depends on the exact design, say so under `Unverified:` and the main thread will compare.
 
 ## Don't repeat
 
 The styles lens covers tokens and CSS correctness; the a11y lens covers WCAG. You judge the experience.
 
-## Judgement checks
+## Judgment checks
 
 1. **Hierarchy.** The eye lands first on what §6 makes primary (on Home: the H1 and the "Let's talk about your project" CTA); secondary content recedes; the type scale does the work, not color.
 2. **CTAs.** The decided CTAs exist, in the decided order and hierarchy (filled brand surface for the primary, one primary per view); labels say what happens next.

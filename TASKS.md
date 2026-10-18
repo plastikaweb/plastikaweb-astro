@@ -185,6 +185,13 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 - **Depends on:** T-14, T-15
 - **Done when:** unit tests and the ESLint rule fixtures call `test()`, as the Playwright specs do; ESLint (`no-restricted-imports`) rejects importing `it` from `vitest` or `node:test`; `docs/testing.md` and `docs/code-quality.md` say so.
 
+### T-70 · Spell check in American English
+
+- **Status:** done
+- **Source:** §5, §13.2, §13.6
+- **Depends on:** T-13, T-19
+- **Done when:** `npm run lint:spell` runs cspell (`cspell.jsonc`) in American English (docs, comments, identifiers and the site's English copy), rejecting British forms the `en-US` dictionary accepts as variants, with Catalan and Spanish allowed only in the files that quote the site's copy; lint-staged and CI run it; the repo passes it; `docs/code-quality.md` documents it and `.vscode/` recommends the Code Spell Checker, which reads the same config.
+
 ### T-21 · Dependency update bot
 
 - **Status:** todo
@@ -197,7 +204,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 - **Status:** todo
 - **Source:** §13.6
 - **Depends on:** T-13, T-19 (the deploy section is added by T-23)
-- **Done when:** the README has badges, a table of contents, requirements, install and run commands, quality checks, an index of `docs/`, deploy and content rebuild, and working conventions; `CLAUDE.md` states the code documentation conventions (English only, comments explain why, branch naming `<type>/t-<id>-<slug>`).
+- **Done when:** the README has badges, a table of contents, requirements, install and run commands, quality checks, an index of `docs/`, deploy and content rebuild, and working conventions; `CLAUDE.md` states the code documentation conventions (American English, checked by cspell; comments explain why; branch naming `<type>/t-<id>-<slug>`).
 
 ## Phase 4 — Front end with mock data
 
@@ -208,7 +215,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §5, §6.1, D-01, D-02
 - **Depends on:** —
-- **Done when:** slug scheme (localized or shared) and default locale / behaviour of `/` are recorded in the requirements, with the full route table per locale.
+- **Done when:** slug scheme (localized or shared) and default locale / behavior of `/` are recorded in the requirements, with the full route table per locale.
 
 ### T-26 · Decide the open content questions (D-09, D-10, D-11, D-12)
 
@@ -257,7 +264,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §2, §5
 - **Depends on:** T-14, T-29
-- **Done when:** every UI string, including accessible names, lives in one dictionary per locale; each locale `satisfies` the same key type, so a missing key fails the type check (parity by types, no separate parity script); a small check rejects empty strings and runs in pre-commit and CI; helpers return the localized path of any page and its alternates in the other locales; unit tests cover them; `docs/i18n.md` explains how to add a string.
+- **Done when:** every UI string, including accessible names, lives in one dictionary per locale; each locale `satisfies` the same key type, so a missing key fails the type check (parity by types, no separate parity script); a small check rejects empty strings and runs in pre-commit and CI; helpers return the localized path of any page and its alternates in the other locales; unit tests cover them, taking Catalan and Spanish strings from `src/testing/`; the dictionary folder and `docs/i18n.md` join the Catalan and Spanish override in `cspell.jsonc` and the list in `docs/code-quality.md`; `docs/i18n.md` explains how to add a string.
 
 ### T-32 · Content model and mock data layer
 
