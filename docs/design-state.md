@@ -41,7 +41,7 @@ Ratios against `--color-bg` / `--color-surface` — light: raven-50 / white; dar
 | -------------------------------------------------------------------- | ----------- | ----------- | ---------------------------------------------------- |
 | `--color-text-primary`                                               | 19.2 / 20.1 | 19.2 / 14.0 | ✅                                                   |
 | `--color-text-secondary`                                             | 7.2 / 7.5   | 8.0 / 5.8   | ✅                                                   |
-| `--color-text-muted` (raven-500)                                     | 4.0 / 4.2   | 4.8 / 3.5   | ❌ normal text                                       |
+| ~~`--color-text-muted`~~ (raven-500)                                 | 4.0 / 4.2   | 4.8 / 3.5   | ❌ normal text — removed (D-08)                      |
 | `--color-text-link` (red-700 / red-400)                              | 5.2 / 5.4   | 6.5 / 4.7   | ✅                                                   |
 | `--color-text-link-hover` (red-800 / red-300)                        | 7.0 / 7.3   | 9.5 / 6.9   | ✅                                                   |
 | `--color-text-code` (on `--color-bg-secondary` / surface)            | 9.3 / 10.3  | 12.0 / 10.0 | ✅                                                   |
@@ -54,6 +54,6 @@ Ratios against `--color-bg` / `--color-surface` — light: raven-50 / white; dar
 | `--color-text-on-secondary` (raven-950 on broom-400)                 | 17.4        | 17.4        | ✅                                                   |
 | `--color-focus-ring` (needs 3:1)                                     | 6.1 / 6.4   | 4.2 / 3.04  | ✅                                                   |
 
-Pending — design decision open, theme.css is unchanged for this one:
+Resolved — muted text (D-08, T-27):
 
-- Muted text: no Raven step between 500 and 600, so in light mode it either becomes raven-600 (7.2, same as secondary) or is limited to large or non-essential text. On dark surfaces raven-400 gives 5.8. Form placeholders use this token (req. §2.3). Until D-08 closes, page text uses `--color-text-secondary`; the skeleton was moved off the muted token in T-15, when the axe check failed on it.
+- No Raven step sits between 500 and 600, so in light mode a muted grey either becomes raven-600 (7.2, the same as secondary) or fails AA for normal text. The muted token is removed instead (T-30): secondary text and form placeholders use `--color-text-secondary`. In dark mode secondary text stays off `--color-surface-raised` (raven-400 on raven-700 is 4.05).

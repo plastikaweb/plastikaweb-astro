@@ -212,7 +212,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 
 ### T-27 · Decide font hosting and muted text (D-07, D-08)
 
-- **Status:** todo
+- **Status:** done
 - **Source:** §4.1, §4.2, D-07, D-08
 - **Depends on:** —
 - **Done when:** both decisions are recorded; D-08 with contrast ratios that pass AA in both themes.
