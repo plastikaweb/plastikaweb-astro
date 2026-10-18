@@ -49,6 +49,7 @@ const translations = [
   description={t.bio}
   lang={lang as string}
   translations={translations}
+  preloadDisplayFont
 >
   <section class="hero content-reveal">
     <div class="hero-content">
@@ -122,6 +123,11 @@ const translations = [
     align-items: center;
     justify-content: center;
     text-align: center;
+  }
+
+  /* Space Grotesk is for the hero H1 only (requirements §4.2); T-35 rebuilds the hero. */
+  .hero h1 {
+    font-family: var(--font-display);
   }
 
   .section-padding {

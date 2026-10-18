@@ -1,6 +1,8 @@
 ---
 import "../styles/theme.css";
 
+import { Font } from "astro:assets";
+
 import ThemeToggle from "../components/ui/ThemeToggle.astro";
 
 interface Translation {
@@ -15,9 +17,18 @@ interface Props {
   lang: string;
   translations?: Translation[];
   ogImage?: string;
+  /** Preload Space Grotesk: only on pages that set it (home, case studies, 404). */
+  preloadDisplayFont?: boolean;
 }
 
-const { title, description, lang, translations = [], ogImage } = Astro.props;
+const {
+  title,
+  description,
+  lang,
+  translations = [],
+  ogImage,
+  preloadDisplayFont = false,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -49,15 +60,17 @@ const { title, description, lang, translations = [], ogImage } = Astro.props;
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage || "/default-og.png"} />
 
-    <!-- Performance: Preconnect to Google Fonts & WP media domains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://api.plastikaweb.com" />
-
-    <!-- Typography: Google Fonts (Space Grotesk & Bricolage Grotesque) -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Space+Grotesk:wght@300..700&display=swap"
-      rel="stylesheet"
+    {/* Fonts from the site's own domain (astro.config.mjs, requirements §4.2).
+         Every family is declared on every page; browsers only fetch the ones in use. */}
+    <Font cssVariable="--font-bricolage" />
+    <Font cssVariable="--font-commit-mono" />
+    <Font
+      cssVariable="--font-space-grotesk"
+      preload={
+        preloadDisplayFont
+          ? [{ weight: 700, style: "normal", subset: "latin" }]
+          : false
+      }
     />
   </head>
   <body>

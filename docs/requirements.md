@@ -7,7 +7,7 @@ Revision of the v6 analysis (`Plastikaweb_Analisi_Requeriments_v6.pdf`, April 20
 - This file replaces the v6 PDF and its markdown copy as the single source of requirements. `TASKS.md` is derived from it; every task should point to the section it comes from.
 - `src/styles/theme.css` holds every visual value. This document records the decisions, not the numbers.
 - `docs/design-state.md` keeps the design review log and the contrast audit. Its decisions up to October 2026 are folded in here (§4); from now on, new decisions are recorded here.
-- The code currently in the repo is a borrowed skeleton used to get a deployable app. It is not an implementation of these requirements and is replaced, not extended. Written for v6 and kept: `src/styles/theme.css`, the self-hosted Commit Mono files in `public/fonts/`, `docs/design-state.md`, `.claude/rules/css.md`.
+- The code currently in the repo is a borrowed skeleton used to get a deployable app. It is not an implementation of these requirements and is replaced, not extended. Written for v6 and kept: `src/styles/theme.css`, the self-hosted Commit Mono files in `src/assets/fonts/`, `docs/design-state.md`, `.claude/rules/css.md`.
 - Open decisions are listed in §12 with an ID (`D-xx`); sections refer to them instead of guessing.
 - §14 lists what changed from v6.
 
@@ -75,7 +75,7 @@ Reference sites for structure and interaction, not for look. The palette, type a
 - Palette 7 from uicolors.app: Red (primary, `#FF0008`, red-600), Broom (secondary, `#FFF42D`, broom-400), Electric Violet (tertiary, `#6032F8`, violet-600), Raven neutrals, and Green, Corn and Flush Mahogany for success, warning and error.
 - **One red.** `#FF0008` is for accents, borders, icons and large display text. Filled buttons and brand blocks use the brand surface (red-700, hover red-800) with white text; links use the link tokens (red-700 / red-400). Reason: white on red-600 is 4.0:1 and fails AA for normal text.
 - Components use semantic tokens only; raw scales stay inside theme.css.
-- Every text/background pair passes WCAG AA in both themes. Secondary text, form placeholders included, uses `--color-text-secondary` (raven-600 / raven-400): 7.2:1 on the page background and 7.5:1 on surfaces in light, 8.0:1 and 5.8:1 in dark. There is no muted grey (D-08): no Raven step between 500 and 600 passes AA in light, and raven-500 is 4.0:1 there. In dark, secondary text stays off `--color-surface-raised` (4.05:1).
+- Every text/background pair passes WCAG AA in both themes. Secondary text, form placeholders included, uses `--color-text-secondary` (raven-600 / raven-400): 7.2:1 on the page background and 7.5:1 on surfaces in light, 8.0:1 and 5.8:1 in dark. There is no muted grey (D-08): there is no Raven step between raven-500 (4.0:1, fails AA in light) and raven-600 (the secondary grey). In dark, `--color-surface-raised` (raven-700) fails AA for secondary text (4.05:1) and for most accent and UI colours as well (link 3.3, error 2.7, primary 2.6, focus ring 2.1): no text or UI colour goes on it in dark until a component needs it and its dark value is settled then.
 
 ### 4.2 Typography
 
@@ -83,7 +83,7 @@ Reference sites for structure and interaction, not for look. The palette, type a
 - **Bricolage Grotesque** (`--font-sans`, variable): everything else — headings, body, navigation, buttons.
 - **Commit Mono** (`--font-mono`): tags, dates, metadata, code, form placeholders. Self-hosted woff2 in `src/assets/fonts/`.
 - Fluid type scale (`--step--2` … `--step-6`, 16 → 20 px base between 320 and 1440 px) by default; fixed sizes only for UI text that must not scale.
-- Hosting (D-07): the Astro Fonts API serves all three families from the site's own domain, so the visitor's browser never contacts Google. Its Google provider downloads Space Grotesk (700) and Bricolage Grotesque (variable, weights 400–700, optical size 12–96) at build time; its local provider serves Commit Mono. Subsets: latin and latin-ext.
+- Hosting (D-07): the Astro Fonts API serves all three families from the site's own domain, so the visitor's browser never contacts Google. Its Google provider downloads Space Grotesk (700) and Bricolage Grotesque (variable, weights 400–700, optical size 12–96) at build time; its local provider serves Commit Mono. Subset: latin only. It holds every character ca, es and en need (`l·l`, accents, `ç`, `ñ`, `¿¡`, `«»`, `€`); with latin-ext added, Astro measured the generated fallbacks on that file, which has no a-z, and drew them 20 to 69% too large (T-30). Rarer letters in future content (`ŀ`, `ł`, `ř`) render in the fallback.
 - Loading: `font-display: swap` for all, with the metric-adjusted fallbacks the Fonts API generates. Space Grotesk 700 (latin) is preloaded only on the pages that use it: the home, case studies and the 404. Whether Bricolage Grotesque is preloaded too is settled in T-35 against a desktop LCP measurement: from a hero width of 56.25rem the hero lead, set in Bricolage, is the LCP element (§6.2).
 
 ### 4.3 Space and layout
@@ -93,7 +93,7 @@ Reference sites for structure and interaction, not for look. The palette, type a
 
 ### 4.4 Shape, surfaces and motion
 
-- **Sharp corners throughout:** no pill or capsule shapes. (`theme.css` still defines `--radius-*` tokens up to `9999px`; they must be removed or justified.)
+- **Sharp corners throughout:** no pill or capsule shapes. `border-radius` is 0 everywhere and `theme.css` has no radius tokens.
 - Theme-aware glass surfaces (`.glass`, `.glass--strong`) and a red → violet text gradient.
 - Motion uses duration and easing tokens, which collapse to 0 under `prefers-reduced-motion`. Every animation sits inside `@media (prefers-reduced-motion: no-preference)`; scroll-driven ones also inside `@supports (animation-timeline: view())`. No decorative JS.
 - Content is complete without animation: nothing starts hidden outside an animation, and the H1 and the hero lead render from the first frame, since one of them is always the LCP element (§6.2). The portrait image doesn't fade in either; the red block behind it may slide in.
@@ -408,3 +408,4 @@ Recurring work, tracked as recurring tasks:
 - Home review (October 2026, T-67): Personal out of the menu and off the home page (D-15 opened); five home sections; one hero CTA (D-13 revised); availability in four states with distinct icon shapes; optional "now" block; no figures strip; sober work cards without metrics; closing block without form or email; outlined header contact button on wide screens; typographic apostrophe and Catalan month names (§5, §6, §6.2, §7, §13.5).
 - Home design closed (T-67, Claude Design Home v4): the H1 and the lead render from the first frame, since one of them is always the LCP element; the portrait never is (§4.4); Bricolage Grotesque's preload settled in T-35 (§4.2); portrait beside the meta and the H1 from 56.25rem; H1 in three stored parts, fit from 320 px; "see all" links end their sections; labelled work-card facts; singular for one hour a week (§6.2).
 - Fonts and muted text (T-27): fonts through the Astro Fonts API, served from the site's domain, with Space Grotesk preloaded only where it's used (D-07); no muted grey, so secondary text and placeholders use the secondary token (D-08); the base H1 is Bricolage Grotesque (§4.1, §4.2, §8).
+- Font subset (T-30): latin only, because with latin-ext Astro's generated fallbacks came out 20 to 69% too large (§4.2).

@@ -21,15 +21,15 @@ Always use the established CSS Custom Properties for colors. Do not hardcode HEX
 - **Primary (Red):** `--color-primary` (Base: #FF0008). Use only for accents, borders, icons and large display text — never behind normal-size text. Filled primary buttons and brand blocks use `--color-surface-brand` (hover: `--color-surface-brand-hover`) with `--color-text-on-primary`; links use `--color-text-link`.
 - **Secondary (Broom Yellow):** `--color-secondary` (Base: #FFF42D). Use for alternative CTAs and highlights.
 - **Tertiary (Electric Violet):** `--color-tertiary` (Base: #6032F8). Use for decorative elements and tags.
-- **Neutrals (Raven Scale):** Use `--color-bg`, `--color-bg-secondary`, `--color-surface`, `--color-border`, and text variables (`--color-text-primary`, `--color-text-secondary`, `--color-text-muted`).
+- **Neutrals (Raven Scale):** Use `--color-bg`, `--color-bg-secondary`, `--color-surface`, `--color-border`, and text variables (`--color-text-primary`, `--color-text-secondary`). There is no muted grey: secondary text and form placeholders use `--color-text-secondary`.
 - **Status:** `--color-success`, `--color-warning`, `--color-error`.
 
 ## 3. Typography
 
 Apply fonts strictly based on their intended role.
 
-- **Display:** Space Grotesk (`--font-display`). Use EXCLUSIVELY for Hero H1 titles and giant project numbers (e.g., '01', '02').
-- **Sans-Serif (Main):** Bricolage Grotesque (`--font-sans`). Use for all other headings (H2, H3), body text, menus, buttons, and blog content.
+- **Display:** Space Grotesk (`--font-display`). Use EXCLUSIVELY for the home hero H1 and giant numbers (case-study section numbers such as '01', '02', and the decorative 404).
+- **Sans-Serif (Main):** Bricolage Grotesque (`--font-sans`). Use for every other heading (H1 included), body text, menus, buttons, and blog content.
 - **Monospace:** Commit Mono (`--font-mono`). Use for tags, dates, pre/code blocks, and form placeholders.
 
 ## 4. Theming (Light/Dark Mode)
@@ -41,7 +41,7 @@ Apply fonts strictly based on their intended role.
 
 - **Max Widths:** Use `--max-width-content` (72rem) for standard containers and `--max-width-prose` (65ch) for readable blog text.
 - **Vertical Rhythm:** Section paddings should be generous (96px - 128px) utilizing clamp functions.
-- **Border Radius:** Sharp corners throughout — no pill or capsule shapes. `--radius-full` is not for components.
+- **Border Radius:** Sharp corners throughout — no pill or capsule shapes. `border-radius` is always 0 and there are no radius tokens.
 
 ## 6. i18n & Responsiveness
 

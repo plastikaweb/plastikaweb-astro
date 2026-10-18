@@ -4,46 +4,6 @@
    ========================================================================== */
 
 /* ==========================================================================
-   0. FONTS — Self-hosted fonts
-   ========================================================================== */
-
-/* --- Commit Mono: 400 Regular --- */
-@font-face {
-  font-family: "Commit Mono";
-  src: url("/fonts/subset-CommitMono-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* --- Commit Mono: 400 Italic --- */
-@font-face {
-  font-family: "Commit Mono";
-  src: url("/fonts/subset-CommitMono-Italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-/* --- Commit Mono: 700 Bold --- */
-@font-face {
-  font-family: "Commit Mono";
-  src: url("/fonts/subset-CommitMono-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* --- Commit Mono: 700 Bold Italic --- */
-@font-face {
-  font-family: "Commit Mono";
-  src: url("/fonts/subset-CommitMono-BoldItalic.woff2") format("woff2");
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-/* ==========================================================================
    1. COLOR SCALES — Full Palette (50–950)
    Source: uicolors.app — Palette 7
    Theme-agnostic raw values; semantic tokens below consume them.
@@ -204,10 +164,12 @@
   --color-border-interactive: light-dark(var(--raven-400), var(--raven-500));
   --color-border-focus: light-dark(var(--violet-600), var(--violet-500));
 
+  /* Form field borders: 3:1 or more on bg and surface in both themes */
+  --color-border-input: light-dark(var(--raven-500), var(--raven-400));
+
   /* --- Text --- */
   --color-text-primary: light-dark(var(--raven-950), var(--raven-50));
   --color-text-secondary: light-dark(var(--raven-600), var(--raven-400));
-  --color-text-muted: light-dark(var(--raven-500), var(--raven-500));
   --color-text-disabled: light-dark(var(--raven-400), var(--raven-600));
   --color-text-inverse: light-dark(var(--raven-50), var(--raven-950));
   --color-text-on-primary: #fff;
@@ -231,9 +193,30 @@
   --color-error-subtle: light-dark(var(--mahogany-50), var(--mahogany-950));
   --color-error-text: light-dark(var(--mahogany-700), var(--mahogany-300));
 
+  /* --- Data (metrics, timelines) --- */
+  --color-data-before: var(--raven-500);
+  --color-data-neutral: light-dark(var(--raven-700), var(--raven-400));
+
+  /* Text on --color-primary and --color-data-before fills (white fails) */
+  --color-text-on-data: var(--raven-950);
+
+  /* --- Categories --- */
+  --color-category-thoughts: light-dark(var(--violet-700), var(--violet-400));
+
+  /* --- Code syntax (on --color-bg-secondary) --- */
+  --color-code-keyword: light-dark(var(--violet-700), var(--violet-300));
+  --color-code-string: var(--color-success-text);
+  --color-code-comment: var(--color-text-secondary);
+  --color-code-function: var(--color-text-link);
+  --color-code-number: var(--color-warning-text);
+  --color-code-type: light-dark(var(--raven-800), var(--raven-200));
+
   /* --- Interactive --- */
   --color-focus-ring: light-dark(var(--violet-600), var(--violet-500));
   --color-focus-ring-offset: var(--color-surface);
+
+  /* Focus ring on --color-surface-brand, where the violet ring fails */
+  --color-focus-ring-on-brand: var(--color-text-on-primary);
   --color-highlight: light-dark(var(--broom-400), var(--broom-500));
   --color-selection: light-dark(var(--broom-200), rgb(255 244 45 / 20%));
   --color-backdrop: light-dark(rgb(6 7 15 / 60%), rgb(6 7 15 / 80%));
@@ -265,6 +248,13 @@
   --shadow-lg: 0 10px 15px var(--shadow-color-lg);
   --shadow-xl: 0 20px 25px var(--shadow-color-xl);
   --shadow-inner: inset 0 2px 4px var(--shadow-color-inner);
+
+  /* --- Hard offset shadows (cards, buttons) --- */
+  --shadow-hard: 5px 5px 0 var(--color-text-primary);
+  --shadow-hard-hover: 7px 7px 0 var(--color-text-primary);
+  --shadow-hard-lg: 8px 8px 0 var(--color-text-primary);
+  --shadow-hard-on-brand: 5px 5px 0 var(--color-text-on-secondary);
+  --shadow-hard-on-brand-hover: 7px 7px 0 var(--color-text-on-secondary);
 }
 
 /* ==========================================================================
@@ -272,10 +262,15 @@
    ========================================================================== */
 
 :root {
-  /* --- Font Families --- */
-  --font-display: "Space Grotesk", system-ui, sans-serif;
-  --font-sans: "Bricolage Grotesque", system-ui, sans-serif;
-  --font-mono: "Commit Mono", ui-monospace, monospace;
+  /* --- Font Families ---
+     The Astro Fonts API (astro.config.mjs) declares the @font-face rules
+     and the metric-adjusted fallbacks behind these variables; <Font> in
+     BaseLayout.astro emits them. Space Grotesk is for the home hero H1 and
+     giant numbers only (requirements §4.2). The second value keeps text in a
+     generic family if those rules are ever missing or blocked. --- */
+  --font-display: var(--font-space-grotesk, sans-serif);
+  --font-sans: var(--font-bricolage, sans-serif);
+  --font-mono: var(--font-commit-mono, monospace);
 
   /* --- Fluid Type Scale (Utopia-style clamp steps)
      Base: 16px @ 320vw → 20px @ 1440vw
@@ -318,13 +313,23 @@
     3.05rem,
     2.31rem + 3.7vw,
     5.42rem
-  ); /* ~49–87px  Hero        */
+  ); /* ~49–87px  Display: contact title, page heads */
 
+  /* Home hero H1. cqi resolves against the hero container: ~49px up to a
+     hero about 900px wide, 66px at 1440px. Below a 56.25rem hero the H1
+     also caps at 14cqi, set in the hero rule (requirements §6.2). */
+  --step-hero: clamp(3.05rem, 1.2rem + 3.25cqi, 4.5rem);
   --step-6: clamp(
     3.81rem,
     2.71rem + 5.52vw,
     6.77rem
   ); /* ~61–108px Giant nums  */
+
+  --step-post-title: clamp(
+    1.25rem,
+    1.1rem + 0.8vw,
+    1.75rem
+  ); /* ~20–28px  post titles in lists */
 
   /* --- Fixed Sizes (for non-fluid contexts) --- */
   --text-xs: 0.75rem; /* 12px */
@@ -349,6 +354,7 @@
   --weight-medium: 500;
   --weight-semibold: 600;
   --weight-bold: 700;
+  --weight-heading: 650; /* Bricolage Grotesque headings (variable wght) */
 
   /* --- Line Heights --- */
   --leading-none: 1;
@@ -364,6 +370,8 @@
   --tracking-wide: 0.02em;
   --tracking-wider: 0.04em;
   --tracking-widest: 0.08em;
+  --tracking-heading: -0.03em;
+  --tracking-display: -0.035em; /* home hero H1 */
 }
 
 /* ==========================================================================
@@ -399,17 +407,21 @@
   --max-width-prose: 65ch;
   --max-width-narrow: 40rem;
   --max-width-wide: 90rem;
-
-  /* --- Border Radius --- */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-full: 9999px;
+  --container-gutter: clamp(var(--space-5), 5vw, var(--space-16));
 
   /* --- Section Padding (responsive) --- */
   --section-py: clamp(var(--space-16), 8vw, var(--space-32));
   --section-px: clamp(var(--space-4), 5vw, var(--space-12));
+
+  /* --- Border Widths ---
+     No radius tokens: corners are sharp throughout (border-radius: 0). --- */
+  --border-thin: 1px;
+  --border-thick: 2px;
+  --border-rule-accent: 3px;
+  --border-accent: 4px;
+
+  /* --- Targets --- */
+  --target-min: 2.75rem; /* 44px minimum touch target */
 
   /* --- Timeline / Gantt Tracks (2014-2026) --- */
   --timeline-cols: 13; /* One per year */
@@ -426,6 +438,9 @@
   --duration-normal: 200ms;
   --duration-slow: 350ms;
   --duration-slower: 500ms;
+  --duration-slowest: 800ms;
+  --duration-intro: 1100ms; /* home intro */
+  --duration-pulse: 1.8s; /* availability dot, two cycles */
   --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-in: cubic-bezier(0.4, 0, 1, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
@@ -467,6 +482,9 @@
     --duration-normal: 0ms;
     --duration-slow: 0ms;
     --duration-slower: 0ms;
+    --duration-slowest: 0ms;
+    --duration-intro: 0ms;
+    --duration-pulse: 0ms;
   }
 
   html {
@@ -567,7 +585,7 @@ svg {
 /* Glassmorphism surface — apply to nav, cards, modals */
 .glass {
   background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  border: var(--border-thin) solid var(--glass-border);
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   /* stylelint-disable-next-line property-no-vendor-prefix -- Safari before 18 only reads the prefixed form */
   -webkit-backdrop-filter: blur(var(--glass-blur))
@@ -592,7 +610,7 @@ svg {
 }
 
 h1 {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   color: var(--color-text-primary);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
@@ -633,6 +651,13 @@ a {
 
 a:hover {
   color: var(--color-text-link-hover);
+}
+
+::placeholder {
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-base);
+  opacity: 1; /* Firefox dims placeholders by default */
 }
 
 p,

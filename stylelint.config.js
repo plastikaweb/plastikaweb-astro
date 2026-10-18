@@ -58,7 +58,7 @@ export default {
       ["px"],
       {
         ignoreProperties: {
-          // Hairline widths only; radii and every other length use tokens or rem.
+          // Hairline widths only; every other length uses tokens or rem.
           px: [
             "/^border(-(block|inline|top|right|bottom|left)(-(start|end))?)?(-width)?$/",
             "/^outline(-width)?$/",
@@ -66,7 +66,7 @@ export default {
         },
       },
     ],
-    // Sharp corners throughout: only 0 is allowed outside theme.css.
+    // Sharp corners throughout: only 0 is allowed, theme.css included.
     "declaration-property-value-allowed-list": [
       { "/radius$/": ["0"] },
       { message: "Sharp corners: border-radius must be 0." },
@@ -88,7 +88,6 @@ export default {
         "function-disallowed-list": null,
         "unit-disallowed-list": null,
         "selector-disallowed-list": null,
-        "declaration-property-value-allowed-list": null,
         // theme.css groups tokens in several :root blocks, one per section.
         "no-duplicate-selectors": null,
       },
