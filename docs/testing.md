@@ -41,6 +41,8 @@ The tests run against the production build (`astro preview`), never the dev serv
 - a smoke test: the page renders, with exactly one `h1`, in the expected theme;
 - an axe check with the WCAG 2.0, 2.1 and 2.2 A/AA tags. It fails on any violation and prints only rule, impact and selectors.
 
+`e2e/fonts.spec.ts` guards the font loading (requirements §4.2): the home page loads every family from the site's own domain, only pages that use Space Grotesk preload it, and Astro's generated fallbacks stay within 90 to 110% of their web fonts. Astro only warns when a Google font fails to download at build time, so this spec is what notices a missing font.
+
 Config: `playwright.config.ts`. Notes:
 
 - Browser: Playwright's Chromium (`channel: "chromium"`). First run on a new machine: `npx playwright install chromium`.

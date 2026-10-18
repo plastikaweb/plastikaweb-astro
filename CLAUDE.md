@@ -11,7 +11,7 @@ Portfolio and lead generator for Carlos Matheu (Plastikaweb), senior freelance A
 - `docs/requirements.md`: **the requirements — single source.** Read the relevant section before building a page or feature. Open decisions are listed there as `D-xx` (§12): ask before choosing any of them.
 - `TASKS.md`: the backlog, in dependency order; each task cites its requirements section. Work in that order.
 - `docs/design/claude-design-prompt.md`: the prompts used in Claude Design, with `PRODUCT.md` (T-01) as context: the interface brief (T-02, Prompts 1 and 2) and the home revision (T-67, Prompts 3 to 5).
-- `src/styles/theme.css`: design tokens, Commit Mono `@font-face`, reset, base typography, utilities and print styles. Single source for every visual value.
+- `src/styles/theme.css`: design tokens, reset, base typography, utilities and print styles. Single source for every visual value. The fonts are declared in `astro.config.mjs` (Astro Fonts API).
 - `docs/design-state.md`: design review log and contrast audit. Its decisions up to October 2026 are folded into the requirements; new decisions go in the requirements.
 - `.claude/rules/css.md`: CSS rules, loaded automatically when working on `.css` or `.astro` files.
 - Local-only material (v6 PDF, old ClickUp export, Stitch exports, font sources): see `CLAUDE.local.md`.
@@ -29,8 +29,8 @@ Portfolio and lead generator for Carlos Matheu (Plastikaweb), senior freelance A
 ## Commands
 
 - `npm install`: install dependencies.
-- `npm run dev`: dev server at `http://localhost:4321`.
-- `npm run build`: production build to `./dist/`.
+- `npm run dev`: dev server at `http://localhost:4321`. Like the build, it downloads the Google fonts when the font cache is empty.
+- `npm run build`: production build to `./dist/`. It opens a local port while it prerenders (the Astro Fonts API serves the fonts from it), and with an empty font cache (`node_modules/.astro/fonts`) it downloads the Google fonts from fonts.google.com, fonts.googleapis.com and fonts.gstatic.com; inside a Claude Code sandbox it needs `sandbox.network.allowLocalBinding` and those hosts.
 - `npm run preview`: serve the build locally before deploying.
 - `npm run format`: Prettier with `prettier-plugin-astro`; run it on the files you touch.
 - `npm run check`: Astro and TypeScript diagnostics (`astro check`).
@@ -48,8 +48,8 @@ CI: `.github/workflows/ci.yml` runs every gate on each pull request, and `main` 
 Everything in `src/` except `src/styles/theme.css` is a borrowed skeleton used to get a deployable app. It doesn't implement the requirements and isn't a pattern to follow: replace it, don't extend it (TASKS.md T-06, T-33, T-46).
 
 - Since T-10 the skeleton passes the CSS checks (no legacy tokens, no raw colors or px, sharp corners), but its markup, copy and structure still don't follow the requirements.
-- `astro.config.mjs` is empty (no `site`, no i18n) and `/` redirects to `/en/` with a meta refresh.
-- Kept and written for the current requirements: `src/styles/theme.css`, `public/fonts/` (Commit Mono), `docs/`, `.claude/rules/css.md`.
+- `astro.config.mjs` holds only the fonts (no `site`, no i18n) and `/` redirects to `/en/` with a meta refresh.
+- Kept and written for the current requirements: `src/styles/theme.css`, the font config in `astro.config.mjs` and `src/assets/fonts/` (Commit Mono), `docs/`, `.claude/rules/css.md`.
 
 ## Non-negotiables
 
@@ -65,7 +65,7 @@ Full list in requirements §2; in brief:
 
 Details in requirements §4 and theme.css.
 
-- Fonts: Space Grotesk (hero H1 and giant case-study numbers only), Bricolage Grotesque (everything else), Commit Mono (tags, dates, code, form placeholders; self-hosted).
+- Fonts: Space Grotesk (home hero H1 and giant numbers only), Bricolage Grotesque (everything else, every other H1 included), Commit Mono (tags, dates, code, form placeholders). The Astro Fonts API serves all three from the site's own domain; only the home, case studies and the 404 preload Space Grotesk.
 - Colors: primary red `#FF0008` for accents and large text only; filled buttons use the brand surface (red-700); secondary Broom yellow `#FFF42D`; tertiary Electric Violet `#6032F8`; Raven neutrals. One red only.
 - Themes: `light-dark()` resolved through `color-scheme`; an inline `<head>` script sets `data-theme` before first paint; the body crossfades on toggle.
 - Sharp corners throughout: no pill or capsule shapes.

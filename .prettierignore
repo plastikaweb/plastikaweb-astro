@@ -6,4 +6,4 @@ package-lock.json
 .agents/
 
 # Third-party font kit files, kept as delivered
-public/fonts/
+src/assets/fonts/

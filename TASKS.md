@@ -222,7 +222,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §6.5, §12 D-15
 - **Depends on:** —
-- **Done when:** D-15 is recorded in the requirements (keep the page reachable from About, merge it into About, or leave it out of v1), and T-28, T-32, T-41, T-42, T-49 and the content model (§7) are adjusted to match.
+- **Done when:** D-15 is recorded in the requirements (keep the page reachable from About, merge it into About, or leave it out of v1), and T-28, T-32, T-41, T-42, T-49 and the content model (§7) are adjusted to match. If the page stays, `theme.css` gains the design's `--step-topic` (topic titles, `clamp(1.75rem, 1.4rem + 1.4vw, 2.6rem)` in the T-02 handoff) and the type-scale line in `.claude/rules/css.md` names it.
 
 ### T-28 · Site copy and assets
 
@@ -240,7 +240,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 
 ### T-30 · Tokens and font loading
 
-- **Status:** todo
+- **Status:** done (Astro Fonts API for all three families, `--color-text-muted` removed, no radius tokens; contrast table in `docs/design-state.md`). Left out on purpose: the design's `--step-topic` (personal-page topic titles) waits for D-15 and is added in T-68 if the page stays.
 - **Source:** §4, D-07, D-08
 - **Depends on:** T-02, T-27, T-67
 - **Done when:** `theme.css` has the tokens the designs added (T-02 and T-67), no rounded `--radius-*` values remain (sharp corners), muted text passes AA, fonts load as decided in §4.2 (Space Grotesk preloaded; Bricolage Grotesque's preload is settled in T-35); the type-scale line in `.claude/rules/css.md` names the hero size adopted from T-67; `docs/design-state.md` contrast table updated.
@@ -264,7 +264,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §2, §4.5, §5, §6
 - **Depends on:** T-02, T-30, T-31, T-67
-- **Done when:** a new base layout replaces `BaseLayout.astro` and `ThemeToggle.astro`: `lang` per locale, skip link, landmarks, theme script before first paint, theme toggle `<button>` with persistence and crossfade, main menu (Work, Blog, About) that moves to a second header row on small screens, plus, from the wide breakpoint up, a header contact link styled as a secondary (outlined) button that goes to the contact form, with no hamburger and no truncation of ca/es labels, language selector linking to the same page (or to the blog listing in that locale when a post has no translation, D-11), footer. End-to-end tests cover theme persistence without a flash and language switching. Lighthouse also fails on every template below 100 in performance, or with LCP of 2.5 s or more, or CLS of 0.1 or more: `checkBudgets` in `scripts/lighthouse.js` (T-20) reads `blocking` entries as minimum scores, so it gains maximum thresholds for LCP and CLS, and each page and theme is judged on the median of three runs, since a single run varies by several points.
+- **Done when:** a new base layout replaces `BaseLayout.astro` and `ThemeToggle.astro`: `lang` per locale, skip link, landmarks, theme script before first paint, theme toggle `<button>` with persistence and crossfade, main menu (Work, Blog, About) that moves to a second header row on small screens, plus, from the wide breakpoint up, a header contact link styled as a secondary (outlined) button that goes to the contact form, with no hamburger and no truncation of ca/es labels, language selector linking to the same page (or to the blog listing in that locale when a post has no translation, D-11), footer. The new layout keeps the `<Font>` components from `BaseLayout.astro` and its Space Grotesk preload prop (T-30). Base heading weights are checked against the design's `--weight-heading` (650, defined in `theme.css` and unused so far). End-to-end tests cover theme persistence without a flash and language switching. Lighthouse also fails on every template below 100 in performance, or with LCP of 2.5 s or more, or CLS of 0.1 or more: `checkBudgets` in `scripts/lighthouse.js` (T-20) reads `blocking` entries as minimum scores, so it gains maximum thresholds for LCP and CLS, and each page and theme is judged on the median of three runs, since a single run varies by several points.
 
 ### T-34 · Shared components
 
@@ -292,7 +292,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §6.3
 - **Depends on:** T-36
-- **Done when:** sections 01–04 with giant numbers and diagram visuals render from data for every mock case study.
+- **Done when:** sections 01–04 with giant numbers and diagram visuals render from data for every mock case study; the page sets the layout's Space Grotesk preload (§4.2).
 
 ### T-38 · Blog listing, category and tag pages
 
@@ -341,14 +341,14 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §6.6, §10
 - **Depends on:** T-42
-- **Done when:** fields with real labels, required markers, unchecked consent checkbox linking to the privacy policy, hidden honeypot, accessible inline errors and inline success (submission stubbed until T-55); usable without JS as far as the delivery service allows.
+- **Done when:** fields with real labels, required markers, unchecked consent checkbox linking to the privacy policy, hidden honeypot, accessible inline errors and inline success (submission stubbed until T-55); usable without JS as far as the delivery service allows. A Playwright test checks the placeholder contrast in both themes, since axe doesn't check `::placeholder`.
 
 ### T-45 · 404 and legal page layouts
 
 - **Status:** todo
 - **Source:** §6.7
 - **Depends on:** T-34
-- **Done when:** branded 404 per locale with navigation and links to the main sections; long-form layout for the privacy policy (placeholder text until T-56).
+- **Done when:** branded 404 per locale with navigation and links to the main sections, setting the layout's Space Grotesk preload (§4.2); long-form layout for the privacy policy (placeholder text until T-56).
 
 ### T-46 · Remove the rest of the skeleton
 
@@ -392,7 +392,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §3, §7
 - **Depends on:** T-50
-- **Done when:** the data-access module reads WordPress at build time behind the same interface; mappers are unit-tested against recorded responses; the build fails with a clear message if the API is unreachable or returns invalid data; mock data stays available for tests.
+- **Done when:** the data-access module reads WordPress at build time behind the same interface; mappers are unit-tested against recorded responses; the build fails with a clear message if the API is unreachable or returns invalid data; mock data stays available for tests. If pages load WordPress images from api.plastikaweb.com at runtime instead of optimizing them at build time, the layout gains a `preconnect` to it (the skeleton's was removed in T-30: nothing used it).
 
 ### T-22 · Decide the deploy target (D-06)
 
@@ -406,7 +406,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §13.5, §13.8
 - **Depends on:** T-19, T-22
-- **Done when:** every pull request gets a preview URL; merging to `main` deploys to production; security headers (CSP, HSTS, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`) are set and verified on the preview; secrets live only in the host and CI settings.
+- **Done when:** every pull request gets a preview URL; merging to `main` deploys to production; security headers (CSP, HSTS, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`) are set and verified on the preview; the CSP allows the inline `<style>` blocks the Astro Fonts API emits and the inline theme and toggle scripts, by hash rather than `'unsafe-inline'` (Astro's `security.csp` hashes the scripts and styles it processes: check that these unprocessed ones are covered and add their hashes if not); secrets live only in the host and CI settings.
 
 ### T-52 · Load real content
 

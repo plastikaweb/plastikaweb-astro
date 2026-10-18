@@ -41,7 +41,7 @@ Ratios against `--color-bg` / `--color-surface` — light: raven-50 / white; dar
 | -------------------------------------------------------------------- | ----------- | ----------- | ---------------------------------------------------- |
 | `--color-text-primary`                                               | 19.2 / 20.1 | 19.2 / 14.0 | ✅                                                   |
 | `--color-text-secondary`                                             | 7.2 / 7.5   | 8.0 / 5.8   | ✅                                                   |
-| ~~`--color-text-muted`~~ (raven-500)                                 | 4.0 / 4.2   | 4.8 / 3.5   | ❌ normal text — removed (D-08)                      |
+| `--color-text-secondary` on `--color-surface-raised`                 | 7.5         | 4.05        | ❌ dark — no text or UI colour on raised surfaces    |
 | `--color-text-link` (red-700 / red-400)                              | 5.2 / 5.4   | 6.5 / 4.7   | ✅                                                   |
 | `--color-text-link-hover` (red-800 / red-300)                        | 7.0 / 7.3   | 9.5 / 6.9   | ✅                                                   |
 | `--color-text-code` (on `--color-bg-secondary` / surface)            | 9.3 / 10.3  | 12.0 / 10.0 | ✅                                                   |
@@ -53,7 +53,28 @@ Ratios against `--color-bg` / `--color-surface` — light: raven-50 / white; dar
 | White text on `--color-primary` (red-600)                            | 4.0         | 4.0         | ❌ normal text, ✅ large — don't use for normal text |
 | `--color-text-on-secondary` (raven-950 on broom-400)                 | 17.4        | 17.4        | ✅                                                   |
 | `--color-focus-ring` (needs 3:1)                                     | 6.1 / 6.4   | 4.2 / 3.04  | ✅                                                   |
+| `--color-border-input` (needs 3:1)                                   | 4.0 / 4.2   | 8.0 / 5.8   | ✅                                                   |
+| `--color-error` (borders and icons, needs 3:1)                       | 4.9 / 5.1   | 5.3 / 3.9   | ✅                                                   |
+| `--color-error-text` on `--color-error-subtle`                       | 6.3         | 8.7         | ✅                                                   |
+| `--color-category-thoughts` (on `--color-bg-secondary`: 7.3 / 5.9)   | 7.6 / 8.0   | 6.7 / 4.8   | ✅                                                   |
+| `--color-data-before` (fills, needs 3:1)                             | 4.0 / 4.2   | 4.8 / 3.5   | ✅                                                   |
+| `--color-data-neutral`                                               | 9.8 / 10.2  | 8.0 / 5.8   | ✅                                                   |
+| `--color-text-on-data` (raven-950) on `--color-primary` (red-600)    | 5.0         | 5.0         | ✅ — white is 4.0, fails                             |
+| `--color-text-on-data` on `--color-data-before` (raven-500)          | 4.8         | 4.8         | ✅ — white is 4.2, fails                             |
+| `--color-focus-ring-on-brand` (white) on `--color-surface-brand`     | 5.4         | 5.4         | ✅ — the violet ring is 1.2 there                    |
+| `--shadow-hard-on-brand` (raven-950) on `--color-surface-brand`      | 3.7         | 3.7         | ✅ (needs 3:1)                                       |
+
+Code syntax tokens on `--color-bg-secondary` (raven-100 / raven-900), the code block background:
+
+| Token                   | Light | Dark | Status |
+| ----------------------- | ----- | ---- | ------ |
+| `--color-code-keyword`  | 7.3   | 9.1  | ✅     |
+| `--color-code-string`   | 4.6   | 12.7 | ✅     |
+| `--color-code-comment`  | 6.8   | 7.0  | ✅     |
+| `--color-code-function` | 4.9   | 5.7  | ✅     |
+| `--color-code-number`   | 5.9   | 14.1 | ✅     |
+| `--color-code-type`     | 13.3  | 14.3 | ✅     |
 
 Resolved — muted text (D-08, T-27):
 
-- No Raven step sits between 500 and 600, so in light mode a muted grey either becomes raven-600 (7.2, the same as secondary) or fails AA for normal text. The muted token is removed instead (T-30): secondary text and form placeholders use `--color-text-secondary`. In dark mode secondary text stays off `--color-surface-raised` (raven-400 on raven-700 is 4.05).
+- No Raven step sits between 500 and 600, so in light mode a muted grey either becomes raven-600 (7.2, the same as secondary) or fails AA for normal text (raven-500 was 4.0 / 4.2 in light and 4.8 / 3.5 in dark). T-30 removed `--color-text-muted`: secondary text and form placeholders use `--color-text-secondary`. In dark mode nothing goes on `--color-surface-raised` yet: raven-700 fails for secondary text (raven-400 on it is 4.05) and for most accent and UI colours too (link 3.3, error 2.7, primary 2.6, focus ring 2.1). Its dark value gets settled when a component first needs it.

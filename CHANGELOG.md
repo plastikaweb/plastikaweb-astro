@@ -22,9 +22,12 @@ Notable changes to the site, newest first. Format: [Keep a Changelog](https://ke
 ### Changed
 
 - The starter skeleton passes the CSS, accessibility, HTML and Lighthouse checks: tokens, logical properties, sharp corners, AA text contrast, named language links, underlined breadcrumb links, no external placeholder images.
+- Every font is served from the site's own domain through the Astro Fonts API, with no requests to Google Fonts; Space Grotesk is preloaded only on the pages that use it.
+- Design tokens from the approved designs: input borders, data and category colours, code syntax colours, hard shadows, border widths, hero and post-title sizes, motion durations.
 
 ### Removed
 
 - Astro starter leftovers (Welcome component, default layout and assets).
+- The muted text colour, which failed AA contrast; secondary text and placeholders use the secondary grey.
 
 [Unreleased]: https://github.com/plastikaweb/plastikaweb-astro/commits/main

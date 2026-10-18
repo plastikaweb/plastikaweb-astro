@@ -5,7 +5,7 @@ How the code is checked before it reaches `main` (requirements §13.2). Each too
 ## Formatting
 
 - Prettier with `prettier-plugin-astro`, config in `.prettierrc`. `npm run format` writes, `npm run format:check` fails on any unformatted file.
-- `.prettierignore` skips agent and session state (`.remember/`, `.agents/`) and the font kit in `public/fonts/`; Prettier also skips everything in `.gitignore`.
+- `.prettierignore` skips agent and session state (`.remember/`, `.agents/`) and the font kit in `src/assets/fonts/`; Prettier also skips everything in `.gitignore`.
 - `.editorconfig` and `.gitattributes` keep UTF-8, two-space indentation and LF line endings; fonts, images and PDFs are binary.
 
 ## ESLint
@@ -62,9 +62,9 @@ The rules in `.claude/rules/css.md`, enforced. `src/styles/theme.css` is the onl
 | `declaration-property-value-allowed-list` | Any `border-radius` other than `0` (sharp corners).                                                   |
 | `selector-class-pattern`                  | Class names that aren't kebab-case BEM (`.block__element--modifier`).                                 |
 
-Astro's `:global()` is allowed. In `theme.css` the color, unit, radius and `[data-theme]` rules are off, and repeated `:root` blocks are allowed (one per token section).
+Astro's `:global()` is allowed. In `theme.css` the color, unit and `[data-theme]` rules are off (the radius rule stays on: there are no radius tokens), and repeated `:root` blocks are allowed (one per token section).
 
-`npm run css:check` (`scripts/check-css-tokens.js`) fails on any `var(--name)` in `src/` that neither `theme.css` nor the same file declares. A misspelt or removed token doesn't break the build: the browser just drops the declaration, so this check is the only thing that catches it.
+`npm run css:check` (`scripts/check-css-tokens.js`) fails on any `var(--name)` in `src/` that neither `theme.css`, the same file nor a `cssVariable` of the font config in `astro.config.mjs` declares (the Astro Fonts API defines those at render time). A misspelt or removed token doesn't break the build: the browser just drops the declaration, so this check is the only thing that catches it.
 
 ## Markdown
 
