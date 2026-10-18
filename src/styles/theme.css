@@ -665,7 +665,7 @@ ul,
 ol,
 figure {
   margin-block-end: var(--space-4);
-  text-wrap: pretty; /* Evita viudas en párrafos */
+  text-wrap: pretty; /* Avoids a lone word on the last line */
 }
 
 /* ==========================================================================

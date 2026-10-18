@@ -5,6 +5,7 @@
     "esbenp.prettier-vscode",
     "stylelint.vscode-stylelint",
     "DavidAnson.vscode-markdownlint",
+    "streetsidesoftware.code-spell-checker",
     "usernamehw.errorlens"
   ],
   "unwantedRecommendations": []

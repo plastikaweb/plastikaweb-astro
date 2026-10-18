@@ -15,6 +15,7 @@
     "lint:css": "stylelint \"src/**/*.{css,astro}\" --max-warnings 0",
     "lint:md": "markdownlint-cli2 \"**/*.md\"",
     "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\"",
+    "lint:spell": "cspell lint --no-progress",
     "check": "astro check",
     "prepare": "husky",
     "test": "vitest run --coverage",
@@ -35,10 +36,13 @@
     "@axe-core/playwright": "4.13.0",
     "@commitlint/cli": "21.2.3",
     "@commitlint/config-conventional": "21.2.3",
+    "@cspell/dict-ca": "3.1.2",
+    "@cspell/dict-es-es": "3.0.8",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.63.0",
     "@vitest/coverage-v8": "5.0.3",
     "chrome-launcher": "1.2.2",
+    "cspell": "10.3.6",
     "eslint": "10.12.0",
     "eslint-plugin-astro": "3.2.1",
     "eslint-plugin-jsx-a11y-x": "0.2.0",
@@ -66,25 +70,33 @@
     "node": ">=24.0.0 <25"
   },
   "lint-staged": {
-    "*.{js,ts}": [
+    "*.{js,mjs,ts}": [
       "eslint --fix --max-warnings 0",
-      "prettier --write"
+      "prettier --write",
+      "cspell lint --no-progress --no-summary --no-must-find-files"
     ],
     "*.astro": [
       "eslint --fix --max-warnings 0",
       "stylelint --fix --max-warnings 0",
-      "prettier --write"
+      "prettier --write",
+      "cspell lint --no-progress --no-summary --no-must-find-files"
     ],
     "*.css": [
       "stylelint --fix --max-warnings 0",
-      "prettier --write"
+      "prettier --write",
+      "cspell lint --no-progress --no-summary --no-must-find-files"
     ],
     "*.md": [
       "markdownlint-cli2 --fix",
+      "prettier --write",
+      "cspell lint --no-progress --no-summary --no-must-find-files"
+    ],
+    "*.{json,jsonc}": [
       "prettier --write"
     ],
-    "*.{json,jsonc,yml,yaml}": [
-      "prettier --write"
+    "*.{yml,yaml}": [
+      "prettier --write",
+      "cspell lint --no-progress --no-summary --no-must-find-files"
     ]
   }
 }

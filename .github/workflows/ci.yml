@@ -50,6 +50,8 @@ jobs:
         run: npm run css:check
       - name: Markdown
         run: npm run lint:md
+      - name: Spelling
+        run: npm run lint:spell
       - name: Type check
         run: npm run check
       - name: Unit tests

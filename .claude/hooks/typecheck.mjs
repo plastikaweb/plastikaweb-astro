@@ -20,7 +20,7 @@ const run = spawnSync("npx", ["astro", "check"], {
 
 if (run.status !== 0) {
   // Errors (stdout) go last so the 40-line cut keeps them and their summary, not stderr noise.
-  // The TypeScript formatter colours its output even with NO_COLOR, so strip the escape codes.
+  // The TypeScript formatter colors its output even with NO_COLOR, so strip the escape codes.
   const output = stripVTControlCharacters(`${run.stderr}${run.stdout}`)
     .trim()
     .split("\n")

@@ -6,7 +6,7 @@ Budget: Lighthouse 100 in all four categories; LCP < 2.5 s, CLS < 0.1, INP < 200
 
 `npm run lighthouse`: one page per template, both themes, cold cache, mobile profile; its table is in your mechanical facts. Until T-33, performance, LCP and CLS are only reported (⚠), so a ⚠ on a template the branch touched is yours to explain: name the cause in the code (render-blocking resource, unsized image, late LCP element), not just the score.
 
-## Judgement checks
+## Judgment checks
 
 1. **Client JavaScript** (§2). Scripts only where interaction needs them (theme toggle, language selector, filters, contact form, tech timeline). A `client:*` island or `<script>` for something HTML and CSS can do → P1; a framework runtime shipped for static content → P0. Check the size of the new chunks in `dist/_astro/`.
 2. **LCP.** The H1 and the hero lead render from the first frame (§4.4, §6.2): no fade-in, no lazy loading, no client-side rendering on them. The home portrait is static and never the LCP element, so it gets no preload and no `fetchpriority`. On a template where an image is the LCP element, that image has `fetchpriority="high"` and explicit dimensions.

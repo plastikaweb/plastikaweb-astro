@@ -26,7 +26,7 @@ If a check fails, say so and wait before composing.
 
 ## Step 2 — Pre-commit gate
 
-The hook runs `lint-staged` (ESLint, Stylelint, markdownlint fixes, then Prettier on the staged files). Run it first so a rejection costs seconds, not a drafted message:
+The hook runs `lint-staged` (ESLint, Stylelint, markdownlint fixes, Prettier, then cspell on the staged files). Run it first so a rejection costs seconds, not a drafted message:
 
 ```sh
 npx lint-staged
@@ -43,7 +43,7 @@ One type from `commitlint.config.js`:
 | `feat`     | New visitor-facing functionality (a page, a section, a feature)            |
 | `fix`      | A bug fix                                                                  |
 | `docs`     | Documentation only (requirements, TASKS, docs/, README)                    |
-| `refactor` | Restructuring without behaviour change                                     |
+| `refactor` | Restructuring without behavior change                                      |
 | `perf`     | A performance improvement                                                  |
 | `test`     | Tests only                                                                 |
 | `build`    | Dependencies, the lock file, the build pipeline                            |

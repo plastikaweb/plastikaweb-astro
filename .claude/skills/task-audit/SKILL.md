@@ -5,7 +5,7 @@ description: Use when a task branch is functionally complete and about to be mer
 
 # Task audit — review of a task branch before it reaches `main`
 
-Audits only what the branch touched. Principle: **tools prove, agents interpret.** Everything with a binary answer runs as a command first; the lens agents get those results as facts and spend their tokens on judgement. The audit ends with findings triaged by the user, approved fixes committed and the gates green.
+Audits only what the branch touched. Principle: **tools prove, agents interpret.** Everything with a binary answer runs as a command first; the lens agents get those results as facts and spend their tokens on judgment. The audit ends with findings triaged by the user, approved fixes committed and the gates green.
 
 Don't run it on trivial branches: the fan-out costs real tokens and only pays off on feature-sized work.
 
@@ -45,6 +45,7 @@ npm run lint
 npm run lint:css
 npm run css:check
 npm run lint:md
+npm run lint:spell
 npm run check
 npm test
 npm run test:eslint-rules

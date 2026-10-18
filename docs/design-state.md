@@ -41,7 +41,7 @@ Ratios against `--color-bg` / `--color-surface` — light: raven-50 / white; dar
 | -------------------------------------------------------------------- | ----------- | ----------- | ---------------------------------------------------- |
 | `--color-text-primary`                                               | 19.2 / 20.1 | 19.2 / 14.0 | ✅                                                   |
 | `--color-text-secondary`                                             | 7.2 / 7.5   | 8.0 / 5.8   | ✅                                                   |
-| `--color-text-secondary` on `--color-surface-raised`                 | 7.5         | 4.05        | ❌ dark — no text or UI colour on raised surfaces    |
+| `--color-text-secondary` on `--color-surface-raised`                 | 7.5         | 4.05        | ❌ dark — no text or UI color on raised surfaces     |
 | `--color-text-link` (red-700 / red-400)                              | 5.2 / 5.4   | 6.5 / 4.7   | ✅                                                   |
 | `--color-text-link-hover` (red-800 / red-300)                        | 7.0 / 7.3   | 9.5 / 6.9   | ✅                                                   |
 | `--color-text-code` (on `--color-bg-secondary` / surface)            | 9.3 / 10.3  | 12.0 / 10.0 | ✅                                                   |
@@ -77,4 +77,4 @@ Code syntax tokens on `--color-bg-secondary` (raven-100 / raven-900), the code b
 
 Resolved — muted text (D-08, T-27):
 
-- No Raven step sits between 500 and 600, so in light mode a muted grey either becomes raven-600 (7.2, the same as secondary) or fails AA for normal text (raven-500 was 4.0 / 4.2 in light and 4.8 / 3.5 in dark). T-30 removed `--color-text-muted`: secondary text and form placeholders use `--color-text-secondary`. In dark mode nothing goes on `--color-surface-raised` yet: raven-700 fails for secondary text (raven-400 on it is 4.05) and for most accent and UI colours too (link 3.3, error 2.7, primary 2.6, focus ring 2.1). Its dark value gets settled when a component first needs it.
+- No Raven step sits between 500 and 600, so in light mode a muted gray either becomes raven-600 (7.2, the same as secondary) or fails AA for normal text (raven-500 was 4.0 / 4.2 in light and 4.8 / 3.5 in dark). T-30 removed `--color-text-muted`: secondary text and form placeholders use `--color-text-secondary`. In dark mode nothing goes on `--color-surface-raised` yet: raven-700 fails for secondary text (raven-400 on it is 4.05) and for most accent and UI colors too (link 3.3, error 2.7, primary 2.6, focus ring 2.1). Its dark value gets settled when a component first needs it.

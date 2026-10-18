@@ -6,7 +6,7 @@ Reference: requirements §9 (target keywords, implementation) and §5 (locales, 
 
 `npm run lighthouse` (SEO must be 100 on every template, both themes), `npm run validate:html` and `npm run links:check` (internal links) on `dist/`; the axe check covers `lang` and the document title's presence. They don't judge whether titles, descriptions, `hreflang` or JSON-LD are right — you do.
 
-## Judgement checks
+## Judgment checks
 
 1. **Title and description.** Unique per page and locale, written for the page's intent (§9.1 keywords where they fit naturally), within typical display lengths; translated, not copied across locales.
 2. **Canonical.** One absolute canonical per page, matching the trailing-slash policy and the locale's own URL.

@@ -36,7 +36,7 @@ Portfolio and lead generator for Carlos Matheu (Plastikaweb), senior freelance A
 - `npm run check`: Astro and TypeScript diagnostics (`astro check`).
 - `npm test`: unit tests (Vitest) with coverage; see `docs/testing.md`.
 - `npm run test:e2e`: builds, serves the build and runs the Playwright and axe tests in `e2e/`. It opens a local port, so inside a Claude Code sandbox it needs `sandbox.network.allowLocalBinding`.
-- `npm run lint`, `npm run lint:css`, `npm run css:check`, `npm run lint:md`, `npm run format:check`: the quality checks (see `docs/code-quality.md`).
+- `npm run lint`, `npm run lint:css`, `npm run css:check`, `npm run lint:md`, `npm run lint:spell`, `npm run format:check`: the quality checks (see `docs/code-quality.md`).
 - `npm run validate:html`, `npm run links:check`: HTML validation and internal links on `dist/` (build first).
 - `npm run lighthouse`: Lighthouse on one page per template in both themes, against the build (about four minutes; needs a local port).
 - `npm run version:check`: the README version badge matches `package.json`; releases and the changelog are in `docs/commits.md`.
@@ -81,7 +81,7 @@ Vetted in T-04 (requirements §13.7). Only the MCP server is installed in the pr
 - `design` plugin (`design:accessibility-review`, `design:design-critique`, `design:ux-copy`): accessibility pass on a finished page, critique against the approved design, UI copy in ca, es and en.
 - `grilling`: stress-test an open `D-xx` decision before recording it.
 
-Not installed, on purpose: `impeccable` (downloads and runs a native binary, installs hooks that run without approval, writes its own `PRODUCT.md`); `transitions-dev` / `transitions-polish` (reference only: competing token names, and their licence forbids redistributing them, so never commit a copy). WordPress skills (`WordPress/agent-skills`: `wp-plugin-development`, `wp-wpcli-and-ops`, pinned to a commit) belong to the WordPress project in phase 5 (T-48).
+Not installed, on purpose: `impeccable` (downloads and runs a native binary, installs hooks that run without approval, writes its own `PRODUCT.md`); `transitions-dev` / `transitions-polish` (reference only: competing token names, and their license forbids redistributing them, so never commit a copy). WordPress skills (`WordPress/agent-skills`: `wp-plugin-development`, `wp-wpcli-and-ops`, pinned to a commit) belong to the WordPress project in phase 5 (T-48).
 
 ## Project skills
 

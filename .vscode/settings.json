@@ -10,14 +10,5 @@
   "files.eol": "\n",
   "eslint.validate": ["javascript", "typescript", "astro"],
   "stylelint.validate": ["css", "astro"],
-  "css.validate": false,
-  "cSpell.words": [
-    "crossfade",
-    "FOUC",
-    "Glassmorphism",
-    "Grotesk",
-    "nums",
-    "stylesheet",
-    "uicolors"
-  ]
+  "css.validate": false
 }

@@ -9,7 +9,7 @@ Brand: a personal marketing site that also works as a technical showcase. Not pr
 
 ## Users
 
-- **CTOs and tech leads** at companies that need a senior Angular/TypeScript expert. They decide in under a minute whether to keep reading: they look for evidence of judgement (architecture, performance, results) more than for a list of technologies.
+- **CTOs and tech leads** at companies that need a senior Angular/TypeScript expert. They decide in under a minute whether to keep reading: they look for evidence of judgment (architecture, performance, results) more than for a list of technologies.
 - **Technical recruiters.** They scan for stack, seniority, availability and a CV, often on a phone, often in a hurry.
 - **High-end freelance clients.** They need to trust a person they haven't met: clear services, real outcomes, an easy way to get in touch.
 - **Developers** (secondary), arriving through a technical post. They stay for the writing and may come back.
@@ -41,7 +41,7 @@ Precise, bold, human.
 
 ## Anti-references
 
-- **The generic developer portfolio template:** dark navy, mint accent, thin small-caps nav, the look of a well-known portfolio and its clones. Recognisable at a glance to the audience we want to impress. A sticky identity column is allowed as a layout mechanism only if nothing else about it echoes that template.
+- **The generic developer portfolio template:** dark navy, mint accent, thin small-caps nav, the look of a well-known portfolio and its clones. Recognizable at a glance to the audience we want to impress. A sticky identity column is allowed as a layout mechanism only if nothing else about it echoes that template.
 - **Agency gloss:** stock photos, 3D blobs, gradients on everything, logo walls, vanity hero metrics.
 - **Terminal cosplay:** fake shell prompts and typing animations standing in for content.
 - **Showreel motion:** scroll-jacking, parallax, animations that delay reading or ignore reduced motion.
@@ -60,4 +60,4 @@ Precise, bold, human.
 
 ## Accessibility and inclusion
 
-WCAG 2.2 AA as the floor (4.5:1 text, 3:1 large text and UI boundaries), visible focus everywhere, full keyboard support, `prefers-reduced-motion` respected, every control labelled, every accessible name translated into the three languages.
+WCAG 2.2 AA as the floor (4.5:1 text, 3:1 large text and UI boundaries), visible focus everywhere, full keyboard support, `prefers-reduced-motion` respected, every control labeled, every accessible name translated into the three languages.

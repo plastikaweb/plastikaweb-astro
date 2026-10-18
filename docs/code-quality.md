@@ -31,6 +31,7 @@ Project rules on top:
 | `max-depth`                                      | At most 4 nested blocks.                         |
 | `max-lines`                                      | At most 450 lines per file.                      |
 | `max-params`                                     | At most 4 parameters.                            |
+| `no-var`, `prefer-const`                         | `const` unless reassigned; never `var`.          |
 | `no-else-return`, `no-lonely-if`                 | Flat control flow.                               |
 | `no-restricted-imports`                          | Tests call `test()`; importing `it` fails.       |
 | `@typescript-eslint/no-unused-vars`              | Unused names only with a `_` prefix.             |
@@ -62,14 +63,27 @@ The rules in `.claude/rules/css.md`, enforced. `src/styles/theme.css` is the onl
 | `selector-disallowed-list`                | `[data-theme]` selectors: theme values are declared once with `light-dark()`.                         |
 | `declaration-property-value-allowed-list` | Any `border-radius` other than `0` (sharp corners).                                                   |
 | `selector-class-pattern`                  | Class names that aren't kebab-case BEM (`.block__element--modifier`).                                 |
+| `custom-property-pattern`                 | Custom property names that aren't lowercase words joined by one or two hyphens (`--step--1`).         |
 
 Astro's `:global()` is allowed. In `theme.css` the color, unit and `[data-theme]` rules are off (the radius rule stays on: there are no radius tokens), and repeated `:root` blocks are allowed (one per token section).
 
-`npm run css:check` (`scripts/check-css-tokens.js`) fails on any `var(--name)` in `src/` that neither `theme.css`, the same file nor a `cssVariable` of the font config in `astro.config.mjs` declares (the Astro Fonts API defines those at render time). A misspelt or removed token doesn't break the build: the browser just drops the declaration, so this check is the only thing that catches it.
+`npm run css:check` (`scripts/check-css-tokens.js`) fails on any `var(--name)` in `src/` that neither `theme.css`, the same file nor a `cssVariable` of the font config in `astro.config.mjs` declares (the Astro Fonts API defines those at render time). A misspelled or removed token doesn't break the build: the browser just drops the declaration, so this check is the only thing that catches it.
 
 ## Markdown
 
 `npm run lint:md` runs markdownlint (`markdownlint-cli2`) on every Markdown file; `npm run lint:md:fix` fixes what it can. Rules are in `.markdownlint.jsonc` (also read by the VS Code extension): the defaults, minus line length (Prettier owns layout), inline HTML and a required first-line H1; repeated headings are allowed in different sections; code blocks are fenced. `.markdownlint-cli2.jsonc` skips everything git ignores plus session notes (`.remember/`, `.agents/`), even when lint-staged passes those paths explicitly. The project skills in `.claude/skills/` are linted and formatted like any other file.
+
+## Spelling
+
+`npm run lint:spell` runs cspell on every Markdown, TypeScript, JavaScript, Astro, CSS and YAML file git doesn't ignore, minus `public/` and the session notes in `.remember/`. Config: `cspell.jsonc`, also read by the VS Code Code Spell Checker. lint-staged runs it on staged files after the fixers.
+
+- **American English** in docs, comments, identifiers and the site's English copy (requirements §5, §13.6). The `en-US` dictionary rejects most British spellings (the `-our` and `-ise` forms) but accepts some as variants, so `flagWords` rejects those and names the American form. That list isn't exhaustive: add a word when one slips through. TypeScript and JavaScript also get the HTML dictionary, so test assertions on attributes such as `aria-labelledby` or `fetchpriority` pass.
+- **Catalan and Spanish** are accepted only in the files that quote the site's copy: `docs/requirements.md`, `TASKS.md`, `docs/design/`, `src/pages/`, `src/data/`, `src/testing/` and `e2e/`. Components, layouts and styles hold no copy (it comes from the dictionaries), so a Catalan or Spanish word there fails like a typo; when T-31 adds the UI dictionaries, their folder joins the list. Three gaps in the listed files:
+  - The Catalan words in the override's `ignoreWords` pass although `flagWords` rejects them as British; the other British forms stay rejected.
+  - Accents aren't checked: matching there ignores case, and with it accents, so a Catalan or Spanish word missing its accent passes.
+  - cspell splits words at the Catalan middle dot (`l·l`), so a word that contains one goes unchecked.
+- **New words.** A real term the dictionaries lack (a product, a CSS feature, a name) goes in `words`, sorted. File names and URL slugs that aren't words go in `ignoreWords`. Don't add a word to silence a misspelling.
+- **Quoting a misspelling on purpose.** Put `cspell:disable-next-line` on the line above, in the file's own comment syntax: `//` in TypeScript, JavaScript and Astro frontmatter, `{/* */}` in Astro markup, `/* */` in CSS (a `//` comment breaks Stylelint), `#` in YAML. In Markdown, wrap the passage in `<!-- cspell:disable -->` and `<!-- cspell:enable -->`: it covers a whole paragraph or table, not one line.
 
 ## Types
 

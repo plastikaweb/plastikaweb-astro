@@ -21,7 +21,7 @@ Always use the established CSS Custom Properties for colors. Do not hardcode HEX
 - **Primary (Red):** `--color-primary` (Base: #FF0008). Use only for accents, borders, icons and large display text — never behind normal-size text. Filled primary buttons and brand blocks use `--color-surface-brand` (hover: `--color-surface-brand-hover`) with `--color-text-on-primary`; links use `--color-text-link`.
 - **Secondary (Broom Yellow):** `--color-secondary` (Base: #FFF42D). Use for alternative CTAs and highlights.
 - **Tertiary (Electric Violet):** `--color-tertiary` (Base: #6032F8). Use for decorative elements and tags.
-- **Neutrals (Raven Scale):** Use `--color-bg`, `--color-bg-secondary`, `--color-surface`, `--color-border`, and text variables (`--color-text-primary`, `--color-text-secondary`). There is no muted grey: secondary text and form placeholders use `--color-text-secondary`.
+- **Neutrals (Raven Scale):** Use `--color-bg`, `--color-bg-secondary`, `--color-surface`, `--color-border`, and text variables (`--color-text-primary`, `--color-text-secondary`). There is no muted gray: secondary text and form placeholders use `--color-text-secondary`.
 - **Status:** `--color-success`, `--color-warning`, `--color-error`.
 
 ## 3. Typography
