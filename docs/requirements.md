@@ -376,13 +376,14 @@ All tooling in this section is decided (D-14 closed in October 2026). Several pr
 
 - Security headers set on the host: CSP, HSTS, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`.
 - Dependency audit in CI; automated dependency update pull requests with Renovate: grouped updates on a schedule (Astro packages together), automerge for dev-dependency patches once the gate passes, everything else reviewed by hand.
+- Decided in T-21: the hosted Mend Renovate app on `config:best-practices`, on Mondays (Madrid time). Groups: Astro packages, dev-dependency patches (merged on their own), dev-dependency minors, GitHub Actions, and weekly lock file maintenance. Majors wait for approval in the Dependency Dashboard; new npm releases wait three days, lock file maintenance included (npm `--before`); security fixes for direct dependencies come through the repository's Dependabot alerts, outside the schedule, while an advisory deeper in the tree is caught by the CI audit and fixed by lock file maintenance, by updating the package that pulls it in, or by hand. Config in `.github/renovate.jsonc`, working rules in `docs/commits.md`.
 - WordPress: public front end disabled or redirected (headless), admin behind strong auth with 2FA, only the needed GraphQL fields exposed, automatic minor updates, regular backups.
 
 ### 13.9 Maintenance
 
 Recurring work, tracked as recurring tasks:
 
-- Dependency update pull requests reviewed and merged (weekly or monthly).
+- Dependency update pull requests reviewed and merged (weekly: Renovate opens them on Mondays).
 - WordPress core and plugin updates, with a backup before each.
 - Backups verified by an actual restore (quarterly).
 - Uptime monitoring and alerts for the site and the WordPress API: Better Stack, free plan (home page, contact form endpoint, `api.plastikaweb.com`).
@@ -412,3 +413,4 @@ Recurring work, tracked as recurring tasks:
 - Fonts and muted text (T-27): fonts through the Astro Fonts API, served from the site's domain, with Space Grotesk preloaded only where it's used (D-07); no muted gray, so secondary text and placeholders use the secondary token (D-08); the base H1 is Bricolage Grotesque (§4.1, §4.2, §8).
 - Font subset (T-30): latin only, because with latin-ext Astro's generated fallbacks came out 20 to 69% too large (§4.2).
 - Spelling (T-70): American English in docs, comments, identifiers and the site's English copy, enforced by cspell in lint-staged and CI (§5, §13.2, §13.6).
+- Dependency updates (T-21): Renovate on Mondays, grouped, with dev-dependency patches merged once the gate passes and majors approved one at a time from the dashboard (§13.8, §13.9).

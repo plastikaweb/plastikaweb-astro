@@ -19,6 +19,7 @@ Notable changes to the site, newest first. Format: [Keep a Changelog](https://ke
 - CI quality gate on every pull request; `main` is protected and requires it.
 - Lighthouse on every page template in both themes, HTML validation and an internal link check, all in the quality gate.
 - Spell check in American English (cspell) on docs, comments and code, in the commit hook and the quality gate.
+- Renovate dependency updates: grouped pull requests every Monday, with dev-dependency patches merged once the quality gate passes.
 
 ### Changed
 

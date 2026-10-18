@@ -194,7 +194,7 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 
 ### T-21 · Dependency update bot
 
-- **Status:** todo
+- **Status:** doing (config and docs written; pending: install the app and turn on Dependabot alerts after the merge, then see the first Monday's pull requests pass the gate)
 - **Source:** §13.8
 - **Depends on:** T-03, T-19
 - **Done when:** the chosen bot opens grouped update pull requests on a schedule, and they go through the gate.
@@ -535,7 +535,7 @@ Source: §13.9. Each becomes a recurring task in ClickUp.
 
 | ID  | Task                                                   | Frequency        |
 | --- | ------------------------------------------------------ | ---------------- |
-| M-1 | Review and merge dependency update pull requests       | Weekly / monthly |
+| M-1 | Review and merge dependency update pull requests       | Weekly (Mondays) |
 | M-2 | WordPress core and plugin updates, backup first        | Monthly          |
 | M-3 | Verify backups with a real restore                     | Quarterly        |
 | M-4 | Check uptime alerts for the site and the WordPress API | Continuous       |
