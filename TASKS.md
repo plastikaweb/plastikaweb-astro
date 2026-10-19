@@ -12,7 +12,7 @@ Housekeeping that runs alongside the design phase; nothing below depends on it e
 | --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
 | B-1 | Review `docs/requirements.md` and this file; commit both.                                                                                                                   | done   |
 | B-2 | Update `CLAUDE.md` and `CLAUDE.local.md` to point at the requirements (Stitch → Claude Design, timeline on About, personal section, blog categories, task source of truth). | done   |
-| B-3 | Sync ClickUp from this file: replace the old backlog, keep IDs in task names, recurring tasks for M-1 – M-7.                                                                | doing  |
+| B-3 | Sync ClickUp from this file: replace the old backlog, keep IDs in task names, recurring tasks for M-1 – M-7.                                                                | done   |
 
 ## Phase 2 — Design
 
