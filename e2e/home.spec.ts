@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, type Page, test } from "@playwright/test";
 
-// The skeleton serves the home page at /en/ until routing is decided (T-25).
+// The skeleton serves the home page at /en/ until T-29 sets up the routes (§6.1).
 const HOME = "/en/";
 
 // Axe must judge the settled page: text caught halfway through a fade-in reads as low

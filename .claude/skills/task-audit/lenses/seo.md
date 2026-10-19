@@ -10,7 +10,7 @@ Reference: requirements §9 (target keywords, implementation) and §5 (locales, 
 
 1. **Title and description.** Unique per page and locale, written for the page's intent (§9.1 keywords where they fit naturally), within typical display lengths; translated, not copied across locales.
 2. **Canonical.** One absolute canonical per page, matching the trailing-slash policy and the locale's own URL.
-3. **`hreflang`.** Alternates for ca, es, en and `x-default` on every page; reciprocal; absolute URLs; only real translations for blog posts and personal entries (D-11).
+3. **`hreflang`.** Alternates for ca, es, en and `x-default` on every page; reciprocal; absolute URLs; only real translations for blog posts and personal entries (D-11). `x-default` points to the English version, never to `/`, and a page without an English version has none (§9.2). The redirect at `/` has no canonical or `hreflang` and stays out of the sitemap (§5).
 4. **Headings and content.** The `h1` states the page's topic; headings describe their sections; meaningful link text (no "click here", "read more" without context).
 5. **Open Graph and Twitter.** Title, description, URL, locale (`og:locale` and alternates) and a preview image with dimensions and alt.
 6. **JSON-LD.** Person, WebSite, BlogPosting, BreadcrumbList where they apply; valid against the schema.org types; data matches the visible page (no invented fields).

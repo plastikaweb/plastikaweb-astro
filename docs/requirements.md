@@ -37,7 +37,7 @@ CTOs, technical recruiters and high-end freelance clients. Secondary: developers
 - **Semantic HTML:** landmarks (`header`, `nav`, `main`, `footer`), one `h1` per page, no skipped heading levels, decorative text never marked up as a heading, `<button>` for actions and `<a>` for navigation.
 - **Accessibility:** WCAG 2.2 AA minimum. Visible focus, full keyboard support, `prefers-reduced-motion` respected, every form control with a real label, every accessible name translated.
 - **Responsive:** every viewport from 320 px up; no horizontal scroll.
-- **Minimal client JS:** HTML and CSS first. Scripts or islands only where interaction needs them: theme toggle, language selector, work and blog filters, contact form, tech timeline.
+- **Minimal client JS:** HTML and CSS first. Scripts or islands only where interaction needs them: theme toggle, language selector, the redirect at `/` (§5), work and blog filters, contact form, tech timeline.
 - **Flexible text containers:** Catalan and Spanish run up to ~30% longer than English. No fixed widths or heights on elements that contain text.
 - **No single-language copy:** all UI copy exists in ca, es and en.
 
@@ -109,9 +109,9 @@ Reference sites for structure and interaction, not for look. The palette, type a
 ## 5. Internationalization
 
 - Locales: Catalan (`ca`), Spanish (`es`), English (`en`). Pages, case studies and UI copy exist in all three; blog posts and personal entries may exist in only some (D-11, below).
-- Localized routes. Slug scheme: D-01. Default locale and what `/` serves: D-02.
-- Language selector in the navigation (CA · ES · EN), linking to the same page in the other locale; the choice is persisted.
-- Browser language is only a fallback for the first visit (D-02).
+- Localized routes (D-01, decided): every locale carries its prefix, Catalan included, and the fixed path segments follow the menu labels in each locale (`/ca/feina`, `/es/proyectos`, `/en/work`). Content slugs (case studies, posts, categories, tags) are set per locale too, so a translated page can change every segment. Full route table in §6.1.
+- Language selector in the navigation (CA · ES · EN), linking to the same page in the other locale. Picking a locale there saves it in `localStorage` for later visits; visiting a page in a locale saves nothing (D-02).
+- Default locale and the root (D-02, decided): the default locale is Catalan: Astro's default locale and where `/` sends visitors without JS. `/` is a small page that sends the visitor to one locale's home: the locale they saved, else the first entry in `navigator.languages` whose language code, before any region or variant, is `ca`, `es` or `en` (so `ca-ES-valencia` and `es-419` match), else English, the international version, as with `x-default` (§9.2). An inline script redirects with `location.replace()`, so `/` stays out of the history. Without JS, a meta refresh inside `<noscript>` goes to the Catalan home, and the page also links the three homes; outside `<noscript>`, the refresh could fire as soon as the small page has loaded and cut short the script's redirect. `/` is only a redirect: it stays out of the sitemap, carries no canonical or `hreflang` and loads no analytics. Only `/` redirects by locale: a localized URL always serves its own locale, whatever the visitor saved. The redirect stays in the page once the host is chosen (D-06): a redirect at the edge can't read `localStorage`, so it would need the saved locale in a cookie.
 - English copy is American English (`color`, `optimize`), like the code docs (§13.6); cspell checks it in the files that hold the copy.
 - Copy uses the typographic apostrophe ’ (U+2019), never the straight one (`'`): Catalan elisions (d’abril), English contractions (I’ve, Let’s).
 - Month names in copy come from a fixed list per locale, not from `Intl.DateTimeFormat`, which writes "gener del 2027" in Catalan. Catalan elides "de" before a vowel (a partir d’abril de 2027) and the year always takes "de" (gener de 2027).
@@ -123,20 +123,27 @@ Navigation is present on every page. Main menu items: Work, Blog, About (ca: Fei
 
 ### 6.1 Site map
 
-| Page               | Route (pending D-01)                                   |
-| ------------------ | ------------------------------------------------------ |
-| Home               | `/[lang]/`                                             |
-| Work listing       | `/[lang]/work`                                         |
-| Case study         | `/[lang]/work/[slug]`                                  |
-| Blog listing       | `/[lang]/blog`                                         |
-| Blog category page | `/[lang]/blog/category/[category]`                     |
-| Blog tag page      | `/[lang]/blog/tag/[tag]`                               |
-| Post               | `/[lang]/blog/[slug]`                                  |
-| Personal           | `/[lang]/personal`, not in the menu; fate pending D-15 |
-| About + contact    | `/[lang]/about`                                        |
-| Privacy policy     | `/[lang]/privacy`                                      |
-| Cookie policy      | only if ever needed (§10)                              |
-| 404                | `/404`                                                 |
+Routes per locale (D-01). `[slug]`, `[category]` and `[tag]` are each locale's own slug (§6.4, §7). Segments are lowercase ASCII words joined by hyphens, without accents (`sobre-mi`, `categoria`). The table doesn't settle trailing slashes: T-29 sets that policy for every path.
+
+| Page                                          | ca                              | es                              | en                             |
+| --------------------------------------------- | ------------------------------- | ------------------------------- | ------------------------------ |
+| Home                                          | `/ca/`                          | `/es/`                          | `/en/`                         |
+| Work listing                                  | `/ca/feina`                     | `/es/proyectos`                 | `/en/work`                     |
+| Case study                                    | `/ca/feina/[slug]`              | `/es/proyectos/[slug]`          | `/en/work/[slug]`              |
+| Blog listing                                  | `/ca/blog`                      | `/es/blog`                      | `/en/blog`                     |
+| Blog category page                            | `/ca/blog/categoria/[category]` | `/es/blog/categoria/[category]` | `/en/blog/category/[category]` |
+| Blog tag page                                 | `/ca/blog/etiqueta/[tag]`       | `/es/blog/etiqueta/[tag]`       | `/en/blog/tag/[tag]`           |
+| Post                                          | `/ca/blog/[slug]`               | `/es/blog/[slug]`               | `/en/blog/[slug]`              |
+| Personal (not in the menu; fate pending D-15) | `/ca/personal`                  | `/es/personal`                  | `/en/personal`                 |
+| About + contact                               | `/ca/sobre-mi`                  | `/es/sobre-mi`                  | `/en/about`                    |
+| Privacy policy                                | `/ca/privacitat`                | `/es/privacidad`                | `/en/privacy`                  |
+
+Outside the table:
+
+- `/`: redirects to one locale's home (§5, D-02).
+- `/404`: per-locale 404s depend on the host (§6.7, D-06).
+- Feeds (§6.4): T-40 sets their paths under the same rules.
+- Cookie policy: only if ever needed (§10).
 
 ### 6.2 Home
 
@@ -190,7 +197,7 @@ Posts are classified on two axes:
 Pages:
 
 - **Listing:** shows all posts by default, sorted by date; each item shows its category, tags, date, reading time and excerpt. A prominent category filter plus tag filtering; without JS, every category and tag links to its own page.
-- **Category page:** lists the posts in that category. Category and tag pages live under `/blog/category/` and `/blog/tag/`, so `category` and `tag` are reserved and can't be post slugs (the build must fail if one is).
+- **Category page:** lists the posts in that category. Category and tag pages live under `/blog/categoria/` and `/blog/etiqueta/` in Catalan and Spanish, and under `/blog/category/` and `/blog/tag/` in English (§6.1), so those two segments are reserved in their locales and can't be post slugs there (the build must fail if one is).
 - **Tag page:** lists the posts with that tag. Indexed only when the tag has at least 3 posts; below that the page is `noindex` (and left out of the sitemap) to avoid thin, near-duplicate pages. The threshold of 3 is a starting value, adjustable.
 - **Post:** 65ch measure, Commit Mono syntax highlighting for code (colors from tokens), share links (no third-party share scripts), category, tags and reading time. Code blocks scroll horizontally and are keyboard-reachable (`<pre tabindex="0" role="region">` with an accessible name); the copy button is the only JS and reports through a live region.
 - **Feeds:** one general feed plus one per category, so readers who follow the technical writing don't get Thoughts posts.
@@ -213,7 +220,7 @@ Pages:
 - **Contact form:** Name\*, Company, Email\*, Message\*, GDPR consent checkbox\* linking to the privacy policy; hidden honeypot field; labels in plain language. Field borders reach 3:1.
 - **Honeypot:** wrapper with `aria-hidden="true"`, input with `tabindex="-1"` and `autocomplete="off"`, moved off-screen (never `display: none`). The server drops a filled submission but answers as if it succeeded.
 - Validation with inline, accessible error messages (`aria-invalid`, `aria-describedby`) and a focusable error summary; works with keyboard and screen readers.
-- **Success:** with JS, shown inline without redirect, focus on its heading. Without JS (proposal, settled with D-05): the form posts natively and the service answers `303 See Other` to `/[lang]/about?enviat=1#contacte`, which renders the same success block with generic copy; its canonical drops the query. The "service down" state is still to design (T-55).
+- **Success:** with JS, shown inline without redirect, focus on its heading. Without JS (proposal, settled with D-05): the form posts natively and the service answers `303 See Other` to the About page of the form's locale with `?enviat=1#contacte` (`/ca/sobre-mi?enviat=1#contacte`, §6.1), which renders the same success block with generic copy; its canonical drops the query. The "service down" state is still to design (T-55).
 - Under the form, the first layer of data-protection information: controller, purpose, legal basis, rights, link to the full policy; recipients once D-05 is decided.
 - Delivery service: D-05.
 
@@ -256,7 +263,7 @@ Mock data first, shaped like the future WPGraphQL responses.
 ### 9.2 Implementation
 
 - Unique title, description and canonical per page and locale.
-- `hreflang` alternates for ca, es, en and `x-default` on every page.
+- `hreflang` alternates for ca, es, en and `x-default` on every page. `x-default` points to the English version, not to `/`: whoever searches in a language the site doesn't have is the international audience, and `/` gives search engines no stable page, since where it sends a visitor depends on their browser and on what they saved (D-02). A page without an English version (a post or personal entry published only in ca or es, D-11) carries no `x-default`.
 - Open Graph and Twitter cards with a preview image.
 - JSON-LD: Person, WebSite, BlogPosting, BreadcrumbList.
 - Multilingual sitemap and robots.txt.
@@ -271,6 +278,7 @@ Plausible: cookieless, GDPR-compliant, no consent banner.
 - Privacy policy: mandatory.
 - Contact form: explicit consent checkbox linking to the policy; consent is not pre-checked.
 - No non-essential cookies, so no cookie banner and no cookie policy unless that changes.
+- `localStorage` holds only the theme (§4.5) and the locale the visitor picked (§5). Each is written only when the visitor chooses it, as a preference they asked for; the privacy policy lists both (§6.7).
 - Policy texts in ca, es and en.
 
 ## 11. Phases
@@ -287,23 +295,23 @@ Content needed before or during phase 4: hero copy in three locales, an updated 
 
 ## 12. Open decisions
 
-| ID   | Decision                                                                                                                                                                                                                                                                                                                                                                                         | Blocks                     |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------- |
-| D-01 | Route slugs: localized (`/ca/projectes`, `/es/proyectos`, `/en/projects`) or shared (`/[lang]/work`).                                                                                                                                                                                                                                                                                            | Routing, sitemap, hreflang |
-| D-02 | Default locale, and what `/` serves: default-locale home or a redirect by saved or browser language.                                                                                                                                                                                                                                                                                             | Routing, SEO               |
-| D-03 | ~~Tech timeline on the home page or on About.~~ Decided: About (§6.6).                                                                                                                                                                                                                                                                                                                           | —                          |
-| D-04 | WordPress i18n: WPML, Polylang or ACF custom; WordPress hosting.                                                                                                                                                                                                                                                                                                                                 | Phase 4                    |
-| D-05 | Contact form delivery: Resend, EmailJS or Netlify Forms (depends partly on D-06).                                                                                                                                                                                                                                                                                                                | Contact form               |
-| D-06 | Deploy target: Vercel, Netlify or Cloudflare. Deferred until WordPress and Astro run together locally (after T-51). Recommendation on record: Cloudflare Workers with static assets (free with commercial use, nearest `404.html` per locale, a Worker can send the form's 303); Vercel Hobby forbids commercial use; Netlify's free plan allows about 20 production deploys a month.            | Deploy, form               |
-| D-07 | ~~Font hosting: Google Fonts CDN or self-hosting Space Grotesk and Bricolage like Commit Mono.~~ Decided: the Astro Fonts API downloads them from Google Fonts at build time and serves them from the site's domain; Commit Mono goes through its local provider; Space Grotesk is preloaded only where it's used (§4.2).                                                                        | —                          |
-| D-08 | ~~Muted text color that passes AA (see `docs/design-state.md`).~~ Decided: no muted token; secondary text and form placeholders use `--color-text-secondary` (§4.1).                                                                                                                                                                                                                             | —                          |
-| D-09 | ~~Personal section: page name and slug per locale, entry shape, topic order.~~ Decided: "Personal" at `/[lang]/personal`, manual topic order, no covers in v1, entry shape in §7 (§6.5). Its place after leaving the menu: D-15.                                                                                                                                                                 | —                          |
-| D-10 | ~~Blog: label of the technical category, and ca/es labels for both.~~ Decided: Enginyeria / Ingeniería / Engineering and Pensaments / Pensamientos / Thoughts, with localized slugs (§6.4).                                                                                                                                                                                                      | —                          |
-| D-11 | ~~Content missing in one locale.~~ Decided: required in all three for pages, case studies and UI; posts and personal entries only where they exist, no fallback (§5).                                                                                                                                                                                                                            | —                          |
-| D-12 | ~~Boundary between personal entries and non-technical blog posts.~~ Decided: short note without URL vs. Thoughts post; separate taxonomies (§6.5).                                                                                                                                                                                                                                               | —                          |
-| D-13 | ~~Home page: hero CTA set; whether a work-experience section is added.~~ Decided: one CTA, "Let’s talk about your project", to the contact form; no work-experience section (§6.2). The October 2026 home review dropped the earlier second CTA, "See the work": the Selected work "see all" link covers it. Also decided: summary layout, section order, "see all" as links, timeline on About. | —                          |
-| D-14 | ~~Tooling still open: end-to-end runner, dependency bot, uptime monitor.~~ Decided: Playwright with axe, Renovate, Better Stack free plan (§13). Also decided: Vitest, husky + lint-staged + commitlint.                                                                                                                                                                                         | —                          |
-| D-15 | Personal page after leaving the menu and the home page (October 2026 home review): keep it at `/[lang]/personal`, reachable from About; merge it into About (a short section, or the full topic and entry system); or leave it out of v1.                                                                                                                                                        | T-41, T-42                 |
+| ID   | Decision                                                                                                                                                                                                                                                                                                                                                                                         | Blocks       |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ |
+| D-01 | ~~Route slugs: localized (`/ca/projectes`, `/es/proyectos`, `/en/projects`) or shared (`/[lang]/work`).~~ Decided: localized after the menu labels, with every locale prefixed (`/ca/feina`, `/es/proyectos`, `/en/work`); full table in §6.1 (§5).                                                                                                                                              | —            |
+| D-02 | ~~Default locale, and what `/` serves: default-locale home or a redirect by saved or browser language.~~ Decided: Catalan is the default locale; `/` redirects to the locale the visitor saved in the selector, else to their browser language if the site has it, else to English, and to Catalan without JS; `x-default` is the English version (§5, §9.2).                                    | —            |
+| D-03 | ~~Tech timeline on the home page or on About.~~ Decided: About (§6.6).                                                                                                                                                                                                                                                                                                                           | —            |
+| D-04 | WordPress i18n: WPML, Polylang or ACF custom; WordPress hosting.                                                                                                                                                                                                                                                                                                                                 | Phase 4      |
+| D-05 | Contact form delivery: Resend, EmailJS or Netlify Forms (depends partly on D-06).                                                                                                                                                                                                                                                                                                                | Contact form |
+| D-06 | Deploy target: Vercel, Netlify or Cloudflare. Deferred until WordPress and Astro run together locally (after T-51). Recommendation on record: Cloudflare Workers with static assets (free with commercial use, nearest `404.html` per locale, a Worker can send the form's 303); Vercel Hobby forbids commercial use; Netlify's free plan allows about 20 production deploys a month.            | Deploy, form |
+| D-07 | ~~Font hosting: Google Fonts CDN or self-hosting Space Grotesk and Bricolage like Commit Mono.~~ Decided: the Astro Fonts API downloads them from Google Fonts at build time and serves them from the site's domain; Commit Mono goes through its local provider; Space Grotesk is preloaded only where it's used (§4.2).                                                                        | —            |
+| D-08 | ~~Muted text color that passes AA (see `docs/design-state.md`).~~ Decided: no muted token; secondary text and form placeholders use `--color-text-secondary` (§4.1).                                                                                                                                                                                                                             | —            |
+| D-09 | ~~Personal section: page name and slug per locale, entry shape, topic order.~~ Decided: "Personal" at `/[lang]/personal`, manual topic order, no covers in v1, entry shape in §7 (§6.5). Its place after leaving the menu: D-15.                                                                                                                                                                 | —            |
+| D-10 | ~~Blog: label of the technical category, and ca/es labels for both.~~ Decided: Enginyeria / Ingeniería / Engineering and Pensaments / Pensamientos / Thoughts, with localized slugs (§6.4).                                                                                                                                                                                                      | —            |
+| D-11 | ~~Content missing in one locale.~~ Decided: required in all three for pages, case studies and UI; posts and personal entries only where they exist, no fallback (§5).                                                                                                                                                                                                                            | —            |
+| D-12 | ~~Boundary between personal entries and non-technical blog posts.~~ Decided: short note without URL vs. Thoughts post; separate taxonomies (§6.5).                                                                                                                                                                                                                                               | —            |
+| D-13 | ~~Home page: hero CTA set; whether a work-experience section is added.~~ Decided: one CTA, "Let’s talk about your project", to the contact form; no work-experience section (§6.2). The October 2026 home review dropped the earlier second CTA, "See the work": the Selected work "see all" link covers it. Also decided: summary layout, section order, "see all" as links, timeline on About. | —            |
+| D-14 | ~~Tooling still open: end-to-end runner, dependency bot, uptime monitor.~~ Decided: Playwright with axe, Renovate, Better Stack free plan (§13). Also decided: Vitest, husky + lint-staged + commitlint.                                                                                                                                                                                         | —            |
+| D-15 | Personal page after leaving the menu and the home page (October 2026 home review): keep it at `/[lang]/personal`, reachable from About; merge it into About (a short section, or the full topic and entry system); or leave it out of v1.                                                                                                                                                        | T-41, T-42   |
 
 ## 13. Engineering and quality
 
@@ -333,7 +341,7 @@ All tooling in this section is decided (D-14 closed in October 2026). Several pr
 ### 13.3 Tests
 
 - Unit (Vitest): data layer and mappers, i18n helpers (route and `hreflang` resolution), reading time, reserved-slug check (§6.4), feed generation. Shared helpers in `src/testing/`.
-- End to end (Playwright, with `@axe-core/playwright` for the accessibility checks): navigation, language switch to the same page, theme toggle without a flash and with persistence, work and blog filters with and without JS, contact form states.
+- End to end (Playwright, with `@axe-core/playwright` for the accessibility checks): navigation, the redirect at `/` (saved locale, browser language, English otherwise, Catalan without JS), language switch to the same page and the saved pick, theme toggle without a flash and with persistence, work and blog filters with and without JS, contact form states.
 - Accessibility: automated axe checks on every page template, both themes, mobile and desktop widths. Automated checks don't replace a manual keyboard and screen-reader pass before launch.
 - Lighthouse with budgets equal to §1.3, on every page template (a project script: see the T-20 decision below).
 - Build output: HTML validation and internal link check.
@@ -416,3 +424,4 @@ Recurring work, tracked as recurring tasks:
 - Spelling (T-70): American English in docs, comments, identifiers and the site's English copy, enforced by cspell in lint-staged and CI (§5, §13.2, §13.6).
 - Dependency updates (T-21): Renovate on Mondays, grouped, with dev-dependency patches merged once the gate passes and majors approved one at a time from the dashboard (§13.8, §13.9).
 - Working method (T-71): the owner writes the app code; the agent briefs each task, writes its tests first and reviews (§13.7).
+- Routing (T-25): localized path segments after the menu labels, with every locale prefixed (D-01); Catalan as the default locale, `/` redirecting by the saved locale, then the browser language, then English, the selector saving the visitor's pick in `localStorage`, and `x-default` on the English version (D-02) (§2, §5, §6.1, §6.4, §6.6, §9.2, §10, §13.3).

@@ -219,7 +219,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 
 ### T-25 · Decide routing (D-01, D-02)
 
-- **Status:** todo
+- **Status:** done (19 October 2026: path segments localized after the menu labels, every locale prefixed; Catalan as default locale; `/` redirects by the saved locale, then the browser language, then English, and to Catalan without JS; `x-default` on the English version; route table in §6.1)
 - **Source:** §5, §6.1, D-01, D-02
 - **Depends on:** —
 - **Done when:** slug scheme (localized or shared) and default locale / behavior of `/` are recorded in the requirements, with the full route table per locale.
@@ -257,7 +257,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §3, §5, §6.1
 - **Depends on:** T-05, T-25
-- **Done when:** `astro.config.mjs` sets `site`, static output, i18n routing per T-25 and a trailing-slash policy; `/` behaves as decided; every route in §6.1 resolves for the three locales (placeholder content allowed).
+- **Done when:** `astro.config.mjs` sets `site`, static output, i18n routing per T-25 (Catalan as default locale, every locale prefixed) and a trailing-slash policy; `/` is the redirect page of §5 (saved locale, then browser language, then English; without JS, a meta refresh inside `<noscript>` to the Catalan home); every route in §6.1 resolves for the three locales with its localized segments (placeholder content allowed). End-to-end tests cover `/` with a saved locale, with each browser language, with a browser language outside the three and without JS. Tooling side (the agent's): `pickTemplatePages` in `scripts/lighthouse.js` groups pages by their path without the locale, so the localized segments would split one template into several (`feina`, `proyectos`, `work`); it reads the route map instead, with a unit test, and `docs/testing.md` says so.
 
 ### T-30 · Tokens and font loading
 
@@ -278,14 +278,14 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §3, §6.4, §7
 - **Depends on:** T-14, T-26, T-31
-- **Done when:** types for case studies, posts (category + tags), tags, categories, personal topics and entries, and site settings mirror the planned WPGraphQL responses; pages read data only through a data-access module; mock data meets §7 minimums; reading time, linked translations, the D-11 rule and the reserved-slug build check (`category`, `tag`) are implemented and unit-tested.
+- **Done when:** types for case studies, posts (category + tags), tags, categories, personal topics and entries, and site settings mirror the planned WPGraphQL responses; pages read data only through a data-access module; mock data meets §7 minimums; reading time, linked translations, the D-11 rule and the reserved-slug build check (`categoria` and `etiqueta` in ca and es, `category` and `tag` in en; §6.4) are implemented and unit-tested. `src/lib/blog/reserved-slugs.ts`, from T-14, still reserves only the English pair.
 
 ### T-33 · Base layout and navigation
 
 - **Status:** todo
 - **Source:** §2, §4.5, §5, §6
 - **Depends on:** T-02, T-30, T-31, T-67
-- **Done when:** a new base layout replaces `BaseLayout.astro` and `ThemeToggle.astro`: `lang` per locale, skip link, landmarks, theme script before first paint, theme toggle `<button>` with persistence and crossfade, main menu (Work, Blog, About) that moves to a second header row on small screens, plus, from the wide breakpoint up, a header contact link styled as a secondary (outlined) button that goes to the contact form, with no hamburger and no truncation of ca/es labels, language selector linking to the same page (or to the blog listing in that locale when a post has no translation, D-11), footer. The new layout keeps the `<Font>` components from `BaseLayout.astro` and its Space Grotesk preload prop (T-30). Base heading weights are checked against the design's `--weight-heading` (650, defined in `theme.css` and unused so far). End-to-end tests cover theme persistence without a flash and language switching. Lighthouse also fails on every template below 100 in performance, or with LCP of 2.5 s or more, or CLS of 0.1 or more: `checkBudgets` in `scripts/lighthouse.js` (T-20) reads `blocking` entries as minimum scores, so it gains maximum thresholds for LCP and CLS, and each page and theme is judged on the median of three runs, since a single run varies by several points.
+- **Done when:** a new base layout replaces `BaseLayout.astro` and `ThemeToggle.astro`: `lang` per locale, skip link, landmarks, theme script before first paint, theme toggle `<button>` with persistence and crossfade, main menu (Work, Blog, About) that moves to a second header row on small screens, plus, from the wide breakpoint up, a header contact link styled as a secondary (outlined) button that goes to the contact form, with no hamburger and no truncation of ca/es labels, language selector linking to the same page (or to the blog listing in that locale when a post has no translation, D-11) and saving the visitor's pick in `localStorage` under the key that `/` reads (T-29, D-02), footer. The new layout keeps the `<Font>` components from `BaseLayout.astro` and its Space Grotesk preload prop (T-30). Base heading weights are checked against the design's `--weight-heading` (650, defined in `theme.css` and unused so far). End-to-end tests cover theme persistence without a flash, language switching and the saved pick. Lighthouse also fails on every template below 100 in performance, or with LCP of 2.5 s or more, or CLS of 0.1 or more: `checkBudgets` in `scripts/lighthouse.js` (T-20) reads `blocking` entries as minimum scores, so it gains maximum thresholds for LCP and CLS, and each page and theme is judged on the median of three runs, since a single run varies by several points.
 
 ### T-34 · Shared components
 
@@ -334,7 +334,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §6.4
 - **Depends on:** T-38
-- **Done when:** each locale has a general feed and one per category, linked from the page `<head>` and the blog; feeds validate.
+- **Done when:** each locale has a general feed and one per category, at paths that follow the routing rules of §6.1 (D-01), linked from the page `<head>` and the blog; feeds validate.
 
 ### T-41 · Personal page
 
@@ -376,7 +376,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §0
 - **Depends on:** T-35 – T-45
-- **Done when:** `[...uri].astro`, `siteData.ts` and the meta-refresh `index.astro` are gone; no file references legacy tokens (`--color-accent`, `--color-text-main`, `--space-s`, `--space-l`, …).
+- **Done when:** `[...uri].astro`, `siteData.ts` and the skeleton's meta refresh to `/en/` are gone (T-29 turns `index.astro` into the redirect page of §5); no file references legacy tokens (`--color-accent`, `--color-text-main`, `--space-s`, `--space-l`, …).
 
 ## Phase 5 — Headless WordPress
 
@@ -427,7 +427,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §13.5, §13.8
 - **Depends on:** T-19, T-22
-- **Done when:** every pull request gets a preview URL; merging to `main` deploys to production; security headers (CSP, HSTS, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`) are set and verified on the preview; the CSP allows the inline `<style>` blocks the Astro Fonts API emits and the inline theme and toggle scripts, by hash rather than `'unsafe-inline'` (Astro's `security.csp` hashes the scripts and styles it processes: check that these unprocessed ones are covered and add their hashes if not); secrets live only in the host and CI settings.
+- **Done when:** every pull request gets a preview URL; merging to `main` deploys to production; security headers (CSP, HSTS, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`) are set and verified on the preview; the CSP allows the inline `<style>` blocks the Astro Fonts API emits and the inline theme, toggle and `/` redirect (§5) scripts, by hash rather than `'unsafe-inline'` (Astro's `security.csp` hashes the scripts and styles it processes: check that these unprocessed ones are covered and add their hashes if not); secrets live only in the host and CI settings.
 
 ### T-52 · Load real content
 
@@ -464,28 +464,28 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §6.7, §10
 - **Depends on:** T-45, T-54
-- **Done when:** privacy policy in ca, es and en naming the form processor and the analytics; cookie policy confirmed unnecessary (or written, if any non-essential cookie appeared).
+- **Done when:** privacy policy in ca, es and en naming the form processor, the analytics and the two `localStorage` entries, theme and locale (§10); cookie policy confirmed unnecessary (or written, if any non-essential cookie appeared).
 
 ### T-57 · SEO metadata
 
 - **Status:** todo
 - **Source:** §9.2
 - **Depends on:** T-35 – T-45
-- **Done when:** unique title, description and canonical per page and locale; `hreflang` with `x-default`; Open Graph and Twitter cards with preview images; JSON-LD (Person, WebSite, BlogPosting, BreadcrumbList) passing validation. The link check (T-20) also checks the site's own absolute URLs (canonical, `hreflang`, Open Graph images), which it skips until then. That takes linkinator's `check()` API instead of its CLI: the skip pattern is tested on each link as the page writes it and again after any rewrite, so it has to exempt the site's origin, and `urlRewriteExpressions` must map that origin to the local server's port, which the CLI picks at random and won't take from `linkinator.config.json`. The skeleton's `og:image` (`/default-og.png`) doesn't exist yet.
+- **Done when:** unique title, description and canonical per page and locale; `hreflang` with `x-default` on the English version, and none on a page without one (§9.2); Open Graph and Twitter cards with preview images; JSON-LD (Person, WebSite, BlogPosting, BreadcrumbList) passing validation. The link check (T-20) also checks the site's own absolute URLs (canonical, `hreflang`, Open Graph images), which it skips until then. That takes linkinator's `check()` API instead of its CLI: the skip pattern is tested on each link as the page writes it and again after any rewrite, so it has to exempt the site's origin, and `urlRewriteExpressions` must map that origin to the local server's port, which the CLI picks at random and won't take from `linkinator.config.json`. The skeleton's `og:image` (`/default-og.png`) doesn't exist yet.
 
 ### T-58 · Sitemap and robots
 
 - **Status:** todo
 - **Source:** §6.7, §9.2
 - **Depends on:** T-57
-- **Done when:** multilingual sitemap with alternates, excluding `noindex` pages; `robots.txt` pointing to it. Every sitemap URL is checked against `dist/`: the link check (T-20) reads only HTML and CSS, and linkinator's sitemap mode takes only an HTTP URL, not a file in `dist/`.
+- **Done when:** multilingual sitemap with alternates, excluding `noindex` pages and the redirect at `/` (§5); the alternates come from the route map and the linked translations (§7), not from matching paths, since the localized segments differ per locale (`/ca/feina`, `/en/work`); `robots.txt` pointing to it. Every sitemap URL is checked against `dist/`: the link check (T-20) reads only HTML and CSS, and linkinator's sitemap mode takes only an HTTP URL, not a file in `dist/`.
 
 ### T-59 · Analytics
 
 - **Status:** todo
 - **Source:** §9.3
 - **Depends on:** T-23, T-55
-- **Done when:** Plausible loads on every page, the CSP allows it, and form submissions are tracked as a goal.
+- **Done when:** Plausible loads on every page except the redirect at `/` (§5), the CSP allows it, and form submissions are tracked as a goal.
 
 ### T-60 · Performance pass on real content
 
