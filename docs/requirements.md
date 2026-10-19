@@ -364,7 +364,8 @@ All tooling in this section is decided (D-14 closed in October 2026). Several pr
 
 - `PRODUCT.md`: product brief (register, users, purpose, brand personality, anti-references, design principles), read by design and review agents.
 - `.claude/settings.json`: hooks that block edits to `.env*` and `package-lock.json` and run the type check after code edits; an allowlist for read-only and gate commands.
-- Project skills: `commit-actions` (gated, convention-compliant commits) and `task-audit` (mechanical gates first, then one read-only reviewer agent per lens — code, styles, a11y, docs, i18n, UX, tests, security, SEO, performance — one report), adapted from NewWebSite.
+- Project skills: `commit-actions` (gated, convention-compliant commits) and `task-audit` (mechanical gates first, then one read-only reviewer agent per lens — code, styles, a11y, docs, i18n, UX, tests, security, SEO, performance — one report), adapted from NewWebSite; `task-mentor` (T-71) runs the working method below.
+- Working method (T-71): the owner writes the app code, everything that ships in the site or the WordPress backend, to learn Astro on a real project. The agent briefs each task without code, writes its failing tests first, helps in steps (hint, explanation with the docs, a snippet only on request) and reviews against the requirements and the Astro docs; the tests, tooling, docs and backlog stay with the agent.
 - Third-party skills and MCP servers are read before installing and installed at project scope so a clone gets them. Outcome of the review (T-04, October 2026):
   - Installed: the official Astro Docs MCP server (`https://mcp.docs.astro.build/mcp`, one read-only search tool, no auth) in `.mcp.json`. There is no official Astro skill for site developers.
   - Phase 5, in the WordPress project (T-48): the official `WordPress/agent-skills` `wp-plugin-development` (custom post types, fields, security) and `wp-wpcli-and-ops` (maintenance), pinned to a commit because they are AI-maintained. None of them covers WPGraphQL; block, theme and Interactivity API skills don't apply to a headless site.
@@ -414,3 +415,4 @@ Recurring work, tracked as recurring tasks:
 - Font subset (T-30): latin only, because with latin-ext Astro's generated fallbacks came out 20 to 69% too large (§4.2).
 - Spelling (T-70): American English in docs, comments, identifiers and the site's English copy, enforced by cspell in lint-staged and CI (§5, §13.2, §13.6).
 - Dependency updates (T-21): Renovate on Mondays, grouped, with dev-dependency patches merged once the gate passes and majors approved one at a time from the dashboard (§13.8, §13.9).
+- Working method (T-71): the owner writes the app code; the agent briefs each task, writes its tests first and reviews (§13.7).

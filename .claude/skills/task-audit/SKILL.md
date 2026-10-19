@@ -117,6 +117,7 @@ A finding's identity is its `file:line`. Two lenses reporting the same `file:lin
 
 - Batch them into a few cohesive commits through the `commit-actions` skill, never one commit per tweak.
 - Anything that changes a shared component's props, moves files or touches `theme.css` tokens needs an explicit go-ahead beyond the triage.
+- On an app task (`task-mentor`), the user applies the fixes to the files they own; the agent fixes only its own files (tests, tooling, docs).
 - Re-run the Step 0.5 gates until they pass.
 
 ## Step 4 — Hand off

@@ -15,6 +15,7 @@ Notable changes to the site, newest first. Format: [Keep a Changelog](https://ke
 - Playwright smoke and axe accessibility tests on the home page, both themes, 375 and 1440 px.
 - Claude Code guard hooks and command allow list.
 - Project skills for commits (`commit-actions`) and branch audits (`task-audit`, ten read-only review lenses).
+- A working method for app tasks (`task-mentor` skill): the owner writes the code, and the agent briefs each task, writes its tests first and reviews.
 - Changelog and a README version badge checked against `package.json`.
 - CI quality gate on every pull request; `main` is protected and requires it.
 - Lighthouse on every page template in both themes, HTML validation and an internal link check, all in the quality gate.
