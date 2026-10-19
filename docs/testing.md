@@ -19,6 +19,7 @@ Pure logic with rules worth pinning down: the data layer and its mappers, i18n h
 
 ## Writing a test
 
+- On app tasks the tests come first: the agent writes them, failing, as the task's spec, and the user writes the code that makes them pass. They are committed with that code, never as a red commit of their own (`task-mentor` skill, T-71).
 - Put the test next to the code: `src/lib/blog/reserved-slugs.ts` → `src/lib/blog/reserved-slugs.test.ts`.
 - Import `describe`, `test` and `expect` from `vitest` (no globals). Cases call `test()`, as the Playwright specs do: ESLint rejects importing `it` from `vitest` or `node:test`.
 - Name each case for the behavior it proves (`"only matches whole slugs"`), not the input.

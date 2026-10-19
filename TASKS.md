@@ -192,6 +192,13 @@ Can run in parallel with T-02. Goal: the quality gate exists before the first pa
 - **Depends on:** T-13, T-19
 - **Done when:** `npm run lint:spell` runs cspell (`cspell.jsonc`) in American English (docs, comments, identifiers and the site's English copy), rejecting British forms the `en-US` dictionary accepts as variants, with Catalan and Spanish allowed only in the files that quote the site's copy; lint-staged and CI run it; the repo passes it; `docs/code-quality.md` documents it and `.vscode/` recommends the Code Spell Checker, which reads the same config.
 
+### T-71 · Working method: the user writes the app code
+
+- **Status:** done
+- **Source:** §13.7
+- **Depends on:** T-14, T-15, T-18
+- **Done when:** `CLAUDE.md` says the user writes the app code (everything that ships in the site or the WordPress backend) while the agent keeps the tests, tooling, docs and backlog; `.claude/skills/task-mentor/` holds the procedure: brief the next task without code, write the failing tests first, help in steps (hint, explanation with the docs, a snippet only on request) and review against the requirements and the Astro docs without editing the app code; `task-audit`, `commit-actions` and `.agents/rules/style-guide.md` leave that code to the user; requirements §13.7 and `docs/testing.md` record it.
+
 ### T-21 · Dependency update bot
 
 - **Status:** doing (config and docs written; pending: install the app and turn on Dependabot alerts after the merge, then see the first Monday's pull requests pass the gate)
@@ -385,7 +392,7 @@ Page tasks depend on T-02 (approved design for that page; for the home page and 
 - **Status:** todo
 - **Source:** §13.1, §13.7, §13.8
 - **Depends on:** T-47
-- **Done when:** supported WordPress and PHP versions run at api.plastikaweb.com; `docs/wordpress.md` lists versions and required plugins; public front end disabled or redirected; admin with 2FA; automatic minor updates; scheduled backups; the WordPress project has `wp-plugin-development` and `wp-wpcli-and-ops` from `WordPress/agent-skills`, read and pinned to a commit.
+- **Done when:** supported WordPress and PHP versions run at api.plastikaweb.com; `docs/wordpress.md` lists versions and required plugins; public front end disabled or redirected; admin with 2FA; automatic minor updates; scheduled backups; the WordPress project has `wp-plugin-development` and `wp-wpcli-and-ops` from `WordPress/agent-skills`, read and pinned to a commit, and carries the working method from T-71: its `CLAUDE.md` rule and an adapted `task-mentor` (the backlog stays in this repo's `TASKS.md`; WordPress, ACF and WPGraphQL docs instead of `astro-docs`; its own ownership list, tests and commit tooling).
 
 ### T-49 · WordPress content model
 

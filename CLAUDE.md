@@ -74,10 +74,10 @@ Details in requirements §4 and theme.css.
 
 Vetted in T-04 (requirements §13.7). Only the MCP server is installed in the project; the skills are user-level and optional: a clone works without them.
 
-- `astro-docs` MCP server (`.mcp.json`, official, read-only search): use it before writing Astro config, routing, i18n, content or image code, instead of relying on memory of older Astro versions.
-- `superpowers`: brainstorming before a feature, TDD for the data layer and helpers, systematic debugging, verification before calling a task done.
+- `astro-docs` MCP server (`.mcp.json`, official, read-only search): use it to brief, answer and review anything about Astro config, routing, i18n, content or images, instead of relying on memory of older Astro versions.
+- `superpowers`: brainstorming before a feature; TDD, systematic debugging and verification for the agent's own code (tests, scripts, ESLint rules). On app tasks `task-mentor` replaces their implementation and fix steps: the agent writes the failing tests, the user the code.
 - `code-review` and the built-in `/security-review`: before opening a pull request.
-- `frontend-design` and `typeset`: when building a page or component from the Claude Design handoff; tokens from `theme.css` still win over their suggestions.
+- `frontend-design` and `typeset`: references when briefing or reviewing a page or component built from the Claude Design handoff; tokens from `theme.css` still win over their suggestions.
 - `design` plugin (`design:accessibility-review`, `design:design-critique`, `design:ux-copy`): accessibility pass on a finished page, critique against the approved design, UI copy in ca, es and en.
 - `grilling`: stress-test an open `D-xx` decision before recording it.
 
@@ -85,10 +85,11 @@ Not installed, on purpose: `impeccable` (downloads and runs a native binary, ins
 
 ## Project skills
 
-In `.claude/` (T-18), adapted from NewWebSite; a clone gets them.
+In `.claude/`; a clone gets them. `commit-actions` and `task-audit` (T-18) are adapted from NewWebSite.
 
+- `task-mentor` (T-71): the working method for app tasks. Briefs the next task without code, writes its failing tests first, helps in steps (hint, explanation with the docs, a minimal snippet only on request) and reviews the user's code; it never writes the app code.
 - `commit-actions`: use it for every commit, merge or release. Refuses `main`, runs `lint-staged`, drafts the Conventional Commit with the task id, adds the `CHANGELOG.md` line when the change is notable, bumps the version only in a release (`npm version`), confirms before committing and never pushes on its own.
-- `task-audit`: run it before merging a feature-sized branch (about 10 or more touched files, not docs-only). Mechanical gates first, then one read-only `audit-lens` agent (`.claude/agents/audit-lens.md`) per lens whose files changed: code, styles, a11y, docs, i18n, UX, tests, security, SEO, performance. It ends with one deduplicated P0/P1/P2 report and fixes nothing before the user triages it.
+- `task-audit`: run it before merging a feature-sized branch (about 10 or more touched files, not docs-only). Mechanical gates first, then one read-only `audit-lens` agent (`.claude/agents/audit-lens.md`) per lens whose files changed: code, styles, a11y, docs, i18n, UX, tests, security, SEO, performance. It ends with one deduplicated P0/P1/P2 report and fixes nothing before the user triages it. On an app task, the last `task-mentor` review counts as the audit, and findings in the user's code go back to the user.
 
 ## Agent guardrails
 
@@ -103,6 +104,7 @@ The hooks guard the Edit and Write tools only: a shell command can still write t
 
 ## How we work
 
+- **The user writes the app code**: this project is how they learn Astro. That covers everything that ships in the site or the WordPress backend (`src/` except tests and `src/testing/`, `astro.config.mjs`, `public/`, `theme.css`, GraphQL, the WordPress theme and plugins, and the runtime dependencies they need). The agent briefs each task, writes its failing tests first, helps when asked and reviews; it never writes or edits that code, not even a stub, unless the user hands the task over explicitly. Tests, tooling, docs, `TASKS.md` and ClickUp stay with the agent. Procedure: the `task-mentor` skill.
 - `TASKS.md` is the source of truth for the backlog; ClickUp mirrors it and is updated from it (task B-3). When a task is done, update its status in `TASKS.md`.
 - New decisions go into `docs/requirements.md` (and close the matching `D-xx`); keep `TASKS.md` in step.
 - Prototype HTML (Stitch exports, Claude Design output) is a visual reference: rebuild with tokens and semantic markup, never copy utility classes.
